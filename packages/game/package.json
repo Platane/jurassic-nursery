@@ -1,0 +1,9 @@
+{
+  "name": "@jurassic-genealogy/game",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "gl-matrix": "3.4.3"
+  }
+}

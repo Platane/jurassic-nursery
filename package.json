@@ -1,0 +1,22 @@
+{
+  "name": "jurassic-genealogy",
+  "author": {
+    "name": "platane"
+  },
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "20.5.7",
+    "bun-types": "0.8.1",
+    "prettier": "3.0.3",
+    "typescript": "5.2.2"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "bun ./packages/game-bundler/bundle.ts",
+    "dev": "bun ./packages/game-bundler/dev.ts"
+  }
+}

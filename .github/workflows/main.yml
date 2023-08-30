@@ -1,0 +1,67 @@
+name: main
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - run: bun install --frozen-lockfile
+
+      - run: sudo apt-get install -y advancecomp
+
+      - run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/deploy-pages@v2
+
+  analyze-bundle:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: github-pages
+
+      - run: tar -xvf artifact.tar
+
+      - name: test the bundle against the report endpoint
+        run: |
+          curl --silent -X POST --max-time 120 --connect-timeout 120 --form bundle=@bundle.zip --form category=desktop https://iw8sii1h9b.execute-api.eu-west-1.amazonaws.com/stage/analyze-bundle > report.json
+
+      - name: fails if the report failed
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const report = require("./report.json");
+
+            console.log(JSON.stringify(report, null, 2));
+
+            for (const c of require("./report.json").checks)
+              if (c.result !== "ok") {
+                console.error(c);
+                throw c.description;
+              }
