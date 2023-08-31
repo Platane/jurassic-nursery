@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { rollup } from "rollup";
+import { OutputChunk, rollup } from "rollup";
 import { minify as minifyHtml } from "html-minifier-terser";
 import { minify as minifyJs } from "terser";
 import {
@@ -12,11 +12,21 @@ import {
 import { transform } from "lightningcss";
 
 export const build = async (minify = false) => {
+  const distDir = path.join(__dirname, "..", "..", "dist");
+
+  fs.rmSync(distDir, { recursive: true });
+  fs.mkdirSync(distDir, { recursive: true });
+
   // bundle with rollup
   const bundle = await rollup(createRollupInputOptions(minify));
-  let {
-    output: [{ code: jsCode }],
-  } = await bundle.generate(rollupOutputOptions);
+  const { output } = await bundle.generate(rollupOutputOptions);
+
+  let jsCode = (output.find((o) => o.fileName === "index.js") as OutputChunk)
+    .code;
+
+  for (const o of output)
+    if (o.fileName !== "index.js" && o.type === "asset")
+      fs.writeFileSync(path.join(distDir, o.fileName), o.source);
 
   let cssCode = fs
     .readFileSync(path.join(__dirname, "..", "game", "index.css"))
@@ -53,12 +63,6 @@ export const build = async (minify = false) => {
   );
 
   if (minify) htmlContent = await minifyHtml(htmlContent, minifyHtmlOptions);
-
-  const distDir = path.join(__dirname, "..", "..", "dist");
-  try {
-    fs.rmSync(distDir, { recursive: true });
-  } catch (err) {}
-  fs.mkdirSync(distDir, { recursive: true });
 
   fs.writeFileSync(path.join(distDir, "index.html"), htmlContent);
 };

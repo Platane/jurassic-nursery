@@ -5,6 +5,7 @@ import { InputOptions, OutputOptions } from "rollup";
 import { MinifyOptions } from "terser";
 import compiler from "@ampproject/rollup-plugin-closure-compiler";
 import esbuild from "rollup-plugin-esbuild";
+import importAssets from "rollup-plugin-import-assets";
 import { glsl } from "./rollup-plugin-glsl";
 
 export const terserOptions: MinifyOptions = {
@@ -52,6 +53,13 @@ export const createRollupInputOptions = (production: boolean) =>
         define: {
           "process.env.NODE_ENV": production ? '"production"' : '"dev"',
         },
+      }),
+
+      importAssets({
+        include: [/\.bin$/i],
+        emitAssets: true,
+        fileNames: "[hash].[ext]",
+        publicPath: "",
       }),
 
       glsl({

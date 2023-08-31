@@ -59,7 +59,9 @@ Bun.serve({
       const a = performance.now();
       await build();
       console.log("build in ", performance.now() - a, "ms");
-    } catch (err) {}
+    } catch (err) {
+      console.error(err);
+    }
 
     const assetName = path.join(
       __dirname,

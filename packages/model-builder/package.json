@@ -1,0 +1,11 @@
+{
+  "name": "@jurassic-genealogy/model-builder",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@types/three": "0.155.1",
+    "three": "0.155.0",
+    "three-stdlib": "2.25.0"
+  }
+}

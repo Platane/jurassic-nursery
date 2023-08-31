@@ -1,3 +1,5 @@
 node_modules
 .env
 dist
+packages/game/assets/geometry.bin
+packages/model-builder/*.glb
