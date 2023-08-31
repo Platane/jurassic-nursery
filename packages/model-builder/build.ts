@@ -39,8 +39,12 @@ const vertices = getPositionVectors(mesh.geometry);
 
 const pack = new Float32Array(vertices.flatMap((v) => v.toArray()));
 
-fs.writeFileSync(__dirname + "/../game/assets/geometry.bin", pack);
+const assetDir = __dirname + "/../game/assets";
 
-fs.writeFileSync(__dirname + "/../game/assets/bones.bin", pack);
+fs.mkdirSync(assetDir, { recursive: true });
 
-fs.writeFileSync(__dirname + "/../game/assets/animation.bin", pack);
+fs.writeFileSync(assetDir + "/geometry.bin", pack);
+
+fs.writeFileSync(assetDir + "/bones.bin", pack);
+
+fs.writeFileSync(assetDir + "/animation.bin", pack);
