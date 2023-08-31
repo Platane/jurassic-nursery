@@ -23,11 +23,12 @@ export const bundle = async (
   output: (OutputChunk | OutputAsset)[],
   minify = false
 ) => {
-  let jsCode = (output.find((o) => o.fileName === "index.js") as OutputChunk)
-    .code;
+  let jsCode =
+    (output.find((o) => o.fileName === "index.js") as OutputChunk)?.code || "";
 
-  let cssCode = (output.find((o) => o.fileName === "style.css") as OutputAsset)
-    .source;
+  let cssCode =
+    (output.find((o) => o.fileName === "style.css") as OutputAsset)?.source ??
+    "";
 
   // minify with terser
   if (minify) {

@@ -50,6 +50,19 @@ export const createRollupInputOptions = (production: boolean) => {
         extensions: [".ts", ".js"],
       }),
 
+      linaria({
+        extensions: [".tsx"],
+        evaluate: false,
+        babelOptions: {
+          presets: ["@babel/preset-typescript"],
+        },
+        classNameSlug: (hash) => {
+          if (!classNameMap.has(hash))
+            classNameMap.set(hash, (classNameMap.size + 10).toString(36));
+          return classNameMap.get(hash)!;
+        },
+      }),
+
       esbuild({
         include: ["**/*.ts"],
         exclude: /node_modules/,
@@ -70,19 +83,6 @@ export const createRollupInputOptions = (production: boolean) => {
       glsl({
         include: ["**/*.frag", "**/*.vert"],
         compress: production,
-      }),
-
-      linaria({
-        include: ["**/*.ts"],
-        displayName: false,
-        babelOptions: {
-          presets: ["@babel/preset-typescript"],
-        },
-        classNameSlug: (hash) => {
-          if (!classNameMap.has(hash))
-            classNameMap.set(hash, (classNameMap.size + 10).toString(36));
-          return classNameMap.get(hash)!;
-        },
       }),
 
       css({
