@@ -1,20 +1,38 @@
-import chokidar from "chokidar";
 import * as path from "node:path";
-import * as fs from "node:fs";
-import { build } from "./build";
+import { bundle } from "./build";
+import { watch } from "rollup";
+import { createRollupInputOptions, rollupOutputOptions } from "./rollup-config";
 
-const outDir = path.join(import.meta.dir, "../game");
-
+let assets: Awaited<ReturnType<typeof bundle>> = {};
 let onChange: () => void;
-let onChangePromise = new Promise<void>((r) => {
-  onChange = r;
+const reset = () => {
+  onChangePromise = new Promise((r) => {
+    onChange = () => {
+      reset();
+      r();
+    };
+  });
+};
+let onChangePromise: Promise<void>;
+reset();
+
+const b = watch({
+  ...createRollupInputOptions(false),
+  watch: { skipWrite: true },
 });
 
-chokidar.watch(outDir).on("all", () => {
+b.on("event", async (e) => {
+  if (e.code !== "BUNDLE_END") return;
+
+  const a = Date.now();
+
+  const { output } = await e.result.generate(rollupOutputOptions);
+
+  assets = await bundle(output);
+
+  console.log("re-built", e.duration + (Date.now() - a), "ms");
+
   onChange();
-  onChangePromise = new Promise<void>((r) => {
-    onChange = r;
-  });
 });
 
 const injectWatcher = (html: string) => {
@@ -47,7 +65,7 @@ const injectWatcher = (html: string) => {
 
 Bun.serve({
   async fetch(req) {
-    const { pathname } = new URL(req.url);
+    let { pathname } = new URL(req.url);
 
     if (pathname === "/__watcher") {
       await onChangePromise;
@@ -55,27 +73,18 @@ Bun.serve({
       return new Response("refresh");
     }
 
-    try {
-      const a = performance.now();
-      await build();
-      console.log("build in ", performance.now() - a, "ms");
-    } catch (err) {
-      console.error(err);
-    }
+    if (pathname === "/") pathname = "index.html";
+    else pathname = pathname.slice(1);
 
-    const assetName = path.join(
-      __dirname,
-      "..",
-      "..",
-      "dist",
-      pathname === "/" ? "index.html" : pathname.slice(1)
-    );
+    const content = assets[pathname];
 
-    if (!fs.existsSync(assetName)) return new Response("", { status: 404 });
+    if (!content)
+      return new Response(injectWatcher("<html><head></head>404</html>"), {
+        status: 404,
+        headers: { "content-type": "text/html" },
+      });
 
-    const content = fs.readFileSync(assetName);
-
-    if (path.extname(assetName) === ".html")
+    if (path.extname(pathname) === ".html")
       return new Response(injectWatcher(content.toString()), {
         headers: { "content-type": "text/html" },
       });

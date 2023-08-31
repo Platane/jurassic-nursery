@@ -12,28 +12,22 @@ import {
 import { transform as transformCss } from "lightningcss";
 
 export const build = async (minify = false) => {
-  const distDir = path.join(__dirname, "..", "..", "dist");
-
-  fs.rmSync(distDir, { recursive: true });
-  fs.mkdirSync(distDir, { recursive: true });
-
   // bundle with rollup
-  const bundle = await rollup(createRollupInputOptions(minify));
-  const { output } = await bundle.generate(rollupOutputOptions);
+  const b = await rollup(createRollupInputOptions(minify));
+  const { output } = await b.generate(rollupOutputOptions);
 
+  return bundle(output);
+};
+
+export const bundle = async (
+  output: (OutputChunk | OutputAsset)[],
+  minify = false
+) => {
   let jsCode = (output.find((o) => o.fileName === "index.js") as OutputChunk)
     .code;
 
   let cssCode = (output.find((o) => o.fileName === "style.css") as OutputAsset)
     .source;
-
-  for (const o of output)
-    if (
-      o.fileName !== "index.js" &&
-      o.fileName !== "style.css" &&
-      o.type === "asset"
-    )
-      fs.writeFileSync(path.join(distDir, o.fileName), o.source);
 
   // minify with terser
   if (minify) {
@@ -41,13 +35,14 @@ export const build = async (minify = false) => {
     jsCode = out.code!;
   }
 
-  cssCode = transformCss({
-    targets: { chrome: 114, firefox: 115 },
-    filename: "style.css",
-    code: Buffer.from(cssCode),
-    minify: minify,
-    sourceMap: false,
-  }).code.toString();
+  if (minify)
+    cssCode = transformCss({
+      targets: { chrome: 114, firefox: 115 },
+      filename: "style.css",
+      code: Buffer.from(cssCode),
+      minify: minify,
+      sourceMap: false,
+    }).code.toString();
 
   let htmlContent = fs
     .readFileSync(path.join(__dirname, "..", "game", "index.html"))
@@ -67,7 +62,14 @@ export const build = async (minify = false) => {
 
   if (minify) htmlContent = await minifyHtml(htmlContent, minifyHtmlOptions);
 
-  fs.writeFileSync(path.join(distDir, "index.html"), htmlContent);
+  return {
+    "index.html": htmlContent,
+    ...Object.fromEntries(
+      output
+        .filter((o) => o.fileName !== "index.js" && o.fileName !== "style.css")
+        .map((o) => [o.fileName, o.type === "chunk" ? o.code : o.source])
+    ),
+  } as Record<string, string | Buffer>;
 };
 
 const replace = (text: string, pattern: string, replace: string) => {

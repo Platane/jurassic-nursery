@@ -15,8 +15,13 @@ const listFiles = (filename: string): string[] => {
 };
 
 const distDir = path.join(__dirname, "..", "..", "dist");
+fs.rmSync(distDir, { recursive: true });
+fs.mkdirSync(distDir, { recursive: true });
 
-await build(true);
+const assets = await build(true);
+
+for (const [fileName, content] of Object.entries(assets))
+  fs.writeFileSync(path.join(distDir, fileName), content);
 
 execFileSync("advzip", [
   "--add",
