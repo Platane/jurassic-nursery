@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { OutputChunk, rollup } from "rollup";
+import { OutputAsset, OutputChunk, rollup } from "rollup";
 import { minify as minifyHtml } from "html-minifier-terser";
 import { minify as minifyJs } from "terser";
 import {
@@ -9,7 +9,7 @@ import {
   rollupOutputOptions,
   terserOptions,
 } from "./rollup-config";
-import { transform } from "lightningcss";
+import { transform as transformCss } from "lightningcss";
 
 export const build = async (minify = false) => {
   const distDir = path.join(__dirname, "..", "..", "dist");
@@ -24,13 +24,16 @@ export const build = async (minify = false) => {
   let jsCode = (output.find((o) => o.fileName === "index.js") as OutputChunk)
     .code;
 
-  for (const o of output)
-    if (o.fileName !== "index.js" && o.type === "asset")
-      fs.writeFileSync(path.join(distDir, o.fileName), o.source);
+  let cssCode = (output.find((o) => o.fileName === "style.css") as OutputAsset)
+    .source;
 
-  let cssCode = fs
-    .readFileSync(path.join(__dirname, "..", "game", "index.css"))
-    .toString();
+  for (const o of output)
+    if (
+      o.fileName !== "index.js" &&
+      o.fileName !== "style.css" &&
+      o.type === "asset"
+    )
+      fs.writeFileSync(path.join(distDir, o.fileName), o.source);
 
   // minify with terser
   if (minify) {
@@ -38,13 +41,13 @@ export const build = async (minify = false) => {
     jsCode = out.code!;
   }
 
-  if (minify)
-    cssCode = transform({
-      filename: "style.css",
-      code: Buffer.from(cssCode),
-      minify: true,
-      sourceMap: false,
-    }).code.toString();
+  cssCode = transformCss({
+    targets: { chrome: 114, firefox: 115 },
+    filename: "style.css",
+    code: Buffer.from(cssCode),
+    minify: minify,
+    sourceMap: false,
+  }).code.toString();
 
   let htmlContent = fs
     .readFileSync(path.join(__dirname, "..", "game", "index.html"))

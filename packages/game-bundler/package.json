@@ -5,18 +5,22 @@
   "type": "module",
   "dependencies": {
     "@ampproject/rollup-plugin-closure-compiler": "0.27.0",
+    "@babel/preset-typescript": "7.22.11",
+    "@linaria/rollup": "4.5.4",
     "@rollup/plugin-commonjs": "25.0.4",
     "@rollup/plugin-node-resolve": "15.2.1",
     "@types/google-closure-compiler": "0.0.19",
     "@types/html-minifier-terser": "7.0.0",
+    "@types/rollup-plugin-css-only": "3.1.0",
+    "chokidar": "3.5.3",
     "esbuild": "0.19.2",
     "html-minifier-terser": "7.2.0",
-    "rollup": "3.28.1",
+    "lightningcss": "1.21.7",
+    "rollup-plugin-css-only": "4.3.0",
     "rollup-plugin-esbuild": "5.0.0",
-    "rollup-pluginutils": "2.8.2",
     "rollup-plugin-import-assets": "1.1.1",
-    "terser": "5.19.3",
-    "chokidar": "3.5.3",
-    "lightningcss": "1.21.7"
+    "rollup-pluginutils": "2.8.2",
+    "rollup": "3.28.1",
+    "terser": "5.19.3"
   }
 }

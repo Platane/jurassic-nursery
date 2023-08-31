@@ -5,8 +5,12 @@ import { InputOptions, OutputOptions } from "rollup";
 import { MinifyOptions } from "terser";
 import compiler from "@ampproject/rollup-plugin-closure-compiler";
 import esbuild from "rollup-plugin-esbuild";
-import importAssets from "rollup-plugin-import-assets";
+import linaria from "@linaria/rollup";
+import css from "rollup-plugin-css-only";
 import { glsl } from "./rollup-plugin-glsl";
+
+// @ts-ignore
+import importAssets from "rollup-plugin-import-assets";
 
 export const terserOptions: MinifyOptions = {
   compress: {
@@ -34,8 +38,9 @@ export const minifyHtmlOptions = {
   minifyCSS: true,
 };
 
-export const createRollupInputOptions = (production: boolean) =>
-  ({
+export const createRollupInputOptions = (production: boolean) => {
+  const classNameMap = new Map<string, string>();
+  return {
     input: path.resolve(__dirname, "..", "game", "index.ts"),
 
     plugins: [
@@ -67,6 +72,23 @@ export const createRollupInputOptions = (production: boolean) =>
         compress: production,
       }),
 
+      linaria({
+        include: ["**/*.ts"],
+        displayName: false,
+        babelOptions: {
+          presets: ["@babel/preset-typescript"],
+        },
+        classNameSlug: (hash) => {
+          if (!classNameMap.has(hash))
+            classNameMap.set(hash, (classNameMap.size + 10).toString(36));
+          return classNameMap.get(hash)!;
+        },
+      }),
+
+      css({
+        output: "style.css",
+      }),
+
       // ...(production
       //   ? [
       //       compiler({
@@ -78,7 +100,8 @@ export const createRollupInputOptions = (production: boolean) =>
       //     ]
       //   : []),
     ],
-  }) as InputOptions;
+  } as InputOptions;
+};
 
 export const rollupOutputOptions = {
   format: "es",
