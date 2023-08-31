@@ -1,14 +1,6 @@
 import { mat4, vec3, mat3 } from "gl-matrix";
-import { mat4FromMat3 } from "../../utils/mat4";
-import { canvas } from "../canvas";
-
-const maxZoom = 10;
-const minZoom = 0;
-
-// camera primitive
-let phi = 1.2;
-let theta = 1;
-let zoom = Math.floor((maxZoom + minZoom) / 2);
+import { mat4FromMat3 } from "../utils/mat4";
+import { canvas } from "../renderer/canvas";
 
 export const lookAtPoint: vec3 = [0, 0, 0];
 export const eye: vec3 = [0, 0, 1];
@@ -28,13 +20,7 @@ export const worldMatrix = mat4.create();
 export const normalTransformMatrix3 = mat3.create();
 export const normalTransformMatrix4 = mat4.create();
 
-const update = () => {
-  const radius = 12 + zoom * zoom * 0.18;
-
-  const sinPhiRadius = Math.sin(phi) * radius;
-  eye[0] = sinPhiRadius * Math.sin(theta);
-  eye[1] = Math.cos(phi) * radius;
-  eye[2] = sinPhiRadius * Math.cos(theta);
+export const updateLookAtMatrix = () => {
   mat4.lookAt(lookAtMatrix, eye, lookAtPoint, UP);
 
   mat4.multiply(worldMatrix, perspectiveMatrix, lookAtMatrix);
@@ -54,5 +40,5 @@ export const onResize = () => {
   let aspect = canvas.width / canvas.height;
   mat4.perspective(perspectiveMatrix, fovX, aspect, near, far);
 
-  update();
+  updateLookAtMatrix();
 };

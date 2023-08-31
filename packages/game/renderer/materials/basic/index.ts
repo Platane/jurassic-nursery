@@ -1,6 +1,6 @@
 import { render } from "../..";
 import { gl } from "../../canvas";
-import { normalTransformMatrix4, worldMatrix } from "../../entities/camera";
+import { normalTransformMatrix4, worldMatrix } from "../../../entities/camera";
 import { createProgram } from "../../utils/program";
 import { createGeometry } from "./geometry";
 import codeFrag from "./shader.frag";
@@ -73,6 +73,4 @@ createGeometry().then(({ positions, normals }) => {
   gl.bufferData(gl.ARRAY_BUFFER, normals, gl.DYNAMIC_DRAW);
 
   nVertices = positions.length / 3;
-
-  render();
 });

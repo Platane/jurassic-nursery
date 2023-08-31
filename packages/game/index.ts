@@ -1,3 +1,9 @@
-import "./style";
+import "./ui/globalStyle";
+import "./controls";
+import { render } from "./renderer";
 
-console.log("hello");
+const loop = () => {
+  render();
+  requestAnimationFrame(loop);
+};
+loop();

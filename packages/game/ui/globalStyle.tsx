@@ -2,12 +2,13 @@ import { css } from "@linaria/core";
 
 css`
   :global() {
+    html {
+      font-family: Verdana, sans-serif;
+      background-color: #f9f8ea;
+    }
+
     body {
       margin: 0;
-
-      color: orange;
-
-      font-family: Verdana, sans-serif;
     }
 
     * {

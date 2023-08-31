@@ -1,7 +1,7 @@
 import { gl } from "./canvas";
 import { draw as drawGizmo } from "./materials/gizmo";
 import { draw as drawBasic } from "./materials/basic";
-import { onResize as onResizeCamera } from "./entities/camera";
+import { onResize as onResizeCamera } from "../entities/camera";
 import { onResize as onResizeCanvas } from "./canvas";
 
 gl.clearColor(0, 0, 0, 0);
