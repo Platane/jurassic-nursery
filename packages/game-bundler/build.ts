@@ -16,7 +16,7 @@ export const build = async (minify = false) => {
   const b = await rollup(createRollupInputOptions(minify));
   const { output } = await b.generate(rollupOutputOptions);
 
-  return bundle(output);
+  return bundle(output, minify);
 };
 
 export const bundle = async (

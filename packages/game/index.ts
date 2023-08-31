@@ -7,6 +7,8 @@ createGeometry().then(console.log);
 
 console.log(css`
   color: red;
+
+  display: flex;
 `);
 
 css`
