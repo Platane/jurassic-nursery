@@ -5,6 +5,7 @@ import { createProgram } from "../../utils/program";
 import { createGeometry } from "./geometry";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
+import { hslToRgb } from "../../../utils/color";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
@@ -24,7 +25,7 @@ gl.bindVertexArray(vao);
 //
 // position
 //
-var positionBuffer = gl.createBuffer();
+const positionBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(), gl.STATIC_DRAW);
 const a_position = gl.getAttribLocation(program, "a_position");
@@ -34,12 +35,22 @@ gl.vertexAttribPointer(a_position, 3, gl.FLOAT, false, 0, 0);
 //
 // normal
 //
-var normalBuffer = gl.createBuffer();
+const normalBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(), gl.STATIC_DRAW);
 const a_normal = gl.getAttribLocation(program, "a_normal");
 gl.enableVertexAttribArray(a_normal);
 gl.vertexAttribPointer(a_normal, 3, gl.FLOAT, false, 0, 0);
+
+//
+// color
+//
+const colorBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(), gl.STATIC_DRAW);
+const a_color = gl.getAttribLocation(program, "a_color");
+gl.enableVertexAttribArray(a_color);
+gl.vertexAttribPointer(a_color, 3, gl.FLOAT, false, 0, 0);
 
 //
 gl.bindVertexArray(null);
@@ -65,12 +76,15 @@ export const draw = () => {
   gl.bindVertexArray(null);
 };
 
-createGeometry().then(({ positions, normals }) => {
+createGeometry().then(({ positions, normals, colors }) => {
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, positions, gl.DYNAMIC_DRAW);
 
   gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, normals, gl.DYNAMIC_DRAW);
+
+  gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, colors, gl.DYNAMIC_DRAW);
 
   nVertices = positions.length / 3;
 });

@@ -2,6 +2,7 @@
 precision highp float;
 
 in vec3 v_normal;
+in vec3 v_color;
 
 
 out vec4 outColor;
@@ -15,7 +16,7 @@ void main() {
 
 
   
-  outColor.rgba = vec4( 1.0 , 0.3 , 0.5, 1.0 );
+  outColor.rgba = vec4( v_color, 1.0 );
 
   outColor.rgb *= 0.6 + clamp(  staticLightPower, -0.47, 10.0 ) * 0.45  ;
   

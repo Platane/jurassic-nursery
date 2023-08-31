@@ -1,4 +1,3 @@
-import { mat4, vec3, mat3 } from "gl-matrix";
 import { canvas } from "../renderer/canvas";
 import { eye, updateLookAtMatrix } from "../entities/camera";
 import { Handler } from "./controls-type";
@@ -100,3 +99,13 @@ export const onTouchEnd: Handler = (touches) => {
 
   onTouchStart(touches);
 };
+
+canvas.addEventListener(
+  "wheel",
+  (event) => {
+    zoom = clamp(zoom + (event.deltaY < 0 ? -1 : 1), minZoom, maxZoom);
+
+    update();
+  },
+  { passive: true }
+);
