@@ -70,6 +70,7 @@ export const draw = () => {
   gl.cullFace(gl.BACK);
 
   gl.drawArrays(gl.TRIANGLES, 0, nVertices);
+  // gl.drawArrays(gl.LINE_LOOP, 0, nVertices);
 
   gl.bindVertexArray(null);
 };

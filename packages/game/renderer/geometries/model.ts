@@ -1,5 +1,7 @@
+import { mat4 } from "gl-matrix";
 import geometry_url from "../../assets/geometry.bin";
 import { hslToRgb } from "../../utils/color";
+import { gizmos } from "../materials/gizmos";
 import { getFlatShadingNormals } from "./utils/flatShading";
 
 export const createGeometry = async () => {
@@ -19,6 +21,12 @@ export const createGeometry = async () => {
   }).flat(2);
 
   const colors = new Float32Array(c);
+
+  {
+    const m = mat4.create();
+    mat4.identity(m);
+    gizmos.push(m);
+  }
 
   return { positions, normals, colors };
 };

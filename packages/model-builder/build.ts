@@ -9,19 +9,27 @@ class E {}
 
 const loader = new GLTFLoader();
 
-// const buffer = fs.readFileSync(__dirname + "/model.glb");
-// const { animations, scene, parser } = await loader.parseAsync(
-//   Uint8Array.from(buffer).buffer,
-//   "model.glb"
-// );
+// const glb_url =
+//   // "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Fox/glTF-Binary/Fox.glb";
+//   "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/RiggedSimple/glTF-Binary/RiggedSimple.glb";
+// const { animations, scene, parser } = await loader.loadAsync(glb_url);
+// const mesh = scene.children[0].children[0].children[1] as THREE.Mesh;
 
-const glb_url =
-  // "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Fox/glTF-Binary/Fox.glb";
-  "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/RiggedSimple/glTF-Binary/RiggedSimple.glb";
-const { animations, scene, parser } = await loader.loadAsync(glb_url);
+const buffer = fs.readFileSync(__dirname + "/model.glb");
+const { animations, scene, parser } = await loader.parseAsync(
+  Uint8Array.from(buffer).buffer,
+  "model.glb"
+);
 
-// const mesh = scene.children[0] as THREE.Mesh;
-const mesh = scene.children[0].children[0].children[1] as THREE.Mesh;
+const traverse = (n: THREE.Object3D, d = 0) => {
+  console.log(" ".repeat(d) + "·", n.name);
+  n.children.forEach((c) => traverse(c, d + 1));
+};
+
+traverse(scene);
+const armature = scene.children[0];
+const mesh = armature.children[0] as THREE.Mesh;
+const bones = armature.children[1];
 
 const getPositionVectors = (geo: THREE.BufferGeometry) => {
   const positions = geo.getAttribute("position")!;
@@ -33,7 +41,7 @@ const getPositionVectors = (geo: THREE.BufferGeometry) => {
   );
 };
 
-console.log(parser.json);
+// console.log(parser.json);
 
 const vertices = getPositionVectors(mesh.geometry);
 
@@ -45,6 +53,13 @@ fs.mkdirSync(assetDir, { recursive: true });
 
 fs.writeFileSync(assetDir + "/geometry.bin", pack);
 
-fs.writeFileSync(assetDir + "/bones.bin", pack);
+const skeleton = {
+  p: bones.position.toArray(),
+  children: [{ p: bones.children[0].position.toArray() }],
+};
+fs.writeFileSync(
+  assetDir + "/skeleton.ts",
+  `export const skeleton = ${JSON.stringify(skeleton, null, 2)}`
+);
 
-fs.writeFileSync(assetDir + "/animation.bin", pack);
+console.log("-- mode generated");

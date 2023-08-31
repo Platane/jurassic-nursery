@@ -2,4 +2,3 @@ node_modules
 .env
 dist
 packages/game/assets/*.bin
-packages/model-builder/*.glb
