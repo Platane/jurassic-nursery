@@ -1,5 +1,5 @@
 import { gl } from "../../canvas";
-import { worldMatrix } from "../../../entities/camera";
+import { worldMatrix } from "../../entities/camera";
 import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";

@@ -1,6 +1,6 @@
 import { render } from "../..";
-import { normalTransformMatrix4, worldMatrix } from "../../../entities/camera";
 import { gl } from "../../canvas";
+import { normalTransformMatrix4, worldMatrix } from "../../entities/camera";
 import { createProgram } from "../../utils/program";
 import { createGeometry } from "./geometry";
 import codeFrag from "./shader.frag";
