@@ -12,7 +12,16 @@ let phi = 1.2;
 let theta = 1;
 let zoom = Math.floor((maxZoom + minZoom) / 2);
 
+try {
+  const u = JSON.parse(localStorage.getItem("camera")!);
+  phi = u.phi;
+  theta = u.theta;
+  zoom = u.zoom;
+} catch (err) {}
+
 const update = () => {
+  localStorage.setItem("camera", JSON.stringify({ phi, theta, zoom }));
+
   const radius = 12 + zoom * zoom * 0.18;
 
   const sinPhiRadius = Math.sin(phi) * radius;
