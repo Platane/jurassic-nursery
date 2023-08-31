@@ -63,17 +63,36 @@ export const bundle = async (
 
   if (minify) htmlContent = await minifyHtml(htmlContent, minifyHtmlOptions);
 
-  return {
+  return renameAssetName({
     "index.html": htmlContent,
     ...Object.fromEntries(
       output
         .filter((o) => o.fileName !== "index.js" && o.fileName !== "style.css")
         .map((o) => [o.fileName, o.type === "chunk" ? o.code : o.source])
     ),
-  } as Record<string, string | Buffer>;
+  });
 };
 
 const replace = (text: string, pattern: string, replace: string) => {
   const [before, after] = text.split(pattern);
   return before + replace + after;
+};
+
+const renameAssetName = (assets: Record<string, string | Buffer>) => {
+  const a: Record<string, string | Buffer> = {};
+
+  const paths = new Map<string, string>();
+
+  a["index.html"] = assets["index.html"] as string;
+
+  for (const fileName of Object.keys(assets))
+    if (fileName !== "index.html") {
+      const alias = paths.size.toString(36);
+      paths.set(fileName, alias);
+
+      a[alias] = assets[fileName];
+      a["index.html"] = a["index.html"].replaceAll(fileName, alias);
+    }
+
+  return a;
 };
