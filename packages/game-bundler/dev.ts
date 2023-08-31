@@ -22,17 +22,29 @@ const b = watch({
 });
 
 b.on("event", async (e) => {
-  if (e.code !== "BUNDLE_END") return;
+  if (e.code === "ERROR") {
+    console.error(e.error);
 
-  const a = Date.now();
+    assets = {
+      "index.html": injectWatcher(
+        `<html><head></head><pre>${e.error.message}</pre></html>`
+      ),
+    };
 
-  const { output } = await e.result.generate(rollupOutputOptions);
+    onChange();
+  }
 
-  assets = await bundle(output);
+  if (e.code === "BUNDLE_END") {
+    const a = Date.now();
 
-  console.log("re-built", e.duration + (Date.now() - a), "ms");
+    const { output } = await e.result.generate(rollupOutputOptions);
 
-  onChange();
+    assets = await bundle(output);
+
+    console.log("re-built", e.duration + (Date.now() - a), "ms");
+
+    onChange();
+  }
 });
 
 const injectWatcher = (html: string) => {
