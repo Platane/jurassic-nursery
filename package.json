@@ -16,7 +16,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "bun ./packages/game-bundler/bundle.ts",
+    "build": "bun ./packages/model-builder/build.ts && bun ./packages/game-bundler/bundle.ts",
     "dev": "bun ./packages/game-bundler/dev.ts"
   }
 }

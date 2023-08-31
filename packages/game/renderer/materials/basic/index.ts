@@ -1,11 +1,9 @@
-import { render } from "../..";
 import { gl } from "../../canvas";
 import { normalTransformMatrix4, worldMatrix } from "../../../entities/camera";
 import { createProgram } from "../../utils/program";
-import { createGeometry } from "./geometry";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
-import { hslToRgb } from "../../../utils/color";
+import { createGeometry } from "../../geometries/model";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
