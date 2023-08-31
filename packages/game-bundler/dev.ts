@@ -75,8 +75,9 @@ const injectWatcher = (html: string) => {
   );
 };
 
+//@ts-ignore
 Bun.serve({
-  async fetch(req) {
+  async fetch(req: Request) {
     let { pathname } = new URL(req.url);
 
     if (pathname === "/__watcher") {
