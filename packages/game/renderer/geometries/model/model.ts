@@ -8,9 +8,9 @@ export const createGeometry = async () => {
   const buffer = await fetch(geometry_url).then((res) => res.arrayBuffer());
 
   let positions = new Float32Array(
-    [...new Uint16Array(buffer)]
+    [...new Uint8Array(buffer)]
       .map((x, i) => {
-        x /= 256 * 256;
+        x /= 256;
 
         if (i % 3 == 0) return (x - 0.67) * 2;
         if (i % 3 == 1) return x * 1;

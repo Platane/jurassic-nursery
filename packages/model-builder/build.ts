@@ -49,14 +49,14 @@ vertices.forEach((p) => bb.expandByPoint(p));
 const center = bb.getCenter(new THREE.Vector3());
 const size = bb.getSize(new THREE.Vector3());
 
-const pack = new Uint16Array(
+const pack = new Uint8Array(
   vertices
     .map((v) =>
       [
         ((v.x - center.x + size.x / 2) / size.x) * 0.99,
         ((v.y - center.y + size.y / 2) / size.y) * 0.99,
         ((v.z - center.z + size.z / 2) / size.z) * 0.99,
-      ].map((x) => x * 256 * 256)
+      ].map((x) => x * 256)
     )
     .flat()
 );
