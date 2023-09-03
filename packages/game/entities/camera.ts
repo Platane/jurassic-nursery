@@ -1,11 +1,10 @@
 import { mat4, vec3, mat3 } from "gl-matrix";
 import { mat4FromMat3 } from "../utils/mat4";
 import { canvas } from "../renderer/canvas";
+import { UP } from "../utils/vec3";
 
 export const lookAtPoint: vec3 = [0, 0, 0];
 export const eye: vec3 = [0, 0, 1];
-
-const UP: vec3 = [0, 1, 0];
 
 export const perspectiveMatrix = new Float32Array(4 * 4);
 
