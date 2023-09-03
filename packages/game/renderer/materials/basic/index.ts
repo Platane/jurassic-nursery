@@ -3,7 +3,11 @@ import { normalTransformMatrix4, worldMatrix } from "../../../entities/camera";
 import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
-import { createGeometry } from "../../geometries/model";
+import { createGeometry } from "../../geometries/model/model";
+import {
+  bonesMatrices,
+  update as updateBoneMatrices,
+} from "../../geometries/model/skeleton";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
@@ -51,6 +55,29 @@ gl.enableVertexAttribArray(a_color);
 gl.vertexAttribPointer(a_color, 3, gl.FLOAT, false, 0, 0);
 
 //
+// weight
+//
+const weightsBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, weightsBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(), gl.STATIC_DRAW);
+const a_weights = gl.getAttribLocation(program, "a_weights");
+gl.enableVertexAttribArray(a_weights);
+gl.vertexAttribPointer(a_weights, 4, gl.FLOAT, false, 0, 0);
+
+//
+// bone matrices
+//
+const boneMatrixTexture = gl.createTexture();
+// use texture unit 0
+gl.activeTexture(gl.TEXTURE0 + 0);
+
+gl.bindTexture(gl.TEXTURE_2D, boneMatrixTexture);
+// since we want to use the texture for pure data we turn
+// off filtering
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+//
 gl.bindVertexArray(null);
 
 //
@@ -64,26 +91,47 @@ export const draw = () => {
   gl.uniformMatrix4fv(u_matrix, false, worldMatrix);
   gl.uniformMatrix4fv(u_normalMatrix, false, normalTransformMatrix4);
 
+  // update the texture with the current matrices
+
+  updateBoneMatrices();
+
+  gl.bindTexture(gl.TEXTURE_2D, boneMatrixTexture);
+  gl.texImage2D(
+    gl.TEXTURE_2D,
+    0, // level
+    gl.RGBA32F, // internal format
+    4, // width 4 pixels, each pixel has RGBA so 4 pixels is 16 values
+    bonesMatrices.length / 16, // one row per bone
+    0, // border
+    gl.RGBA, // format
+    gl.FLOAT, // type
+    bonesMatrices
+  );
+
   gl.bindVertexArray(vao);
 
   gl.enable(gl.CULL_FACE);
   gl.cullFace(gl.BACK);
 
-  gl.drawArrays(gl.TRIANGLES, 0, nVertices);
-  // gl.drawArrays(gl.LINE_LOOP, 0, nVertices);
+  const wireframe = true;
+  if (wireframe) gl.drawArrays(gl.LINE_LOOP, 0, nVertices);
+  else gl.drawArrays(gl.TRIANGLES, 0, nVertices);
 
   gl.bindVertexArray(null);
 };
 
-createGeometry().then(({ positions, normals, colors }) => {
+createGeometry().then(({ positions, normals, colors, weights }) => {
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, positions, gl.DYNAMIC_DRAW);
+  gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
 
   gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, normals, gl.DYNAMIC_DRAW);
+  gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW);
 
   gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, colors, gl.DYNAMIC_DRAW);
+  gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW);
+
+  gl.bindBuffer(gl.ARRAY_BUFFER, weightsBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, weights, gl.STATIC_DRAW);
 
   nVertices = positions.length / 3;
 });
