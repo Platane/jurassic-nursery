@@ -27,9 +27,7 @@ const traverse = (n: THREE.Object3D, d = 0) => {
 };
 
 traverse(scene);
-const armature = scene.children[0];
-const mesh = armature.children[0] as THREE.Mesh;
-const bones = armature.children[1];
+const mesh = scene.children[0] as THREE.Mesh;
 
 const getPositionVectors = (geo: THREE.BufferGeometry) => {
   const positions = geo.getAttribute("position")!;
@@ -45,7 +43,23 @@ const getPositionVectors = (geo: THREE.BufferGeometry) => {
 
 const vertices = getPositionVectors(mesh.geometry);
 
-const pack = new Float32Array(vertices.flatMap((v) => v.toArray()));
+const bb = new THREE.Box3();
+vertices.forEach((p) => bb.expandByPoint(p));
+
+const center = bb.getCenter(new THREE.Vector3());
+const size = bb.getSize(new THREE.Vector3());
+
+const pack = new Uint16Array(
+  vertices
+    .map((v) =>
+      [
+        ((v.x - center.x + size.x / 2) / size.x) * 0.99,
+        ((v.y - center.y + size.y / 2) / size.y) * 0.99,
+        ((v.z - center.z + size.z / 2) / size.z) * 0.99,
+      ].map((x) => x * 256 * 256)
+    )
+    .flat()
+);
 
 const assetDir = __dirname + "/../game/assets";
 
@@ -53,13 +67,4 @@ fs.mkdirSync(assetDir, { recursive: true });
 
 fs.writeFileSync(assetDir + "/geometry.bin", pack);
 
-const skeleton = {
-  p: bones.position.toArray(),
-  children: [{ p: bones.children[0].position.toArray() }],
-};
-fs.writeFileSync(
-  assetDir + "/skeleton.ts",
-  `export const skeleton = ${JSON.stringify(skeleton, null, 2)}`
-);
-
-console.log("-- mode generated");
+console.log(size.toArray());

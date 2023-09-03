@@ -123,7 +123,7 @@ export const draw = () => {
   gl.enable(gl.CULL_FACE);
   gl.cullFace(gl.BACK);
 
-  const wireframe = !false;
+  const wireframe = !!false;
   if (wireframe) gl.drawArrays(gl.LINE_LOOP, 0, nVertices);
   else gl.drawArrays(gl.TRIANGLES, 0, nVertices);
 
