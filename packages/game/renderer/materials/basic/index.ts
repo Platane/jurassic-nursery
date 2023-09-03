@@ -65,6 +65,16 @@ gl.enableVertexAttribArray(a_weights);
 gl.vertexAttribPointer(a_weights, 4, gl.FLOAT, false, 0, 0);
 
 //
+// weight
+//
+const boneIndexesBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, boneIndexesBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(), gl.STATIC_DRAW);
+const a_boneIndexes = gl.getAttribLocation(program, "a_boneIndexes");
+gl.enableVertexAttribArray(a_boneIndexes);
+gl.vertexAttribIPointer(a_boneIndexes, 4, gl.UNSIGNED_BYTE, false, 0, 0);
+
+//
 // bone matrices
 //
 const boneMatrixTexture = gl.createTexture();
@@ -120,18 +130,23 @@ export const draw = () => {
   gl.bindVertexArray(null);
 };
 
-createGeometry().then(({ positions, normals, colors, weights }) => {
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+createGeometry().then(
+  ({ positions, normals, colors, weights, boneIndexes }) => {
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
 
-  gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW);
 
-  gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW);
 
-  gl.bindBuffer(gl.ARRAY_BUFFER, weightsBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, weights, gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, weightsBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, weights, gl.STATIC_DRAW);
 
-  nVertices = positions.length / 3;
-});
+    gl.bindBuffer(gl.ARRAY_BUFFER, boneIndexesBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, boneIndexes, gl.STATIC_DRAW);
+
+    nVertices = positions.length / 3;
+  }
+);

@@ -1,7 +1,7 @@
 import { mat4, vec3 } from "gl-matrix";
 import { gizmos } from "../../materials/gizmos";
 
-const n = 4;
+const n = 2;
 
 export const bones = Array.from({ length: n }, () =>
   mat4.identity(mat4.create())
@@ -9,8 +9,6 @@ export const bones = Array.from({ length: n }, () =>
 
 mat4.translate(bones[0], bones[0], [-3.5, -2, 0]);
 mat4.translate(bones[1], bones[1], [3, -3, 0]);
-mat4.translate(bones[2], bones[2], [999, 0, 0]);
-mat4.translate(bones[3], bones[2], [999, 0, 0]);
 
 //
 // display bones
@@ -34,13 +32,18 @@ export const update = () => {
 };
 
 export const computeWeights = (position: Float32Array) => {
+  const boneIndexes: number[] = [];
   const weights: number[] = [];
 
   for (let i = 0; i < position.length; i++) {
     const p = position.slice(i, i + 3) as vec3;
 
     weights.push(0, 1, 0, 0);
+    boneIndexes.push(0, 1, 0, 0);
   }
 
-  return new Float32Array(weights);
+  return {
+    weights: new Float32Array(weights),
+    boneIndexes: new Uint8Array(boneIndexes),
+  };
 };

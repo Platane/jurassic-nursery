@@ -6,6 +6,7 @@ in vec4 a_position;
 in vec4 a_normal;
 in vec3 a_color;
 in vec4 a_weights;
+in uvec4 a_boneIndexes;
 
 
 // uniforms
@@ -22,35 +23,34 @@ out vec3 v_color;
 
 void main() {
 
-  // mat4 bm0 = getBoneMatrix(1);
 
-   mat4 bm0 = mat4(
-    texelFetch(u_boneMatrixTexture, ivec2(0, 0), 0),
-    texelFetch(u_boneMatrixTexture, ivec2(1, 0), 0),
-    texelFetch(u_boneMatrixTexture, ivec2(2, 0), 0),
-    texelFetch(u_boneMatrixTexture, ivec2(3, 0), 0)
-    );
+  mat4 bm0 = mat4(
+    texelFetch(u_boneMatrixTexture, ivec2(0, a_boneIndexes[0]), 0),
+    texelFetch(u_boneMatrixTexture, ivec2(1, a_boneIndexes[0]), 0),
+    texelFetch(u_boneMatrixTexture, ivec2(2, a_boneIndexes[0]), 0),
+    texelFetch(u_boneMatrixTexture, ivec2(3, a_boneIndexes[0]), 0)
+  );
 
-   mat4 bm1 = mat4(
-    texelFetch(u_boneMatrixTexture, ivec2(0, 1), 0),
-    texelFetch(u_boneMatrixTexture, ivec2(1, 1), 0),
-    texelFetch(u_boneMatrixTexture, ivec2(2, 1), 0),
-    texelFetch(u_boneMatrixTexture, ivec2(3, 1), 0)
-    );
+  mat4 bm1 = mat4(
+    texelFetch(u_boneMatrixTexture, ivec2(0, a_boneIndexes[1]), 0),
+    texelFetch(u_boneMatrixTexture, ivec2(1, a_boneIndexes[1]), 0),
+    texelFetch(u_boneMatrixTexture, ivec2(2, a_boneIndexes[1]), 0),
+    texelFetch(u_boneMatrixTexture, ivec2(3, a_boneIndexes[1]), 0)
+  );
 
-   mat4 bm2 = mat4(
-    texelFetch(u_boneMatrixTexture, ivec2(0, 2), 0),
-    texelFetch(u_boneMatrixTexture, ivec2(1, 2), 0),
-    texelFetch(u_boneMatrixTexture, ivec2(2, 2), 0),
-    texelFetch(u_boneMatrixTexture, ivec2(3, 2), 0)
-    );
+  mat4 bm2 = mat4(
+    texelFetch(u_boneMatrixTexture, ivec2(0, a_boneIndexes[2]), 0),
+    texelFetch(u_boneMatrixTexture, ivec2(1, a_boneIndexes[2]), 0),
+    texelFetch(u_boneMatrixTexture, ivec2(2, a_boneIndexes[2]), 0),
+    texelFetch(u_boneMatrixTexture, ivec2(3, a_boneIndexes[2]), 0)
+  );
 
-   mat4 bm3 = mat4(
-    texelFetch(u_boneMatrixTexture, ivec2(0, 3), 0),
-    texelFetch(u_boneMatrixTexture, ivec2(1, 3), 0),
-    texelFetch(u_boneMatrixTexture, ivec2(2, 3), 0),
-    texelFetch(u_boneMatrixTexture, ivec2(3, 3), 0)
-    );
+  mat4 bm3 = mat4(
+    texelFetch(u_boneMatrixTexture, ivec2(0, a_boneIndexes[3]), 0),
+    texelFetch(u_boneMatrixTexture, ivec2(1, a_boneIndexes[3]), 0),
+    texelFetch(u_boneMatrixTexture, ivec2(2, a_boneIndexes[3]), 0),
+    texelFetch(u_boneMatrixTexture, ivec2(3, a_boneIndexes[3]), 0)
+  );
 
 
   gl_Position = u_matrix * (

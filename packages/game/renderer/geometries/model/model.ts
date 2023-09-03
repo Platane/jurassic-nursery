@@ -22,7 +22,5 @@ export const createGeometry = async () => {
 
   const colors = new Float32Array(c);
 
-  const weights = computeWeights(positions);
-
-  return { positions, weights, normals, colors };
+  return { positions, normals, colors, ...computeWeights(positions) };
 };
