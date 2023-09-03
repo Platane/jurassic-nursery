@@ -1,14 +1,62 @@
-import { mat4, vec3 } from "gl-matrix";
+import { mat4, quat, vec3 } from "gl-matrix";
 import { gizmos } from "../../materials/gizmos";
 
-const n = 2;
+export const origin = [0, 0, 0] as vec3;
 
-export const bones = Array.from({ length: n }, () =>
-  mat4.identity(mat4.create())
-);
+export const direction = quat.create();
 
-mat4.translate(bones[0], bones[0], [-3.5, -2, 0]);
-mat4.translate(bones[1], bones[1], [3, -3, 0]);
+export const tail_direction = quat.create();
+export const head_direction = quat.create();
+
+const bones = [
+  // main
+  mat4.create(),
+
+  // tail
+  mat4.create(),
+  mat4.create(),
+  mat4.create(),
+
+  // head
+  mat4.create(),
+  mat4.create(),
+];
+
+const a = vec3.create();
+const m = mat4.create();
+const updateBones = () => {
+  const [main, tail1, tail2, tail3, head1, head2] = bones;
+
+  // main
+  vec3.set(a, 0, 0.6, 0);
+  mat4.fromRotationTranslation(main, direction, a);
+
+  // // tail
+  vec3.set(a, -0.3, -0.02, 0);
+  mat4.fromTranslation(tail1, a);
+  mat4.fromQuat(m, tail_direction);
+  mat4.multiply(tail1, m, tail1);
+  mat4.multiply(tail1, tail1, main);
+
+  vec3.set(a, -0.3, -0.1, 0);
+  mat4.fromRotationTranslation(tail2, tail_direction, a);
+  mat4.multiply(tail2, tail2, tail1);
+
+  vec3.set(a, -0.34, -0.05, 0);
+  mat4.fromRotationTranslation(tail3, tail_direction, a);
+  mat4.multiply(tail3, tail3, tail2);
+
+  // head
+  vec3.set(a, 0.43, -0.04, 0);
+  mat4.fromRotationTranslation(head1, head_direction, a);
+  mat4.multiply(head1, head1, main);
+
+  vec3.set(a, 0.4, -0.14, 0);
+  mat4.fromRotationTranslation(head2, head_direction, a);
+  mat4.multiply(head2, head2, head1);
+};
+
+updateBones();
 
 //
 // display bones
@@ -16,16 +64,16 @@ gizmos.push(...bones);
 
 //
 //
-const bindPoseInv = bones.map((b) => mat4.invert(mat4.create(), b));
+const bindPoseInv = bones.map((m) => mat4.invert(mat4.create(), m));
 
-export const bonesMatrices = new Float32Array(16 * n);
-const _bonesMatrices = Array.from(
-  { length: n },
+export const bonesMatrices = new Float32Array(16 * bones.length);
+const _bonesMatrices = bones.map(
   (_, i) => new Float32Array(bonesMatrices.buffer, i * 4 * 16, 16)
 );
 
 export const update = () => {
-  for (let i = 0; i < n; i++) {
+  updateBones();
+  for (let i = 0; i < bones.length; i++) {
     mat4.multiply(_bonesMatrices[i], bones[i], bindPoseInv[i]);
   }
 };
@@ -41,14 +89,33 @@ export const computeWeights = (position: Float32Array) => {
 
     const distances = bonePositions.map((b) => vec3.distance(p, b) ** 2);
 
-    const sum = distances.reduce((s, x) => s + x);
+    const is = pickMinIndices(distances, 4).sort();
 
-    weights.push(...distances.map((l) => 1 - l / sum), 0, 0);
-    boneIndexes.push(0, 1, 0, 0);
+    const sum = is.reduce((s, i) => s + distances[i]);
+
+    weights.push(...is.map((i) => 1 - distances[i] / sum));
+    boneIndexes.push(...is);
   }
 
   return {
     weights: new Float32Array(weights),
     boneIndexes: new Uint8Array(boneIndexes),
   };
+};
+
+/**
+ * pick the first n minimal indexes
+ */
+const pickMinIndices = (arr: number[], n: number) => {
+  const min_is = Array.from({ length: Math.min(arr.length, n) }, (_, i) => i);
+  min_is.sort((a, b) => arr[b] - arr[a]);
+
+  for (let i = n; i < arr.length; i++) {
+    if (arr[min_is[0]] > arr[i]) {
+      min_is[0] = i;
+      min_is.sort((a, b) => arr[b] - arr[a]);
+    }
+  }
+
+  return min_is;
 };

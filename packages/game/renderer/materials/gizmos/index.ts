@@ -43,7 +43,7 @@ gl.bindVertexArray(null);
 //
 //
 
-const lll = 1;
+const lll = 0.06;
 
 const kernel = [
   [0.0, lll, 0.0],

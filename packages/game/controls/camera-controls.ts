@@ -22,7 +22,7 @@ try {
 const update = () => {
   localStorage.setItem("camera", JSON.stringify({ phi, theta, zoom }));
 
-  const radius = 12 + zoom * zoom * 0.18;
+  const radius = 1 + zoom * zoom * 0.18;
 
   const sinPhiRadius = Math.sin(phi) * radius;
   eye[0] = sinPhiRadius * Math.sin(theta);
