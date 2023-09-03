@@ -53,9 +53,9 @@ const pack = new Uint8Array(
   vertices
     .map((v) =>
       [
-        ((v.x - center.x + size.x / 2) / size.x) * 0.99,
-        ((v.y - center.y + size.y / 2) / size.y) * 0.99,
-        ((v.z - center.z + size.z / 2) / size.z) * 0.99,
+        ((v.x - center.x + size.x / 2) / size.x) * 0.999,
+        ((v.y - center.y + size.y / 2) / size.y) * 0.999,
+        ((v.z - center.z + size.z / 2) / size.z) * 0.999,
       ].map((x) => x * 256)
     )
     .flat()
