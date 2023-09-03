@@ -27,7 +27,6 @@ const _bonesMatrices = Array.from(
 export const update = () => {
   for (let i = 0; i < n; i++) {
     mat4.multiply(_bonesMatrices[i], bones[i], bindPoseInv[i]);
-    // mat4.identity(_bonesMatrices[i]);
   }
 };
 
@@ -35,10 +34,16 @@ export const computeWeights = (position: Float32Array) => {
   const boneIndexes: number[] = [];
   const weights: number[] = [];
 
-  for (let i = 0; i < position.length; i++) {
-    const p = position.slice(i, i + 3) as vec3;
+  const bonePositions = bones.map((m) => mat4.getTranslation(vec3.create(), m));
 
-    weights.push(0, 1, 0, 0);
+  for (let i = 0; i < position.length / 3; i++) {
+    const p = new Float32Array(position.buffer, i * 4 * 3, 3) as vec3;
+
+    const distances = bonePositions.map((b) => vec3.distance(p, b) ** 2);
+
+    const sum = distances.reduce((s, x) => s + x);
+
+    weights.push(...distances.map((l) => 1 - l / sum), 0, 0);
     boneIndexes.push(0, 1, 0, 0);
   }
 

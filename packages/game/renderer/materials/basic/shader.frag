@@ -18,7 +18,7 @@ void main() {
   
   outColor.rgba = vec4( v_color, 1.0 );
 
-  outColor.rgb *= 0.6 + clamp(  staticLightPower, -0.47, 10.0 ) * 0.45  ;
+  // outColor.rgb *= 0.6 + clamp(  staticLightPower, -0.47, 10.0 ) * 0.45  ;
   
   // outColor.rgb = v_normal;
 

@@ -63,5 +63,6 @@ void main() {
   v_normal = vec3(  u_normalMatrix  * a_normal);
   v_color = a_color;
  
+  v_color = a_weights.xyz;
 }
 
