@@ -1,5 +1,6 @@
 import { mat4, quat, vec3 } from "gl-matrix";
 import { gizmos } from "../../materials/gizmos";
+import { pickMaxIndices } from "../../../utils/array";
 
 export const origin = [0, 0, 0] as vec3;
 
@@ -69,29 +70,29 @@ const updateBones = () => {
 
   // 1
   vec3.set(a, -0.12, -0.12, 0.2);
-  quat.fromEuler(q, 0, feet[0] * 6, 0);
+  quat.fromEuler(q, 0, feet[0] * 13, 0);
   vec3.transformQuat(a, a, q);
   mat4.fromRotationTranslation(leg0, q, a);
   mat4.multiply(leg0, head1, leg0);
 
   vec3.set(a, 0.05, -0.42, 0.02);
-  quat.fromEuler(q, 0, 0, feet[0] * 30);
+  quat.fromEuler(q, 0, 0, feet[0] * 60);
   vec3.transformQuat(a, a, q);
-  quat.fromEuler(q, 0, 0, feet[0] * 14);
+  quat.fromEuler(q, 0, 0, feet[0] * 30);
   mat4.fromRotationTranslation(foot0, q, a);
   mat4.multiply(foot0, leg0, foot0);
 
   // 2
   vec3.set(a, -0.12, -0.12, -0.2);
-  quat.fromEuler(q, 0, feet[1] * 6, 0);
+  quat.fromEuler(q, 0, feet[1] * 13, 0);
   vec3.transformQuat(a, a, q);
   mat4.fromRotationTranslation(leg1, q, a);
   mat4.multiply(leg1, head1, leg1);
 
   vec3.set(a, 0.05, -0.42, -0.02);
-  quat.fromEuler(q, 0, 0, feet[1] * 30);
+  quat.fromEuler(q, 0, 0, feet[1] * 60);
   vec3.transformQuat(a, a, q);
-  quat.fromEuler(q, 0, 0, feet[1] * 14);
+  quat.fromEuler(q, 0, 0, feet[1] * 30);
   mat4.fromRotationTranslation(foot1, q, a);
   mat4.multiply(foot1, leg1, foot1);
 };
@@ -127,13 +128,17 @@ export const computeWeights = (position: Float32Array) => {
   for (let i = 0; i < position.length / 3; i++) {
     const p = new Float32Array(position.buffer, i * 4 * 3, 3) as vec3;
 
-    const distances = bonePositions.map((b) => vec3.distance(p, b) ** 2);
+    const w = bonePositions.map((b, i) => {
+      const d = vec3.distance(p, b);
 
-    const is = pickMinIndices(distances, 4).sort();
+      return 1 / d + (i === 0 ? 0.1 : 0);
+    });
 
-    const sum = is.reduce((s, i) => s + distances[i]);
+    const is = pickMaxIndices(w, 4);
 
-    weights.push(...is.map((i) => 1 - distances[i] / sum));
+    const sum = is.reduce((s, i) => s + w[i]);
+
+    weights.push(...is.map((i) => w[i] / sum));
     boneIndexes.push(...is);
   }
 
@@ -141,21 +146,4 @@ export const computeWeights = (position: Float32Array) => {
     weights: new Float32Array(weights),
     boneIndexes: new Uint8Array(boneIndexes),
   };
-};
-
-/**
- * pick the first n minimal indexes
- */
-const pickMinIndices = (arr: number[], n: number) => {
-  const min_is = Array.from({ length: Math.min(arr.length, n) }, (_, i) => i);
-  min_is.sort((a, b) => arr[b] - arr[a]);
-
-  for (let i = n; i < arr.length; i++) {
-    if (arr[min_is[0]] > arr[i]) {
-      min_is[0] = i;
-      min_is.sort((a, b) => arr[b] - arr[a]);
-    }
-  }
-
-  return min_is;
 };
