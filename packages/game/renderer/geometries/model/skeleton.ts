@@ -8,6 +8,8 @@ export const direction = quat.create();
 export const tail_direction = quat.create();
 export const head_direction = quat.create();
 
+export const feet = [0, 0, 0, 0];
+
 const bones = [
   // main
   mat4.create(),
@@ -20,12 +22,20 @@ const bones = [
   // head
   mat4.create(),
   mat4.create(),
+
+  // feet
+  mat4.create(),
+  mat4.create(),
+  mat4.create(),
+  mat4.create(),
 ];
 
 const a = vec3.create();
+const q = quat.create();
 const m = mat4.create();
 const updateBones = () => {
-  const [main, tail1, tail2, tail3, head1, head2] = bones;
+  const [main, tail1, tail2, tail3, head1, head2, leg0, foot0, leg1, foot1] =
+    bones;
 
   // main
   vec3.set(a, 0, 0.6, 0);
@@ -35,7 +45,7 @@ const updateBones = () => {
   vec3.set(a, -0.3, -0.02, 0);
   mat4.fromTranslation(tail1, a);
   mat4.fromQuat(m, tail_direction);
-  mat4.multiply(tail1, m, tail1);
+  mat4.multiply(tail1, tail1, m);
   mat4.multiply(tail1, tail1, main);
 
   vec3.set(a, -0.3, -0.1, 0);
@@ -54,6 +64,36 @@ const updateBones = () => {
   vec3.set(a, 0.4, -0.14, 0);
   mat4.fromRotationTranslation(head2, head_direction, a);
   mat4.multiply(head2, head2, head1);
+
+  // feet
+
+  // 1
+  vec3.set(a, -0.12, -0.12, 0.2);
+  quat.fromEuler(q, 0, feet[0] * 6, 0);
+  vec3.transformQuat(a, a, q);
+  mat4.fromRotationTranslation(leg0, q, a);
+  mat4.multiply(leg0, head1, leg0);
+
+  vec3.set(a, 0.05, -0.42, 0.02);
+  quat.fromEuler(q, 0, 0, feet[0] * 30);
+  vec3.transformQuat(a, a, q);
+  quat.fromEuler(q, 0, 0, feet[0] * 14);
+  mat4.fromRotationTranslation(foot0, q, a);
+  mat4.multiply(foot0, leg0, foot0);
+
+  // 2
+  vec3.set(a, -0.12, -0.12, -0.2);
+  quat.fromEuler(q, 0, feet[1] * 6, 0);
+  vec3.transformQuat(a, a, q);
+  mat4.fromRotationTranslation(leg1, q, a);
+  mat4.multiply(leg1, head1, leg1);
+
+  vec3.set(a, 0.05, -0.42, -0.02);
+  quat.fromEuler(q, 0, 0, feet[1] * 30);
+  vec3.transformQuat(a, a, q);
+  quat.fromEuler(q, 0, 0, feet[1] * 14);
+  mat4.fromRotationTranslation(foot1, q, a);
+  mat4.multiply(foot1, leg1, foot1);
 };
 
 updateBones();
