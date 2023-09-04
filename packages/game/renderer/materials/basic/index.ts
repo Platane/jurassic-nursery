@@ -72,7 +72,7 @@ gl.bindBuffer(gl.ARRAY_BUFFER, boneIndexesBuffer);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(), gl.STATIC_DRAW);
 const a_boneIndexes = gl.getAttribLocation(program, "a_boneIndexes");
 gl.enableVertexAttribArray(a_boneIndexes);
-gl.vertexAttribIPointer(a_boneIndexes, 4, gl.UNSIGNED_BYTE, false, 0, 0);
+gl.vertexAttribIPointer(a_boneIndexes, 4, gl.UNSIGNED_BYTE, 0, 0);
 
 //
 // bone matrices
