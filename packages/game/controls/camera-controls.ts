@@ -55,7 +55,7 @@ const rotateMove: H = ([{ pageX: x, pageY: y }]) => {
     phi -= (dy / window.innerHeight) * rotationSpeed;
 
     // theta = clamp(theta, Math.PI * 0.01, Math.PI * 0.99);
-    phi = clamp(phi, Math.PI * 0.02, Math.PI * 0.98);
+    phi = clamp(phi, Math.PI * 0.0002, Math.PI * 0.9999998);
 
     px = x;
     py = y;
