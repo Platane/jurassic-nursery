@@ -53,14 +53,15 @@ void main() {
   );
 
 
-  gl_Position = u_matrix * (
-    bm0 * a_position * a_weights[0] +
-    bm1 * a_position * a_weights[1] +
-    bm2 * a_position * a_weights[2] +
-    bm3 * a_position * a_weights[3] 
-  );
+  mat4 bm = 
+    bm0 * a_weights[0] +
+    bm1 * a_weights[1] +
+    bm2 * a_weights[2] +
+    bm3 * a_weights[3] ;
 
-  v_normal = vec3(  u_normalMatrix  * a_normal);
+  gl_Position = u_matrix * bm * a_position;
+
+  v_normal = mat3(bm) * vec3(  u_normalMatrix  * a_normal);
   v_color = a_color;
  
 }
