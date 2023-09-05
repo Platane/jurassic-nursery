@@ -9,8 +9,8 @@ export const onResize = () => {
   const w = window.innerWidth * dpr;
   const h = window.innerHeight * dpr;
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = w;
+  canvas.height = h;
 
   gl.viewport(0, 0, w, h);
 };

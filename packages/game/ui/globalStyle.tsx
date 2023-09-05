@@ -17,6 +17,8 @@ css`
 
     canvas {
       position: fixed;
+      width: 100%;
+      height: 100%;
     }
   }
 `;
