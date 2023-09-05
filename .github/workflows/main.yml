@@ -54,7 +54,7 @@ jobs:
 
       - name: test the bundle against the report endpoint
         run: |
-          curl --silent -X POST --max-time 120 --connect-timeout 120 --form bundle=@bundle.zip --form category=desktop https://iw8sii1h9b.execute-api.eu-west-1.amazonaws.com/stage/analyze-bundle > report.json
+          curl --silent -X POST --max-time 120 --connect-timeout 120 --form bundle=@bundle.zip --form category=desktop https://wdbnnia6lj.execute-api.eu-west-1.amazonaws.com/stage/analyze-bundle > report.json
 
       - name: fails if the report failed
         uses: actions/github-script@v6
