@@ -11,6 +11,8 @@ export const head_direction = quat.create();
 
 export const feet = [0, 0, 0, 0];
 
+export const SELECTED_BONE = 6;
+
 const bones = [
   // main
   mat4.create(),
@@ -34,6 +36,8 @@ const bones = [
   mat4.create(),
   mat4.create(),
 ];
+
+let pose0 = 0;
 
 const a = vec3.create();
 const q = quat.create();
@@ -96,7 +100,7 @@ const updateBones = () => {
   vec3.set(a, 0.05, -0.42, 0.02);
   quat.fromEuler(q, 0, 0, feet[0] * 60);
   vec3.transformQuat(a, a, q);
-  quat.fromEuler(q, 0, 0, feet[0] * 30);
+  quat.fromEuler(q, 0, 0, feet[0] * 50);
   mat4.fromRotationTranslation(foot0, q, a);
   mat4.multiply(foot0, leg0, foot0);
 
@@ -110,7 +114,7 @@ const updateBones = () => {
   vec3.set(a, 0.05, -0.42, -0.02);
   quat.fromEuler(q, 0, 0, feet[1] * 60);
   vec3.transformQuat(a, a, q);
-  quat.fromEuler(q, 0, 0, feet[1] * 30);
+  quat.fromEuler(q, 0, 0, feet[1] * 50);
   mat4.fromRotationTranslation(foot1, q, a);
   mat4.multiply(foot1, leg1, foot1);
 
@@ -125,7 +129,7 @@ const updateBones = () => {
   vec3.set(a, -0.02, -0.45, 0.06);
   quat.fromEuler(q, 0, 0, feet[2] * 60);
   vec3.transformQuat(a, a, q);
-  quat.fromEuler(q, 0, 0, feet[2] * 30);
+  quat.fromEuler(q, 0, 0, feet[2] * 50);
   mat4.fromRotationTranslation(foot2, q, a);
   mat4.multiply(foot2, leg2, foot2);
 
@@ -140,16 +144,31 @@ const updateBones = () => {
   vec3.set(a, -0.02, -0.45, -0.07);
   quat.fromEuler(q, 0, 0, feet[3] * 60);
   vec3.transformQuat(a, a, q);
-  quat.fromEuler(q, 0, 0, feet[3] * 30);
+  quat.fromEuler(q, 0, 0, feet[3] * 50);
   mat4.fromRotationTranslation(foot3, q, a);
   mat4.multiply(foot3, leg3, foot3);
+
+  //
+  //
+  //
+
+  if (pose0++ > 10 && false) {
+    const v = (1 + Math.sin(pose0 * 0.03)) * 0.5;
+    vec3.set(a, 0, 0, v);
+    mat4.fromTranslation(m, a);
+    mat4.multiply(bones[SELECTED_BONE], bones[SELECTED_BONE], m);
+    bones[SELECTED_BONE];
+  }
 };
 
 updateBones();
 
 //
 // display bones
-gizmos.push(...bones);
+gizmos.push(
+  ...bones
+  // bones[SELECTED_BONE]
+);
 
 //
 //
@@ -177,14 +196,14 @@ export const computeWeights = (position: Float32Array) => {
     const p = new Float32Array(position.buffer, i * 4 * 3, 3) as vec3;
 
     const w = bonePositions.map((b, i) => {
-      const d = vec3.distance(p, b);
+      const d = vec3.distance(p, b) ** 4;
 
       return 1 / d + (i === 0 ? 0.1 : 0);
     });
 
     const is = pickMaxIndices(w, 4);
 
-    const sum = is.reduce((s, i) => s + w[i]);
+    const sum = is.reduce((s, i) => s + w[i], 0);
 
     weights.push(...is.map((i) => w[i] / sum));
     boneIndexes.push(...is);

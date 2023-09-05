@@ -76,6 +76,8 @@ export const draw = () => {
 
   gl.uniformMatrix4fv(u_matrix, false, worldMatrix);
 
+  gl.disable(gl.DEPTH_TEST);
+
   gl.disable(gl.CULL_FACE);
 
   const positions = [];
@@ -99,6 +101,8 @@ export const draw = () => {
   gl.drawArrays(gl.TRIANGLES, 0, positions.length);
 
   gl.bindVertexArray(null);
+
+  gl.enable(gl.DEPTH_TEST);
 };
 
 /**

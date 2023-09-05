@@ -17,6 +17,8 @@ const loop = () => {
 
   feet[0] = Math.sin(t * 2);
   feet[1] = Math.sin(t * 2 + Math.PI);
+  feet[2] = Math.sin(t * 2 + Math.PI);
+  feet[3] = Math.sin(t * 2);
 
   // const p1 = [3, -3, Math.sin(t)] as vec3;
 
@@ -25,7 +27,7 @@ const loop = () => {
   // origin[0] = Math.sin(t) * 1;
   // origin[2] = Math.cos(t) * 1;
 
-  quat.fromEuler(head_direction, 0, Math.sin(t) * 30, 0);
+  // quat.fromEuler(head_direction, 0, Math.sin(t) * 30, 0);
   quat.fromEuler(tail_direction, 0, Math.sin(t * 4) * 20, 0);
 
   // vec3.normalize(direction, direction);
