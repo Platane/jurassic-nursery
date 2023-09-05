@@ -2,9 +2,12 @@ import geometry_url from "../../../assets/geometry.bin";
 import { hslToRgb } from "../../../utils/color";
 import { getFlatShadingNormals } from "../utils/flatShading";
 import { tesselate } from "../utils/tesselate";
-import { SELECTED_BONE, computeWeights } from "./skeleton";
+import { computeWeights } from "./computeWeights";
+import { bindPose } from "./skeleton";
 
-export const createGeometry = async () => {
+export const SELECTED_BONE = 2;
+
+const createGeometry = async () => {
   const buffer = await fetch(geometry_url).then((res) => res.arrayBuffer());
 
   let positions = new Float32Array(
@@ -24,7 +27,7 @@ export const createGeometry = async () => {
 
   const normals = getFlatShadingNormals(positions);
 
-  const { weights, boneIndexes } = computeWeights(positions);
+  const { weights, boneIndexes } = computeWeights(bindPose, positions);
 
   const c = Array.from({ length: positions.length / 3 }, (_, i) => {
     let w = 0;
@@ -48,3 +51,5 @@ export const createGeometry = async () => {
 
   return { positions, normals, colors, weights, boneIndexes };
 };
+
+export const geometryPromise = createGeometry();

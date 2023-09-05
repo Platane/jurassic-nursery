@@ -3,7 +3,7 @@ import { normalTransformMatrix4, worldMatrix } from "../../../entities/camera";
 import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
-import { createGeometry } from "../../geometries/model/model";
+import { geometryPromise } from "../../geometries/model/model";
 import {
   bonesMatrices,
   update as updateBoneMatrices,
@@ -130,23 +130,21 @@ export const draw = () => {
   gl.bindVertexArray(null);
 };
 
-createGeometry().then(
-  ({ positions, normals, colors, weights, boneIndexes }) => {
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+geometryPromise.then(({ positions, normals, colors, weights, boneIndexes }) => {
+  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, weightsBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, weights, gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, weightsBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, weights, gl.STATIC_DRAW);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, boneIndexesBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, boneIndexes, gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, boneIndexesBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, boneIndexes, gl.STATIC_DRAW);
 
-    nVertices = positions.length / 3;
-  }
-);
+  nVertices = positions.length / 3;
+});
