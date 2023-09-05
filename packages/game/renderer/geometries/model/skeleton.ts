@@ -29,14 +29,32 @@ const bones = [
   mat4.create(),
   mat4.create(),
   mat4.create(),
+  mat4.create(),
+  mat4.create(),
+  mat4.create(),
+  mat4.create(),
 ];
 
 const a = vec3.create();
 const q = quat.create();
 const m = mat4.create();
 const updateBones = () => {
-  const [main, tail1, tail2, tail3, head1, head2, leg0, foot0, leg1, foot1] =
-    bones;
+  const [
+    main,
+    tail1,
+    tail2,
+    tail3,
+    head1,
+    head2,
+    leg0,
+    foot0,
+    leg1,
+    foot1,
+    leg2,
+    foot2,
+    leg3,
+    foot3,
+  ] = bones;
 
   // main
   vec3.set(a, 0, 0.6, 0);
@@ -68,7 +86,7 @@ const updateBones = () => {
 
   // feet
 
-  // 1
+  // 0
   vec3.set(a, -0.12, -0.12, 0.2);
   quat.fromEuler(q, 0, feet[0] * 13, 0);
   vec3.transformQuat(a, a, q);
@@ -82,7 +100,7 @@ const updateBones = () => {
   mat4.fromRotationTranslation(foot0, q, a);
   mat4.multiply(foot0, leg0, foot0);
 
-  // 2
+  // 1
   vec3.set(a, -0.12, -0.12, -0.2);
   quat.fromEuler(q, 0, feet[1] * 13, 0);
   vec3.transformQuat(a, a, q);
@@ -95,6 +113,36 @@ const updateBones = () => {
   quat.fromEuler(q, 0, 0, feet[1] * 30);
   mat4.fromRotationTranslation(foot1, q, a);
   mat4.multiply(foot1, leg1, foot1);
+
+  // 2
+  vec3.set(a, 0, -0.12, 0.2);
+  quat.fromEuler(q, 0, feet[2] * 13, 0);
+  a[0] += 0.06;
+  vec3.transformQuat(a, a, q);
+  mat4.fromRotationTranslation(leg2, q, a);
+  mat4.multiply(leg2, tail1, leg2);
+
+  vec3.set(a, -0.02, -0.45, 0.06);
+  quat.fromEuler(q, 0, 0, feet[2] * 60);
+  vec3.transformQuat(a, a, q);
+  quat.fromEuler(q, 0, 0, feet[2] * 30);
+  mat4.fromRotationTranslation(foot2, q, a);
+  mat4.multiply(foot2, leg2, foot2);
+
+  // 3
+  vec3.set(a, 0, -0.12, -0.2);
+  quat.fromEuler(q, 0, feet[3] * 13, 0);
+  a[0] += 0.06;
+  vec3.transformQuat(a, a, q);
+  mat4.fromRotationTranslation(leg3, q, a);
+  mat4.multiply(leg3, tail1, leg3);
+
+  vec3.set(a, -0.02, -0.45, -0.07);
+  quat.fromEuler(q, 0, 0, feet[3] * 60);
+  vec3.transformQuat(a, a, q);
+  quat.fromEuler(q, 0, 0, feet[3] * 30);
+  mat4.fromRotationTranslation(foot3, q, a);
+  mat4.multiply(foot3, leg3, foot3);
 };
 
 updateBones();
