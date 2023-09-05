@@ -5,6 +5,8 @@ import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
 import { geometryPromise } from "../../geometries/model/model";
 import {
+  N_BONES,
+  N_ENTITY,
   bonesMatrices,
   update as updateBoneMatrices,
 } from "../../geometries/model/skeleton";
@@ -110,8 +112,8 @@ export const draw = () => {
     gl.TEXTURE_2D,
     0, // level
     gl.RGBA32F, // internal format
-    4, // width 4 pixels, each pixel has RGBA so 4 pixels is 16 values
-    bonesMatrices.length / 16, // one row per bone
+    4 * N_BONES, // 4 pixels, each pixel has RGBA so 4 pixels is 16 values ( = one matrix ). one row contains all bones
+    N_ENTITY, // one row per entity
     0, // border
     gl.RGBA, // format
     gl.FLOAT, // type
