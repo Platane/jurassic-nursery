@@ -28,7 +28,7 @@ const loop = () => {
   // origin[2] = Math.cos(t) * 1;
 
   // quat.fromEuler(head_direction, 0, Math.sin(t) * 30, 0);
-  quat.fromEuler(tail_direction, 0, Math.sin(t * 4) * 20, 0);
+  // quat.fromEuler(tail_direction, 0, Math.sin(t * 4) * 20, 0);
 
   // vec3.normalize(direction, direction);
 

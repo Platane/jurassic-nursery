@@ -11,7 +11,7 @@ export const head_direction = quat.create();
 
 export const feet = [0, 0, 0, 0];
 
-export const SELECTED_BONE = 6;
+export const SELECTED_BONE = 10;
 
 const bones = [
   // main
@@ -91,60 +91,62 @@ const updateBones = () => {
   // feet
 
   // 0
-  vec3.set(a, -0.12, -0.12, 0.2);
-  quat.fromEuler(q, 0, feet[0] * 13, 0);
+  vec3.set(a, -0.12, -0.18, 0.2);
+  quat.fromEuler(q, 0, feet[0] * 13, feet[0] * 20);
   vec3.transformQuat(a, a, q);
   mat4.fromRotationTranslation(leg0, q, a);
   mat4.multiply(leg0, head1, leg0);
 
-  vec3.set(a, 0.05, -0.42, 0.02);
-  quat.fromEuler(q, 0, 0, feet[0] * 60);
+  vec3.set(a, 0.05, -0.34, 0.02);
+  quat.fromEuler(q, 0, 0, feet[0] * 45);
   vec3.transformQuat(a, a, q);
-  quat.fromEuler(q, 0, 0, feet[0] * 50);
+  quat.fromEuler(q, 0, 0, feet[0] * 40);
   mat4.fromRotationTranslation(foot0, q, a);
   mat4.multiply(foot0, leg0, foot0);
 
   // 1
-  vec3.set(a, -0.12, -0.12, -0.2);
-  quat.fromEuler(q, 0, feet[1] * 13, 0);
+  vec3.set(a, -0.12, -0.18, -0.2);
+  quat.fromEuler(q, 0, feet[1] * 13, feet[1] * 20);
   vec3.transformQuat(a, a, q);
   mat4.fromRotationTranslation(leg1, q, a);
   mat4.multiply(leg1, head1, leg1);
 
-  vec3.set(a, 0.05, -0.42, -0.02);
-  quat.fromEuler(q, 0, 0, feet[1] * 60);
+  vec3.set(a, 0.05, -0.34, -0.02);
+  quat.fromEuler(q, 0, 0, feet[1] * 45);
   vec3.transformQuat(a, a, q);
-  quat.fromEuler(q, 0, 0, feet[1] * 50);
+  quat.fromEuler(q, 0, 0, feet[1] * 40);
   mat4.fromRotationTranslation(foot1, q, a);
   mat4.multiply(foot1, leg1, foot1);
 
   // 2
-  vec3.set(a, 0, -0.12, 0.2);
-  quat.fromEuler(q, 0, feet[2] * 13, 0);
-  a[0] += 0.06;
+  vec3.set(a, 0, 0, 0.2);
+  quat.fromEuler(q, 0, feet[2] * 13, feet[2] * 23);
   vec3.transformQuat(a, a, q);
+  a[0] += 0.06;
+  a[1] -= 0.2;
   mat4.fromRotationTranslation(leg2, q, a);
   mat4.multiply(leg2, tail1, leg2);
 
-  vec3.set(a, -0.02, -0.45, 0.06);
-  quat.fromEuler(q, 0, 0, feet[2] * 60);
+  vec3.set(a, -0.02, -0.38, 0.06);
+  quat.fromEuler(q, 0, 0, feet[2] * 40);
   vec3.transformQuat(a, a, q);
-  quat.fromEuler(q, 0, 0, feet[2] * 50);
+  quat.fromEuler(q, 0, 0, feet[2] * 35);
   mat4.fromRotationTranslation(foot2, q, a);
   mat4.multiply(foot2, leg2, foot2);
 
-  // 3
-  vec3.set(a, 0, -0.12, -0.2);
-  quat.fromEuler(q, 0, feet[3] * 13, 0);
-  a[0] += 0.06;
+  // // 3
+  vec3.set(a, 0, 0, -0.2);
+  quat.fromEuler(q, 0, feet[3] * 13, feet[3] * 23);
   vec3.transformQuat(a, a, q);
+  a[0] += 0.06;
+  a[1] -= 0.2;
   mat4.fromRotationTranslation(leg3, q, a);
   mat4.multiply(leg3, tail1, leg3);
 
-  vec3.set(a, -0.02, -0.45, -0.07);
-  quat.fromEuler(q, 0, 0, feet[3] * 60);
+  vec3.set(a, -0.02, -0.38, -0.07);
+  quat.fromEuler(q, 0, 0, feet[3] * 40);
   vec3.transformQuat(a, a, q);
-  quat.fromEuler(q, 0, 0, feet[3] * 50);
+  quat.fromEuler(q, 0, 0, feet[3] * 35);
   mat4.fromRotationTranslation(foot3, q, a);
   mat4.multiply(foot3, leg3, foot3);
 
