@@ -2,16 +2,19 @@ import "./ui/globalStyle";
 import "./controls";
 import { render } from "./renderer";
 import { mat4, quat, vec3 } from "gl-matrix";
-import { entities } from "./renderer/geometries/model/skeleton";
+import { entities, nEntity } from "./renderer/geometries/model/skeleton";
 import { geometryPromise } from "./renderer/geometries/model/model";
+import { clamp } from "./utils/math";
 
 let t = 0;
 
 const loop = () => {
   t += 1 / 60;
 
+  nEntity.n = Math.round(((Math.sin(t) + 1) / 2) * entities.length);
+
   for (let i = entities.length; i--; ) {
-    entities[i].origin[2] = i - entities.length / 2;
+    entities[i].origin[2] = i;
     entities[i].feet[0] = (i / entities.length) * 2 - 1;
   }
 

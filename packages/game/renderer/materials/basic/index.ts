@@ -6,9 +6,10 @@ import codeVert from "./shader.vert";
 import { geometryPromise } from "../../geometries/model/model";
 import {
   N_BONES,
-  N_ENTITY,
+  MAX_ENTITY,
   bonesMatrices,
   update as updateBoneMatrices,
+  nEntity,
 } from "../../geometries/model/skeleton";
 
 const program = createProgram(gl, codeVert, codeFrag);
@@ -81,7 +82,7 @@ gl.vertexAttribIPointer(a_boneIndexes, 4, gl.UNSIGNED_BYTE, 0, 0);
 //
 const entityIndexBuffer = gl.createBuffer();
 const entityIndex = new Uint8Array(
-  Array.from({ length: N_ENTITY }, (_, i) => i)
+  Array.from({ length: MAX_ENTITY }, (_, i) => i)
 );
 gl.bindBuffer(gl.ARRAY_BUFFER, entityIndexBuffer);
 gl.bufferData(gl.ARRAY_BUFFER, entityIndex, gl.STATIC_DRAW);
@@ -127,7 +128,7 @@ export const draw = () => {
     0, // level
     gl.RGBA32F, // internal format
     4 * N_BONES, // 4 pixels, each pixel has RGBA so 4 pixels is 16 values ( = one matrix ). one row contains all bones
-    N_ENTITY, // one row per entity
+    MAX_ENTITY, // one row per entity
     0, // border
     gl.RGBA, // format
     gl.FLOAT, // type
@@ -143,7 +144,7 @@ export const draw = () => {
   // if (wireframe) gl.drawArrays(gl.LINE_LOOP, 0, nVertices);
   // else gl.drawArrays(gl.TRIANGLES, 0, nVertices);
 
-  gl.drawArraysInstanced(gl.TRIANGLES, 0, nVertices, N_ENTITY);
+  gl.drawArraysInstanced(gl.TRIANGLES, 0, nVertices, nEntity.n);
 
   gl.bindVertexArray(null);
 };

@@ -1,11 +1,11 @@
 import { mat4, quat, vec3 } from "gl-matrix";
 import { gizmos } from "../../materials/gizmos";
 
-export const N_ENTITY = 6;
+export const MAX_ENTITY = 10;
 
 export const N_BONES = 1 + 3 + 2 + 2 * 4;
 
-export const bonesMatrices = new Float32Array(16 * N_BONES * N_ENTITY);
+export const bonesMatrices = new Float32Array(16 * N_BONES * MAX_ENTITY);
 
 export const bindPose: mat4[] = [];
 
@@ -159,10 +159,12 @@ const createSkeleton = (_: unknown, i: number) => {
   return { update, origin, direction, tail_direction, head_direction, feet };
 };
 
-export const entities = Array.from({ length: N_ENTITY }, createSkeleton);
+export const entities = Array.from({ length: MAX_ENTITY }, createSkeleton);
+
+export const nEntity = { n: 2 };
 
 export const update = () => {
-  for (const { update } of entities) update();
+  for (let i = nEntity.n; i--; ) entities[i].update();
 };
 
 entities[0].update();
