@@ -4,7 +4,7 @@ import { MAX_ENTITY } from "./skeleton";
 export const colorSchema = new Float32Array(16 * MAX_ENTITY);
 
 export const setEntityColorSchema = (i: number, colors: number[]) => {
-  for (let j = 0; j < colors.length; j++) {
-    colorSchema[i * 16 + j] = colors[j];
-  }
+  for (let j = 0; j < 4; j++)
+    for (let k = 0; k < 3; k++)
+      colorSchema[i * 16 + j * 4 + k] = colors[j * 3 + k];
 };

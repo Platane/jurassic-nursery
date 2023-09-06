@@ -3,7 +3,7 @@ import { gizmos } from "../../materials/gizmos";
 
 export const MAX_ENTITY = 10;
 
-export const N_BONES = 1 + 3 + 2 + 2 * 4;
+export const N_BONES = 1 + 3 + 2 + 2 * 4 + 2;
 
 export const bonesMatrices = new Float32Array(16 * N_BONES * MAX_ENTITY);
 
@@ -23,6 +23,9 @@ const createSkeleton = (_: unknown, i: number) => {
   const tail_direction = quat.create();
   const head_direction = quat.create();
 
+  const eye0_direction = quat.create();
+  const eye1_direction = quat.create();
+
   const feet = [0, 0, 0, 0];
 
   const bones = Array.from({ length: N_BONES }, mat4.create);
@@ -35,11 +38,14 @@ const createSkeleton = (_: unknown, i: number) => {
   const update = () => {
     const [
       main,
+
       tail1,
       tail2,
       tail3,
+
       head1,
       head2,
+
       leg0,
       foot0,
       leg1,
@@ -48,6 +54,9 @@ const createSkeleton = (_: unknown, i: number) => {
       foot2,
       leg3,
       foot3,
+
+      eye0,
+      eye1,
     ] = bones;
 
     // main
@@ -139,6 +148,17 @@ const createSkeleton = (_: unknown, i: number) => {
     mat4.fromRotationTranslation(foot3, q, a);
     mat4.multiply(foot3, leg3, foot3);
 
+    // eye
+    // // 0
+    vec3.set(a, 0.3, 0.14, 0.12);
+    mat4.fromRotationTranslation(eye0, eye0_direction, a);
+    mat4.multiply(eye0, head1, eye0);
+
+    // // 1
+    vec3.set(a, 0.3, 0.14, -0.12);
+    mat4.fromRotationTranslation(eye1, eye1_direction, a);
+    mat4.multiply(eye1, head1, eye1);
+
     //
     //
     //
@@ -156,7 +176,16 @@ const createSkeleton = (_: unknown, i: number) => {
       mat4.multiply(ms[i], bones[i], bindPoseInv[i]);
   };
 
-  return { update, origin, direction, tail_direction, head_direction, feet };
+  return {
+    update,
+    origin,
+    direction,
+    tail_direction,
+    head_direction,
+    eye0_direction,
+    eye1_direction,
+    feet,
+  };
 };
 
 export const entities = Array.from({ length: MAX_ENTITY }, createSkeleton);

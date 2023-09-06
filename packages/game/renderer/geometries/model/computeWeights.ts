@@ -6,7 +6,9 @@ export const computeWeights = (bones: mat4[], positions: ArrayLike<number>) => {
   const boneIndexes: number[] = [];
   const weights: number[] = [];
 
-  const bonePositions = bones.map((m) => mat4.getTranslation(vec3.create(), m));
+  const bonePositions = bones
+    .slice(0, -2)
+    .map((m) => mat4.getTranslation(vec3.create(), m));
 
   const p = [] as any as vec3;
 
@@ -27,8 +29,5 @@ export const computeWeights = (bones: mat4[], positions: ArrayLike<number>) => {
     boneIndexes.push(...is);
   }
 
-  return {
-    weights: new Float32Array(weights),
-    boneIndexes: new Uint8Array(boneIndexes),
-  };
+  return { weights, boneIndexes };
 };
