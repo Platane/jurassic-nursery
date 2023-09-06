@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@babel/preset-typescript": "7.22.11",
+    "@babel/preset-typescript": "7.22.15",
     "@linaria/rollup": "4.5.4",
     "@rollup/plugin-commonjs": "25.0.4",
     "@rollup/plugin-node-resolve": "15.2.1",
@@ -19,7 +19,7 @@
     "rollup-plugin-esbuild": "5.0.0",
     "rollup-plugin-import-assets": "1.1.1",
     "rollup-pluginutils": "2.8.2",
-    "rollup": "3.28.1",
-    "terser": "5.19.3"
+    "rollup": "3.29.0",
+    "terser": "5.19.4"
   }
 }
