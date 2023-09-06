@@ -3,11 +3,11 @@ import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import { InputOptions, OutputOptions } from "rollup";
 import { MinifyOptions } from "terser";
-import compiler from "@ampproject/rollup-plugin-closure-compiler";
 import esbuild from "rollup-plugin-esbuild";
 import linaria from "@linaria/rollup";
 import css from "rollup-plugin-css-only";
 import { glsl } from "./rollup-plugin-glsl";
+import { shaderVariables } from "./rollup-plugin-shader-variables";
 
 // @ts-ignore
 import importAssets from "rollup-plugin-import-assets";
@@ -85,20 +85,11 @@ export const createRollupInputOptions = (production: boolean) => {
         compress: production,
       }),
 
+      shaderVariables(),
+
       css({
         output: "style.css",
       }),
-
-      // ...(production
-      //   ? [
-      //       compiler({
-      //         language_in: "ECMASCRIPT_2020",
-      //         language_out: "ECMASCRIPT_2020",
-      //         compilation_level: "ADVANCED",
-      //         // assume_function_wrapper: true,
-      //       }),
-      //     ]
-      //   : []),
     ],
   } as InputOptions;
 };

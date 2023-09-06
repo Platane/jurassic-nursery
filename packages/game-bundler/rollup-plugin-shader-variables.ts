@@ -5,7 +5,9 @@ export const shaderVariables = () => {
     const variableNames = Array.from(
       new Set(
         Array.from(
-          code.matchAll(/(in|out|uniform)\s+(vec4|vec3|mat4|mat3)\s+(\w+)/g)
+          code.matchAll(
+            /(in|out|uniform)\s+(uint|uvec4|float|sampler2D|int|vec4|vec3|mat4|mat3)\s+([auv]_\w+)/g
+          )
         ).map(([_0, _1, _2, v]) => v)
       )
     );
@@ -17,7 +19,10 @@ export const shaderVariables = () => {
     const re = new RegExp(`\\W(` + variableNames.join("|") + `)\\W`, "g");
 
     return {
-      code: code.replace(re, (a, v) => a.replace(v, map.get(v)!)),
+      code: code
+        .replaceAll(re, (a, v) => a.replace(v, map.get(v)!))
+        .replaceAll(re, (a, v) => a.replace(v, map.get(v)!))
+        .replaceAll(re, (a, v) => a.replace(v, map.get(v)!)),
       map: { mappings: "" },
     };
   };

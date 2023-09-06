@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@ampproject/rollup-plugin-closure-compiler": "0.27.0",
     "@babel/preset-typescript": "7.22.11",
     "@linaria/rollup": "4.5.4",
     "@rollup/plugin-commonjs": "25.0.4",
