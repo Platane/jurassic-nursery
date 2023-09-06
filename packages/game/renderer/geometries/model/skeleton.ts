@@ -161,7 +161,7 @@ const createSkeleton = (_: unknown, i: number) => {
 
 export const entities = Array.from({ length: MAX_ENTITY }, createSkeleton);
 
-export const nEntity = { n: 2 };
+export const nEntity = { n: 0 };
 
 export const update = () => {
   for (let i = nEntity.n; i--; ) entities[i].update();

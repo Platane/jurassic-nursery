@@ -5,6 +5,9 @@ import { mat4, quat, vec3 } from "gl-matrix";
 import { entities, nEntity } from "./renderer/geometries/model/skeleton";
 import { geometryPromise } from "./renderer/geometries/model/model";
 import { clamp } from "./utils/math";
+import { updateBuffers } from "./renderer/materials/basic";
+import { setEntityColorSchema } from "./renderer/geometries/model/colorSchema";
+import { hslToRgb } from "./utils/color";
 
 let t = 0;
 
@@ -12,10 +15,11 @@ const loop = () => {
   t += 1 / 60;
 
   nEntity.n = Math.round(((Math.sin(t) + 1) / 2) * entities.length);
+  nEntity.n = entities.length;
 
   for (let i = entities.length; i--; ) {
     entities[i].origin[2] = i;
-    entities[i].feet[0] = (i / entities.length) * 2 - 1;
+    entities[i].feet[0] = Math.sin(t * 2 + Math.PI * (i / entities.length));
   }
 
   entities[0].feet[0] = Math.sin(t * 2);
@@ -39,4 +43,16 @@ const loop = () => {
   requestAnimationFrame(loop);
 };
 
-geometryPromise.then(loop);
+geometryPromise.then(() => requestAnimationFrame(loop));
+
+for (let i = entities.length; i--; ) {
+  const color1: [number, number, number] = [0, 0, 0];
+  hslToRgb(color1, i / entities.length, 0.6, 0.55);
+
+  const color2: [number, number, number] = [0, 0, 0];
+  hslToRgb(color2, (i / entities.length + 0.8) % 1, 0.8, 0.45);
+
+  setEntityColorSchema(i, [color1, color2].flat());
+}
+
+updateBuffers();

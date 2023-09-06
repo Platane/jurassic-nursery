@@ -4,7 +4,8 @@ precision highp float;
 // attributes
 in vec4 a_position;
 in vec4 a_normal;
-in vec3 a_color;
+in mat4 a_colorSchema;
+in uint a_colorPattern;
 in vec4 a_weights;
 in uvec4 a_boneIndexes;
 in uint a_entityIndex;
@@ -64,9 +65,10 @@ void main() {
   gl_Position = u_matrix * bm * a_position;
 
   v_normal = mat3(bm) * vec3(  u_normalMatrix  * a_normal);
-  v_color = a_color;
 
 
- 
+
+  v_color = a_colorSchema[ a_colorPattern ].xyz;
+
 }
 
