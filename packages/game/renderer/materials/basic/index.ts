@@ -9,10 +9,10 @@ import {
   MAX_ENTITY,
   bonesMatrices,
   update as updateBoneMatrices,
-  nEntity,
 } from "../../geometries/model/skeleton";
 import { colorSchema } from "../../geometries/model/colorSchema";
 import { instancePointerMatrix4fv } from "../../utils/instancePointerMatrix4fv";
+import { triceratops } from "../../../entities/triceratops";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
@@ -146,11 +146,8 @@ export const draw = () => {
   gl.enable(gl.CULL_FACE);
   gl.cullFace(gl.BACK);
 
-  // const wireframe = !!false;
-  // if (wireframe) gl.drawArrays(gl.LINE_LOOP, 0, nVertices);
-  // else gl.drawArrays(gl.TRIANGLES, 0, nVertices);
-
-  gl.drawArraysInstanced(gl.TRIANGLES, 0, nVertices, nEntity.n);
+  // gl.drawArraysInstanced(gl.LINE_LOOP, 0, nVertices, triceratops.length);
+  gl.drawArraysInstanced(gl.TRIANGLES, 0, nVertices, triceratops.length);
 
   gl.bindVertexArray(null);
 };
