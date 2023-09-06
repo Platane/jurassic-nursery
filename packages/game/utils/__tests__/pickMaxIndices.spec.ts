@@ -1,6 +1,8 @@
 import assert from "node:assert";
-import { test } from "bun:test";
 import { pickMaxIndices } from "../array";
+
+// @ts-ignore
+import { test } from "bun:test";
 
 test("should pick max indices", () => {
   const arr = Array.from({ length: 200 }, () => Math.random());
