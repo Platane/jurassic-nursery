@@ -3,7 +3,7 @@ import { eye, updateLookAtMatrix } from "../entities/camera";
 import { Handler } from "./controls-type";
 import { clamp } from "../utils/math";
 
-const maxZoom = 16;
+const maxZoom = 8;
 const minZoom = 0;
 
 const rotationSpeed = 4;
