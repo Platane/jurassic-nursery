@@ -1,7 +1,7 @@
 import { mat4, quat, vec3 } from "gl-matrix";
 import { gizmos } from "../../materials/gizmos";
 
-export const N_ENTITY = 1;
+export const N_ENTITY = 6;
 
 export const N_BONES = 1 + 3 + 2 + 2 * 4;
 

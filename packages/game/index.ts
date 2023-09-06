@@ -10,6 +10,11 @@ let t = 0;
 const loop = () => {
   t += 1 / 60;
 
+  for (let i = entities.length; i--; ) {
+    entities[i].origin[2] = i - entities.length / 2;
+    entities[i].feet[0] = (i / entities.length) * 2 - 1;
+  }
+
   entities[0].feet[0] = Math.sin(t * 2);
   entities[0].feet[1] = Math.sin(t * 2 + Math.PI);
   entities[0].feet[2] = Math.sin(t * 2 + Math.PI);

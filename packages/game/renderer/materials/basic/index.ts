@@ -71,10 +71,24 @@ gl.vertexAttribPointer(a_weights, 4, gl.FLOAT, false, 0, 0);
 //
 const boneIndexesBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, boneIndexesBuffer);
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(), gl.STATIC_DRAW);
+gl.bufferData(gl.ARRAY_BUFFER, new Uint8Array(), gl.STATIC_DRAW);
 const a_boneIndexes = gl.getAttribLocation(program, "a_boneIndexes");
 gl.enableVertexAttribArray(a_boneIndexes);
 gl.vertexAttribIPointer(a_boneIndexes, 4, gl.UNSIGNED_BYTE, 0, 0);
+
+//
+// entity_index
+//
+const entityIndexBuffer = gl.createBuffer();
+const entityIndex = new Uint8Array(
+  Array.from({ length: N_ENTITY }, (_, i) => i)
+);
+gl.bindBuffer(gl.ARRAY_BUFFER, entityIndexBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, entityIndex, gl.STATIC_DRAW);
+const a_entityIndex = gl.getAttribLocation(program, "a_entityIndex");
+gl.enableVertexAttribArray(a_entityIndex);
+gl.vertexAttribIPointer(a_entityIndex, 1, gl.UNSIGNED_BYTE, 0, 0);
+gl.vertexAttribDivisor(a_entityIndex, 1);
 
 //
 // bone matrices
@@ -125,9 +139,11 @@ export const draw = () => {
   gl.enable(gl.CULL_FACE);
   gl.cullFace(gl.BACK);
 
-  const wireframe = !!false;
-  if (wireframe) gl.drawArrays(gl.LINE_LOOP, 0, nVertices);
-  else gl.drawArrays(gl.TRIANGLES, 0, nVertices);
+  // const wireframe = !!false;
+  // if (wireframe) gl.drawArrays(gl.LINE_LOOP, 0, nVertices);
+  // else gl.drawArrays(gl.TRIANGLES, 0, nVertices);
+
+  gl.drawArraysInstanced(gl.TRIANGLES, 0, nVertices, N_ENTITY);
 
   gl.bindVertexArray(null);
 };

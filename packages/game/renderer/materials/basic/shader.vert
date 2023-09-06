@@ -7,6 +7,7 @@ in vec4 a_normal;
 in vec3 a_color;
 in vec4 a_weights;
 in uvec4 a_boneIndexes;
+in uint a_entityIndex;
 
 
 // uniforms
@@ -23,7 +24,7 @@ out vec3 v_color;
 
 void main() {
 
-  int n = 0;
+  int n = int(a_entityIndex);
 
   mat4 bm0 = mat4(
     texelFetch(u_boneMatrixTexture, ivec2(4 * int(a_boneIndexes[0]) + 0, n), 0),
@@ -64,6 +65,8 @@ void main() {
 
   v_normal = mat3(bm) * vec3(  u_normalMatrix  * a_normal);
   v_color = a_color;
+
+
  
 }
 
