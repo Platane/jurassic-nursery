@@ -1,25 +1,36 @@
 import { vec3 } from "gl-matrix";
+import { setFromArray } from "../../../utils/vec3";
 
 /**
  * tesselate each face into 4 faces, in a triforce fashion
  */
-export const tesselate = (positions: Float32Array) => {
+export const tesselate = (positions: ArrayLike<number>) => {
   const p: number[] = [];
 
+  const a = [] as any as vec3;
+  const b = [] as any as vec3;
+  const c = [] as any as vec3;
+  const m_ab = [] as any as vec3;
+  const m_bc = [] as any as vec3;
+  const m_ca = [] as any as vec3;
+
   for (let i = 0; i < positions.length; i += 3 * 3) {
-    const a = positions.slice(i, i + 3);
-    const b = positions.slice(i + 3, i + 6);
-    const c = positions.slice(i + 6, i + 9);
+    setFromArray(a, positions, i / 3 + 0);
+    setFromArray(b, positions, i / 3 + 1);
+    setFromArray(c, positions, i / 3 + 2);
 
-    const m_ab = vec3.lerp([] as any, a, b, 0.5);
-    const m_bc = vec3.lerp([] as any, b, c, 0.5);
-    const m_ca = vec3.lerp([] as any, c, a, 0.5);
+    vec3.lerp(m_ab, a, b, 0.5);
+    vec3.lerp(m_bc, b, c, 0.5);
+    vec3.lerp(m_ca, c, a, 0.5);
 
-    p.push(...a, ...m_ab, ...m_ca);
-    p.push(...m_ab, ...b, ...m_bc);
-    p.push(...m_bc, ...c, ...m_ca);
-    p.push(...m_ca, ...m_ab, ...m_bc);
+    // prettier-ignore
+    p.push(
+      ...a, ...m_ab, ...m_ca,
+      ...m_ab, ...b, ...m_bc,
+      ...m_bc, ...c, ...m_ca,
+      ...m_ca, ...m_ab, ...m_bc
+    )
   }
 
-  return new Float32Array(p);
+  return p;
 };
