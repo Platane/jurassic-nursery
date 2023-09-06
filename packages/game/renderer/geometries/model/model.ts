@@ -51,8 +51,8 @@ const createGeometry = async () => {
 
   for (let i = eyesPositions.length / 3; i--; ) {
     setFromArray(p, eyesPositions, i);
-    vec3.scale(p, p, 0.07);
-    p[0] += 0.72;
+    vec3.scale(p, p, 0.075);
+    p[0] += 0.705;
     p[1] += 0.7;
     p[2] += 0.13;
     setIntoArray(eyesPositions, i, p);
