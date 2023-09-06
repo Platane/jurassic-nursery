@@ -19,12 +19,27 @@ const loop = () => {
 
   const e = triceratops[0];
 
-  e.feet[0] = Math.sin(t * 2);
-  e.feet[1] = Math.sin(t * 2 + Math.PI);
-  e.feet[2] = Math.sin(t * 2 + Math.PI);
-  e.feet[3] = Math.sin(t * 2);
+  for (const { eye0_direction, eye1_direction } of triceratops) {
+    quat.fromEuler(
+      eye0_direction,
+      0,
+      Math.sin(t * 2) * 30,
+      Math.sin(t * 2.6 + 1) * 20
+    );
+    quat.fromEuler(
+      eye1_direction,
+      0,
+      Math.sin(-t * 3) * 36,
+      Math.sin(t * 2.3 + 1) * 28
+    );
+  }
 
-  quat.fromEuler(e.head_direction, 0, Math.sin(t) * 30, 0);
+  // e.feet[0] = Math.sin(t * 2);
+  // e.feet[1] = Math.sin(t * 2 + Math.PI);
+  // e.feet[2] = Math.sin(t * 2 + Math.PI);
+  // e.feet[3] = Math.sin(t * 2);
+
+  // quat.fromEuler(e.head_direction, 0, Math.sin(t) * 30, 0);
 
   render();
   requestAnimationFrame(loop);
@@ -46,4 +61,13 @@ for (let i = MAX_ENTITY; i--; ) {
 }
 updateBuffers();
 
-triceratops.push({ ...createSkeleton(), target: [0, 0] });
+for (let k = 50; k--; ) {
+  const t = { ...createSkeleton(), target: [0, 0] as [number, number] };
+
+  t.origin[0] = (Math.random() - 0.5) * 16;
+  t.origin[2] = (Math.random() - 0.5) * 16;
+
+  // quat.fromEuler(t.direction, 0, Math.random() * 360, 0);
+
+  triceratops.push(t);
+}

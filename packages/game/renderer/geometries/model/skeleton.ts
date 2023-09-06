@@ -1,7 +1,7 @@
 import { mat4, quat, vec3 } from "gl-matrix";
 import { triceratops } from "../../../entities/triceratops";
 
-export const MAX_ENTITY = 64;
+export const MAX_ENTITY = 128;
 
 export const N_BONES = 1 + 3 + 2 + 2 * 4 + 2;
 
