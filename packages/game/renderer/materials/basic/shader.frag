@@ -12,7 +12,9 @@ void main() {
   vec3 staticLightDirection = vec3(0.615457,0.492365 ,0.615457);
 
 
-  float staticLightPower = dot(v_normal, staticLightDirection) ;
+  vec3 normal = normalize(v_normal);
+
+  float staticLightPower = dot(normal, staticLightDirection) ;
 
 
   

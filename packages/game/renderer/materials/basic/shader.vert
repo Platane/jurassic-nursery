@@ -12,16 +12,13 @@ in uint a_entityIndex;
 
 
 // uniforms
-uniform mat4 u_matrix;
-uniform mat4 u_normalMatrix;
+uniform mat4 u_viewMatrix;
 uniform sampler2D u_boneMatrixTexture;
 
 out vec3 v_normal;
 out vec3 v_color;
 
  
-
-
 
 void main() {
 
@@ -62,13 +59,10 @@ void main() {
     bm2 * a_weights[2] +
     bm3 * a_weights[3] ;
 
-  gl_Position = u_matrix * bm * a_position;
+  gl_Position = u_viewMatrix * bm * a_position;
 
-  v_normal = mat3(bm) * vec3(  u_normalMatrix  * a_normal);
-
-
+  v_normal = mat3( bm) * vec3(a_normal);
 
   v_color = a_colorSchema[ a_colorPattern ].xyz;
-
 }
 

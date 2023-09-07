@@ -1,5 +1,5 @@
 import { gl } from "../../canvas";
-import { normalTransformMatrix4, worldMatrix } from "../../../entities/camera";
+import { worldMatrix as viewMatrix } from "../../../entities/camera";
 import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
@@ -19,8 +19,7 @@ const program = createProgram(gl, codeVert, codeFrag);
 //
 // uniforms
 //
-const u_matrix = gl.getUniformLocation(program, "u_matrix");
-const u_normalMatrix = gl.getUniformLocation(program, "u_normalMatrix");
+const u_viewMatrix = gl.getUniformLocation(program, "u_viewMatrix");
 
 //
 // attributes
@@ -121,8 +120,7 @@ let nVertices = 0;
 export const draw = () => {
   gl.useProgram(program);
 
-  gl.uniformMatrix4fv(u_matrix, false, worldMatrix);
-  gl.uniformMatrix4fv(u_normalMatrix, false, normalTransformMatrix4);
+  gl.uniformMatrix4fv(u_viewMatrix, false, viewMatrix);
 
   // update the texture with the current matrices
 
