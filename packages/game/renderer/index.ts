@@ -16,7 +16,7 @@ export const render = () => {
 
   drawBasic();
   // drawGizmo();
-  // drawGizmos();
+  drawGizmos();
 };
 
 const onResize = (window.onresize = () => {
