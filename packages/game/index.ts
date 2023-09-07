@@ -19,12 +19,10 @@ const loop = () => {
 
   const e = triceratops[0];
 
-  for (const {
-    eye0_direction,
-    eye1_direction,
-    head_direction,
-    tail_direction,
-  } of triceratops) {
+  for (const [
+    i,
+    { eye0_direction, eye1_direction, head_direction, tail_direction },
+  ] of triceratops.entries()) {
     quat.fromEuler(
       eye0_direction,
       0,
@@ -38,8 +36,8 @@ const loop = () => {
       Math.sin(t * 2.3 + 1) * 28
     );
 
-    quat.fromEuler(head_direction, 0, Math.sin(t) * 30, 0);
-    quat.fromEuler(tail_direction, 0, Math.sin(t * 1.3) * 30, 0);
+    quat.fromEuler(head_direction, 0, Math.sin(t + i) * 30, 0);
+    quat.fromEuler(tail_direction, 0, Math.sin(t * 1.3 + i) * 30, 0);
   }
 
   e.feet[0] = Math.sin(t * 4);
