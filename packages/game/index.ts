@@ -62,14 +62,12 @@ for (let i = MAX_ENTITY; i--; ) {
     [
       //
       color1,
-      1,
 
       color2,
-      1,
 
-      [0.9, 0.9, 0.8, 1],
+      [0.9, 0.9, 0.8],
       // [0.95, 0.95, 0.85, 1],
-      [0.4, 0.4, 0.5, 1],
+      [0.4, 0.4, 0.5],
     ].flat()
   );
 }
@@ -93,14 +91,3 @@ for (let k = 50; k--; ) {
 quat.fromEuler(triceratops[0].direction, 0, 145, 0);
 triceratops[0].origin[0] = 0;
 triceratops[0].origin[2] = 0;
-
-setEntityColorSchema(
-  0,
-  // prettier-ignore
-  [
-    1,0,0,1,
-    0,1,0,1,
-    0,0,1,1,
-    1,1,1,1,
-  ]
-);

@@ -156,11 +156,11 @@ export const draw = () => {
   gl.texImage2D(
     gl.TEXTURE_2D,
     0, // level
-    gl.RGBA32F, // internal format
+    gl.RGB32F, // internal format
     N_COLORS,
     MAX_ENTITY, // one row per entity
     0, // border
-    gl.RGBA, // format
+    gl.RGB, // format
     gl.FLOAT, // type
     colorSchema
   );
