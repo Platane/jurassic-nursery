@@ -6,13 +6,9 @@ import { computeWeights } from "./computeWeights";
 import { bindPose } from "./skeleton";
 import { UP, setFromArray, setIntoArray } from "../../../utils/vec3";
 import { createPyramidKernel, tesselateSphere } from "./sphere";
+import { isInsideTriangle } from "../../../utils/triangle2d";
 
 export const SELECTED_BONE = 2;
-
-const p = [] as any as vec3;
-const n = [] as any as vec3;
-const m = mat4.create();
-const q = quat.create();
 
 const createGeometry = async () => {
   const buffer = await fetch(geometry_url).then((res) => res.arrayBuffer());
@@ -34,13 +30,100 @@ const createGeometry = async () => {
 
   const normals = getFlatShadingNormals(positions);
 
-  const colorPattern = Array.from({ length: positions.length / 3 }, (_, i) => {
-    setFromArray(p, positions, i);
-    setFromArray(n, normals, i);
+  const a = [] as any as vec3;
+  const b = [] as any as vec3;
+  const c = [] as any as vec3;
+  const p = [] as any as vec3;
+  const n = [] as any as vec3;
+  const m = mat4.create();
+  const q = quat.create();
 
-    if (vec3.dot(n, UP) < -0.6 && p[1] < 0.48) return 1;
-    return 0;
-  });
+  const colorPattern: number[] = Array.from(
+    { length: positions.length / 3 },
+    () => 0
+  );
+
+  const ux_default = (Math.random() - 0.5) * 1;
+
+  const N_STRIPE = 6;
+  const N_WIDTH = 30;
+  const N_THICKNESS = 4;
+
+  for (let j = N_STRIPE; j--; ) {
+    const ox = (j / N_STRIPE - 0.5) * 2;
+    const oz = 0;
+
+    let ux = ux_default + (Math.random() - 0.5) * 0.1;
+    let uz = 1;
+
+    const l = Math.hypot(ux, uz);
+    ux /= l;
+    uz /= l;
+
+    for (let w = N_WIDTH; w--; )
+      for (let th = N_THICKNESS; th--; ) {
+        const tw = (w / N_WIDTH - 0.5) * 1.4;
+        const tt = (th / N_THICKNESS - 0.5) * 0.09;
+
+        const x = ox + ux * tw + uz * tt;
+        const z = oz + uz * tw - ux * tt;
+
+        for (let i = 0; i < positions.length / 3; i += 3) {
+          setFromArray(a, positions, i + 0);
+          setFromArray(b, positions, i + 1);
+          setFromArray(c, positions, i + 2);
+
+          setFromArray(n, normals, i);
+
+          if (
+            a[1] > 0.5 &&
+            b[1] > 0.5 &&
+            c[1] > 0.5 &&
+            isInsideTriangle(a[0], a[2], b[0], b[2], c[0], c[2], x, z) &&
+            vec3.dot(n, UP) > 0.2
+          ) {
+            colorPattern[i + 0] = 3;
+            colorPattern[i + 1] = 3;
+            colorPattern[i + 2] = 3;
+          }
+        }
+      }
+  }
+
+  for (let k = 80; k--; ) {
+    const x = (Math.random() - 0.5) * 2;
+    const z = (Math.random() - 0.5) * 0.75;
+
+    for (let i = 0; i < positions.length / 3; i += 3) {
+      setFromArray(a, positions, i + 0);
+      setFromArray(b, positions, i + 1);
+      setFromArray(c, positions, i + 2);
+
+      setFromArray(n, normals, i);
+
+      if (
+        isInsideTriangle(a[0], a[2], b[0], b[2], c[0], c[2], x, z) &&
+        vec3.dot(n, UP) > 0.2
+      ) {
+        const h = colorPattern[i + 0] === 3 ? 4 : 1;
+
+        colorPattern[i + 0] = h;
+        colorPattern[i + 1] = h;
+        colorPattern[i + 2] = h;
+      }
+    }
+  }
+
+  for (let i = 0; i < positions.length / 3; i += 3) {
+    setFromArray(n, normals, i);
+    setFromArray(a, positions, i + 0);
+
+    if (vec3.dot(n, UP) < -0.6 && a[1] < 0.48) {
+      colorPattern[i + 0] = 2;
+      colorPattern[i + 1] = 2;
+      colorPattern[i + 2] = 2;
+    }
+  }
 
   ///
   /// eyes
@@ -76,7 +159,7 @@ const createGeometry = async () => {
   const eyeColorPattern = Array.from(
     { length: eyesPositions.length / 3 },
     (_, i) =>
-      i === 6 || i === 7 || i === 8 || i == 96 || i == 97 || i == 98 ? 3 : 2
+      i === 6 || i === 7 || i === 8 || i == 96 || i == 97 || i == 98 ? 6 : 5
   );
   eyeColorPattern.push(...eyeColorPattern);
 

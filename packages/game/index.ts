@@ -51,19 +51,36 @@ const loop = () => {
 geometryPromise.then(() => requestAnimationFrame(loop));
 
 for (let i = MAX_ENTITY; i--; ) {
-  const color1: [number, number, number] = [0, 0, 0];
-  hslToRgb(color1, i / MAX_ENTITY, 0.6, 0.55);
+  const h = i / MAX_ENTITY;
 
-  const color2: [number, number, number] = [0, 0, 0];
-  hslToRgb(color2, (i / MAX_ENTITY + 0.8) % 1, 0.8, 0.45);
+  const base: [number, number, number] = [0, 0, 0];
+  hslToRgb(base, h, 0.7, 0.61);
+
+  const baseDot: [number, number, number] = [1, 1, 0];
+  hslToRgb(baseDot, (h + 0.02) % 1, 0.73, 0.45);
+
+  const stripe = base.slice() as [number, number, number];
+  const stripeDot = baseDot.slice() as [number, number, number];
+
+  if (i % 2) {
+    hslToRgb(stripe, (h + 0.4) % 1, 0.7, 0.61);
+    hslToRgb(stripeDot, (h + 0.404) % 1, 0.73, 0.45);
+  }
+
+  const belly: [number, number, number] = [0, 0, 0];
+  hslToRgb(belly, (h + 0.1) % 1, 1, 0.89);
 
   setEntityColorSchema(
     i,
     [
       //
-      color1,
+      base, // 0
+      baseDot, // 1
 
-      color2,
+      belly, // 2
+
+      stripe, // 3
+      stripeDot, // 4
 
       [0.9, 0.9, 0.8],
       // [0.95, 0.95, 0.85, 1],
