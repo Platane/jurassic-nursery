@@ -85,7 +85,7 @@ export const createRollupInputOptions = (production: boolean) => {
         compress: production,
       }),
 
-      shaderVariables(),
+      ...(production ? [shaderVariables()] : []),
 
       css({
         output: "style.css",
