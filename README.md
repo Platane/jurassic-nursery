@@ -1,4 +1,4 @@
-# jurassic-genealogy 
+# jurassic-genealogy
 
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Platane/jurassic-genealogy/main.yml?style=flat-square)](https://github.com/Platane/jurassic-genealogy/actions/workflows/main.yml) [![Size report](https://img.shields.io/endpoint?url=https://platane.github.io/jurassic-genealogy/shieldio_size.json&style=flat-square)](https://platane.github.io/jurassic-genealogy/bundle.zip)
 
@@ -16,3 +16,11 @@ npm run dev
 npm run build
 
 ```
+
+# TODO
+
+- [ ] color pattern
+- [ ] walk to a point
+- [ ] collision avoidance
+- [ ] trees
+- [ ] bones on trees
