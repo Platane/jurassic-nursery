@@ -1,6 +1,6 @@
 import { MAX_ENTITY } from "./skeleton";
 
-export const N_COLORS = 8;
+export const N_COLORS = 7;
 
 export const colorSchema = new Float32Array(3 * N_COLORS * MAX_ENTITY);
 
