@@ -14,6 +14,7 @@ in uint a_entityIndex;
 // uniforms
 uniform mat4 u_viewMatrix;
 uniform sampler2D u_boneMatrixTexture;
+uniform sampler2D u_colorSchemaTexture;
 
 out vec3 v_normal;
 out vec3 v_color;
@@ -63,6 +64,9 @@ void main() {
 
   v_normal = mat3( bm) * vec3(a_normal);
 
-  v_color = a_colorSchema[ a_colorPattern ].xyz;
+
+  vec4 color = texelFetch(u_colorSchemaTexture, ivec2(a_colorPattern, n), 0);
+
+  v_color = color.xyz;
 }
 

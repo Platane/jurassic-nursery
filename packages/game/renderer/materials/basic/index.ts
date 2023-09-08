@@ -10,9 +10,9 @@ import {
   bonesMatrices,
   update as updateBoneMatrices,
 } from "../../geometries/model/skeleton";
-import { colorSchema } from "../../geometries/model/colorSchema";
-import { instancePointerMatrix4fv } from "../../utils/instancePointerMatrix4fv";
+import { N_COLORS, colorSchema } from "../../geometries/model/colorSchema";
 import { triceratops } from "../../../entities/triceratops";
+import { getAttribLocation, getUniformLocation } from "../../utils/location";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
@@ -33,7 +33,7 @@ gl.bindVertexArray(vao);
 //
 const positionBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-const a_position = gl.getAttribLocation(program, "a_position");
+const a_position = getAttribLocation(gl, program, "a_position");
 gl.enableVertexAttribArray(a_position);
 gl.vertexAttribPointer(a_position, 3, gl.FLOAT, false, 0, 0);
 
@@ -42,7 +42,7 @@ gl.vertexAttribPointer(a_position, 3, gl.FLOAT, false, 0, 0);
 //
 const normalBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-const a_normal = gl.getAttribLocation(program, "a_normal");
+const a_normal = getAttribLocation(gl, program, "a_normal");
 gl.enableVertexAttribArray(a_normal);
 gl.vertexAttribPointer(a_normal, 3, gl.FLOAT, false, 0, 0);
 
@@ -51,7 +51,7 @@ gl.vertexAttribPointer(a_normal, 3, gl.FLOAT, false, 0, 0);
 //
 const colorPatternBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, colorPatternBuffer);
-const a_colorPattern = gl.getAttribLocation(program, "a_colorPattern");
+const a_colorPattern = getAttribLocation(gl, program, "a_colorPattern");
 gl.enableVertexAttribArray(a_colorPattern);
 gl.vertexAttribIPointer(a_colorPattern, 1, gl.UNSIGNED_BYTE, 0, 0);
 
@@ -60,16 +60,16 @@ gl.vertexAttribIPointer(a_colorPattern, 1, gl.UNSIGNED_BYTE, 0, 0);
 //
 const weightsBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, weightsBuffer);
-const a_weights = gl.getAttribLocation(program, "a_weights");
+const a_weights = getAttribLocation(gl, program, "a_weights");
 gl.enableVertexAttribArray(a_weights);
 gl.vertexAttribPointer(a_weights, 4, gl.FLOAT, false, 0, 0);
 
 //
-// weight
+// bone indexes
 //
 const boneIndexesBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, boneIndexesBuffer);
-const a_boneIndexes = gl.getAttribLocation(program, "a_boneIndexes");
+const a_boneIndexes = getAttribLocation(gl, program, "a_boneIndexes");
 gl.enableVertexAttribArray(a_boneIndexes);
 gl.vertexAttribIPointer(a_boneIndexes, 4, gl.UNSIGNED_BYTE, 0, 0);
 
@@ -82,28 +82,40 @@ const entityIndex = new Uint8Array(
 );
 gl.bindBuffer(gl.ARRAY_BUFFER, entityIndexBuffer);
 gl.bufferData(gl.ARRAY_BUFFER, entityIndex, gl.STATIC_DRAW);
-const a_entityIndex = gl.getAttribLocation(program, "a_entityIndex");
+const a_entityIndex = getAttribLocation(gl, program, "a_entityIndex");
 gl.enableVertexAttribArray(a_entityIndex);
 gl.vertexAttribIPointer(a_entityIndex, 1, gl.UNSIGNED_BYTE, 0, 0);
 gl.vertexAttribDivisor(a_entityIndex, 1);
 
 //
-// color schema
-//
-const colorSchemaBuffer = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER, colorSchemaBuffer);
-const a_colorSchema = gl.getAttribLocation(program, "a_colorSchema");
-// let's pack the color schema into a mat4
-instancePointerMatrix4fv(gl, a_colorSchema);
-
-//
 // bone matrices
 //
 const boneMatrixTexture = gl.createTexture();
+const u_boneMatrixTexture = getUniformLocation(
+  gl,
+  program,
+  "u_boneMatrixTexture"
+);
 // use texture unit 0
-gl.activeTexture(gl.TEXTURE0 + 0);
-
+gl.activeTexture(gl.TEXTURE0);
 gl.bindTexture(gl.TEXTURE_2D, boneMatrixTexture);
+// since we want to use the texture for pure data we turn
+// off filtering
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+//
+// color schema
+//
+const colorSchemaTexture = gl.createTexture();
+const u_colorSchemaTexture = getUniformLocation(
+  gl,
+  program,
+  "u_colorSchemaTexture"
+);
+// use texture unit 1
+gl.activeTexture(gl.TEXTURE0 + 1);
+gl.bindTexture(gl.TEXTURE_2D, colorSchemaTexture);
 // since we want to use the texture for pure data we turn
 // off filtering
 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
@@ -138,6 +150,21 @@ export const draw = () => {
     gl.FLOAT, // type
     bonesMatrices
   );
+  gl.uniform1i(u_boneMatrixTexture, 0);
+
+  gl.bindTexture(gl.TEXTURE_2D, colorSchemaTexture);
+  gl.texImage2D(
+    gl.TEXTURE_2D,
+    0, // level
+    gl.RGBA32F, // internal format
+    N_COLORS,
+    MAX_ENTITY, // one row per entity
+    0, // border
+    gl.RGBA, // format
+    gl.FLOAT, // type
+    colorSchema
+  );
+  gl.uniform1i(u_colorSchemaTexture, 1);
 
   gl.bindVertexArray(vao);
 
@@ -170,8 +197,3 @@ geometryPromise.then(
     nVertices = positions.length / 3;
   }
 );
-
-export const updateBuffers = () => {
-  gl.bindBuffer(gl.ARRAY_BUFFER, colorSchemaBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, colorSchema, gl.STATIC_DRAW);
-};
