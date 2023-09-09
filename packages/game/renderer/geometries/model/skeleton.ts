@@ -75,13 +75,13 @@ const updateBones = (
 
   vec3.set(a, -0.3, -0.1, 0);
   mat4.fromTranslation(tail2, a);
-  mat4.fromQuat(m, head_direction);
+  mat4.fromQuat(m, tail_direction);
   mat4.multiply(tail2, m, tail2);
   mat4.multiply(tail2, tail1, tail2);
 
   vec3.set(a, -0.34, -0.05, 0);
   mat4.fromTranslation(tail3, a);
-  mat4.fromQuat(m, head_direction);
+  mat4.fromQuat(m, tail_direction);
   mat4.multiply(tail3, m, tail3);
   mat4.multiply(tail3, tail2, tail3);
 
