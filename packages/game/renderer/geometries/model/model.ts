@@ -43,6 +43,8 @@ const createGeometry = async () => {
     () => 0
   );
 
+  //
+  // this is really no smart
   const ux_default = (Math.random() - 0.5) * 1;
 
   const N_STRIPE = 6;
