@@ -8,6 +8,8 @@ import { N_TILES, billboardCanvas } from "./textureAtlas";
 import { fruits } from "../../../entities/fruits";
 import { vec3 } from "gl-matrix";
 import { setIntoArrayValues } from "../../../utils/vec3";
+import { state } from "../../../ui/state";
+import { triceratops } from "../../../entities/triceratops";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
@@ -82,6 +84,17 @@ export const draw = () => {
   const aspect = canvas.width / canvas.height;
 
   const particles = [...fruits];
+
+  if (state.selectedTriceratops !== null) {
+    const o = triceratops[state.selectedTriceratops].origin;
+
+    particles.push({
+      p: [o[0], o[1] + 0.5 + Math.sin(state.t * 0.1) ** 2 * 0.1, o[2]],
+      s: 1,
+      i: 5,
+    });
+  }
+
   for (let j = 0; j < particles.length; j++) {
     const { p, i, s } = particles[j];
 

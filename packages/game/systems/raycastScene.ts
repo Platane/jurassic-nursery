@@ -4,7 +4,11 @@ import { triceratopsRayCollision } from "../utils/collision/triceratopsRayCollis
 import { fruits } from "../entities/fruits";
 import { sphereRayCollision } from "../utils/collision/sphereRayCollision";
 
-export const raycastToScene = (ray_origin: vec3, ray_direction: vec3) => {
+export const raycastToScene = (
+  ray_origin: vec3,
+  ray_direction: vec3,
+  fruit = true
+) => {
   let d_min = Infinity;
   let i_tri_min = -1;
 
@@ -25,7 +29,7 @@ export const raycastToScene = (ray_origin: vec3, ray_direction: vec3) => {
   for (let i = fruits.length; i--; ) {
     const d = sphereRayCollision(
       fruits[i].p,
-      fruits[i].s * 0.4,
+      fruits[i].s * 0.45,
       ray_origin,
       ray_direction
     );

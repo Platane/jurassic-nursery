@@ -48,7 +48,7 @@ export const onTouchMove: Handler = (touches) => {
 
   getRayFromScreen(o, v, getScreenX(pageX), getScreenY(pageY));
 
-  projectOnGround(state.dragged.dragged_anchor!, o, v, 2);
+  projectOnGround(state.dragged.dragged_anchor!, o, v, 1.8);
 };
 
 export const onTouchEnd: Handler = (touches) => {

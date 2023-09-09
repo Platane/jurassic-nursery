@@ -13,6 +13,7 @@ import {
 import { onTap as onTap_select } from "./controls-select";
 import "./controls-camera";
 import { state } from "../ui/state";
+import { onTouchMove as onTouchMove_hover } from "./controls-hover";
 
 const onTap = (touches: Touches, event: Event) => {
   onTap_select(touches);
@@ -24,6 +25,7 @@ const onStart = (touches: Touches, event: Event) => {
 const onMove = (touches: Touches, event: Event) => {
   onTouchMove_drag(touches);
   onTouchMove_camera(touches);
+  if (!state.dragged) onTouchMove_hover(touches);
 };
 const onEnd = (touches: Touches, event: Event) => {
   onTouchEnd_drag(touches);

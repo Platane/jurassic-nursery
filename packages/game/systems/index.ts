@@ -2,30 +2,62 @@ import { quat, vec3 } from "gl-matrix";
 import { Triceratops, triceratops } from "../entities/triceratops";
 import { createSkeleton } from "../renderer/geometries/model/skeleton";
 import { fruits } from "../entities/fruits";
-import { stepSpring, stepSpring3 } from "../utils/spring";
-
-let t = 0;
+import { stepSpring3 } from "../utils/spring";
+import { state } from "../ui/state";
 
 const v = vec3.create();
 
 export const update = () => {
-  t++;
+  state.t++;
 
   //
   // target
   //
   for (const tri of triceratops) {
-    v[0] = tri.target[0] - tri.origin[0];
-    v[1] = 0;
-    v[2] = tri.target[1] - tri.origin[2];
+    if (tri.dragged_anchor) {
+      stepSpring3(
+        tri.origin,
+        tri.dragged_v!,
+        tri.dragged_anchor,
+        springParams_tri
+      );
+    } else if (tri.dragged_v) {
+      vec3.scale(tri.dragged_v, tri.dragged_v, 0.965);
 
-    const l = vec3.length(v);
+      tri.dragged_v[1] -= 0.4;
 
-    if (l > 0.01) {
-      const h = Math.min(l, 0.04);
+      vec3.scaleAndAdd(tri.origin, tri.origin, tri.dragged_v, 1 / 60);
 
-      tri.origin[0] += (v[0] / l) * h;
-      tri.origin[2] += (v[2] / l) * h;
+      const y0 = 0.6;
+
+      if (tri.origin[1] < y0) {
+        tri.dragged_v[1] *= -1;
+        vec3.scale(tri.dragged_v, tri.dragged_v, 0.5);
+        tri.origin[1] = y0;
+      }
+
+      if (
+        Math.abs(tri.origin[1] - y0) < 0.2 &&
+        vec3.length(tri.dragged_v) < 0.4
+      ) {
+        tri.dragged_v = undefined;
+        tri.origin[1] = y0;
+        tri.target[0] = tri.origin[0];
+        tri.target[1] = tri.origin[2];
+      }
+    } else {
+      v[0] = tri.target[0] - tri.origin[0];
+      v[1] = 0;
+      v[2] = tri.target[1] - tri.origin[2];
+
+      const l = vec3.length(v);
+
+      if (l > 0.01) {
+        const h = Math.min(l, 0.04);
+
+        tri.origin[0] += (v[0] / l) * h;
+        tri.origin[2] += (v[2] / l) * h;
+      }
     }
   }
 
@@ -35,7 +67,7 @@ export const update = () => {
         fruit.p,
         fruit.dragged_v!,
         fruit.dragged_anchor,
-        springParams
+        springParams_fruit
       );
     } else if (fruit.dragged_v) {
       vec3.scale(fruit.dragged_v, fruit.dragged_v, 0.975);
@@ -63,7 +95,11 @@ export const update = () => {
   }
 };
 
-const springParams = {
+const springParams_tri = {
+  tension: 120,
+  friction: 16,
+};
+const springParams_fruit = {
   tension: 190,
   friction: 12,
 };
