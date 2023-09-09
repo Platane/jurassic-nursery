@@ -1,4 +1,4 @@
-import { vec3 } from "gl-matrix";
+import { quat, vec3 } from "gl-matrix";
 import { Triceratops, triceratops } from "../entities/triceratops";
 import { createSkeleton } from "../renderer/geometries/model/skeleton";
 import { fruits } from "../entities/fruits";
@@ -70,7 +70,7 @@ const springParams = {
 
 //
 // init
-{
+for (let k = 3; k--; ) {
   const t: Triceratops = {
     id: 0,
     ...createSkeleton(),
@@ -78,8 +78,12 @@ const springParams = {
     genotype: [{ w: 1, v: 0 }],
   };
 
-  t.origin[0] = -10;
+  t.origin[0] = Math.random() * 6;
   t.origin[2] = -2;
+
+  quat.fromEuler(t.direction, 0, Math.random() * 360, 0);
+  t.target[0] = (Math.random() - 0.5) * 12;
+  t.target[1] = (Math.random() - 0.5) * 12;
 
   triceratops.push(t);
 }

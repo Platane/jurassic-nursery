@@ -18,8 +18,6 @@ import {
   getScreenY,
 } from "./controls/utils/getRayFromScreen";
 import { sphereRayCollision } from "./utils/collision/sphereRayCollision";
-import { triceratopsRayCollision } from "./utils/collision/triceratopsRayCollision";
-import { fruits } from "./entities/fruits";
 import { raycastToScene } from "./systems/raycastScene";
 import { update as update_system } from "./systems";
 

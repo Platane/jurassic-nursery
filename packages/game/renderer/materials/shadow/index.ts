@@ -73,9 +73,6 @@ export const draw = () => {
 
     const l = s / 2;
 
-    vec3.copy(a, p);
-    a[1] = 0;
-
     //
     //  (1)
     //   +
@@ -100,10 +97,51 @@ export const draw = () => {
     setIntoArray(positions, j * 3 + 2, b);
   }
 
+  for (let j = 0; j < triceratops.length; j++) {
+    const { origin, direction } = triceratops[j];
+
+    const lx = 0.85;
+    const lz = 0.5;
+
+    const i = j + fruits.length;
+
+    //
+    //  (1)
+    //   +
+    //   |  \
+    //   |     \
+    //   +-------+
+    //   |       |  \
+    //   |       |     \
+    //   +-------+-------+
+    //  (0)             (2)
+
+    vec3.set(b, -lx + 0.12, 0, -lz);
+    vec3.transformQuat(b, b, direction);
+    b[0] += origin[0];
+    b[2] += origin[2];
+    vec3.transformMat4(b, b, viewMatrix);
+    setIntoArray(positions, i * 3 + 0, b);
+
+    vec3.set(b, -lx + 0.12, 0, lz * 3);
+    vec3.transformQuat(b, b, direction);
+    b[0] += origin[0];
+    b[2] += origin[2];
+    vec3.transformMat4(b, b, viewMatrix);
+    setIntoArray(positions, i * 3 + 1, b);
+
+    vec3.set(b, lx * 3 + 0.12, 0, -lz);
+    vec3.transformQuat(b, b, direction);
+    b[0] += origin[0];
+    b[2] += origin[2];
+    vec3.transformMat4(b, b, viewMatrix);
+    setIntoArray(positions, i * 3 + 2, b);
+  }
+
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, positions, gl.DYNAMIC_DRAW);
 
-  gl.drawArrays(gl.TRIANGLES, 0, fruits.length * 3);
+  gl.drawArrays(gl.TRIANGLES, 0, (fruits.length + triceratops.length) * 3);
 
   gl.bindVertexArray(null);
 
