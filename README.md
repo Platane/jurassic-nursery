@@ -19,8 +19,10 @@ npm run build
 
 # TODO
 
-- [ ] color pattern
+- [x] color pattern
 - [ ] walk to a point
 - [ ] collision avoidance
 - [ ] trees
 - [ ] bones on trees
+- [ ] triceratops ray collision
+- [ ] ui select triceratops
