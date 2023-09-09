@@ -12,11 +12,16 @@ import {
   createSkeleton,
 } from "./renderer/geometries/model/skeleton";
 import { canvas } from "./renderer/canvas";
-import { getRayFromScreen, getScreenX, getScreenY } from "./systems/raycast";
-import { sphereRayCollision } from "./systems/capsuleCollision";
-import { triceratopsRayCollision } from "./systems/triceratopsCollisions";
+import {
+  getRayFromScreen,
+  getScreenX,
+  getScreenY,
+} from "./controls/utils/getRayFromScreen";
+import { sphereRayCollision } from "./utils/collision/sphereRayCollision";
+import { triceratopsRayCollision } from "./utils/collision/triceratopsRayCollision";
 import { fruits } from "./entities/fruits";
-import { raycastScene } from "./systems/raycastScene";
+import { raycastToScene } from "./systems/raycastScene";
+import { update as update_system } from "./systems";
 
 let t = 0;
 
@@ -51,7 +56,8 @@ const loop = () => {
   e.feet[2] = Math.sin(t * 4 + Math.PI);
   e.feet[3] = Math.sin(t * 4);
 
-  update();
+  update_system();
+  update_raycast_debugger();
 
   render();
   requestAnimationFrame(loop);
@@ -139,7 +145,7 @@ canvas.addEventListener("mousemove", ({ pageX, pageY }) => {
   sphereRayCollision(tri.origin, 1.5, o, v);
 });
 
-const update = () => {
+const update_raycast_debugger = () => {
   return;
 
   ctx.clearRect(0, 0, 99999, 99999);
@@ -149,7 +155,7 @@ const update = () => {
   for (let x = 0; x < c.width; x += h)
     for (let y = 0; y < c.height; y += h) {
       getRayFromScreen(o, v, getScreenX(x), getScreenY(y));
-      const s = raycastScene(o, v);
+      const s = raycastToScene(o, v);
 
       if (!s) continue;
 

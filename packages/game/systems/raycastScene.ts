@@ -1,10 +1,10 @@
 import { vec3, mat4 } from "gl-matrix";
 import { triceratops } from "../entities/triceratops";
-import { triceratopsRayCollision } from "./triceratopsCollisions";
+import { triceratopsRayCollision } from "../utils/collision/triceratopsRayCollision";
 import { fruits } from "../entities/fruits";
-import { sphereRayCollision } from "./capsuleCollision";
+import { sphereRayCollision } from "../utils/collision/sphereRayCollision";
 
-export const raycastScene = (ray_origin: vec3, ray_direction: vec3) => {
+export const raycastToScene = (ray_origin: vec3, ray_direction: vec3) => {
   let d_min = Infinity;
   let i_tri_min = -1;
 

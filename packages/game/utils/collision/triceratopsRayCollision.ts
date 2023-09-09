@@ -1,6 +1,6 @@
 import { vec3 } from "gl-matrix";
-import { Skeleton } from "../renderer/geometries/model/skeleton";
-import { sphereRayCollision } from "./capsuleCollision";
+import { Skeleton } from "../../renderer/geometries/model/skeleton";
+import { sphereRayCollision } from "./sphereRayCollision";
 
 const a = vec3.create();
 

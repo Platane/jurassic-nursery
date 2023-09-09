@@ -1,9 +1,13 @@
 import { vec3 } from "gl-matrix";
-import { getRayFromScreen, getScreenX, getScreenY } from "../systems/raycast";
+import {
+  getRayFromScreen,
+  getScreenX,
+  getScreenY,
+} from "./utils/getRayFromScreen";
 import { Handler } from "./controls-type";
 import { triceratops } from "../entities/triceratops";
 import { particles } from "../entities/fruits";
-import { raycastScene } from "../systems/raycastScene";
+import { raycastToScene } from "../systems/raycastScene";
 
 const cursor = vec3.create();
 
@@ -15,5 +19,5 @@ export const onTap: Handler = (touches) => {
 
   getRayFromScreen(o, v, getScreenX(pageX), getScreenY(pageY));
 
-  console.log(raycastScene(o, v));
+  console.log(raycastToScene(o, v));
 };
