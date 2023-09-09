@@ -36,6 +36,6 @@ export const raycastToScene = (ray_origin: vec3, ray_direction: vec3) => {
     }
   }
 
-  if (i_fruit_min >= 0) return { type: "fruit", i: i_fruit_min };
-  if (i_tri_min >= 0) return { type: "tri", i: i_tri_min };
+  if (i_fruit_min >= 0) return { type: "fruit" as const, i: i_fruit_min };
+  if (i_tri_min >= 0) return { type: "tri" as const, i: i_tri_min };
 };

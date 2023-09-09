@@ -5,18 +5,28 @@ import {
   onTouchMove as onTouchMove_camera,
   onTouchEnd as onTouchEnd_camera,
 } from "./controls-camera";
+import {
+  onTouchStart as onTouchStart_drag,
+  onTouchMove as onTouchMove_drag,
+  onTouchEnd as onTouchEnd_drag,
+} from "./controls-drag";
 import { onTap as onTap_select } from "./controls-select";
+import "./controls-camera";
+import { state } from "../ui/state";
 
 const onTap = (touches: Touches, event: Event) => {
   onTap_select(touches);
 };
 const onStart = (touches: Touches, event: Event) => {
-  onTouchStart_camera(touches);
+  onTouchStart_drag(touches);
+  if (!state.dragged) onTouchStart_camera(touches);
 };
 const onMove = (touches: Touches, event: Event) => {
+  onTouchMove_drag(touches);
   onTouchMove_camera(touches);
 };
 const onEnd = (touches: Touches, event: Event) => {
+  onTouchEnd_drag(touches);
   onTouchEnd_camera(touches);
 };
 

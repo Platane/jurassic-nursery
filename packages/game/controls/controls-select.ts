@@ -5,8 +5,6 @@ import {
   getScreenY,
 } from "./utils/getRayFromScreen";
 import { Handler } from "./controls-type";
-import { triceratops } from "../entities/triceratops";
-import { particles } from "../entities/fruits";
 import { raycastToScene } from "../systems/raycastScene";
 
 const cursor = vec3.create();

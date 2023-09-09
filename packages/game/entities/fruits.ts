@@ -1,7 +1,8 @@
 import { vec3 } from "gl-matrix";
 import { N_TILES } from "../renderer/materials/billboard/textureAtlas";
+import { Draggable } from "./triceratops";
 
-export type Particles = { p: vec3; s: number; i: number };
+export type Particles = { p: vec3; s: number; i: number } & Draggable;
 
 const s = 0.6;
 export const fruits: Particles[] = [];

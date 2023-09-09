@@ -23,39 +23,7 @@ import { fruits } from "./entities/fruits";
 import { raycastToScene } from "./systems/raycastScene";
 import { update as update_system } from "./systems";
 
-let t = 0;
-
 const loop = () => {
-  t += 1 / 60;
-
-  const e = triceratops[0];
-
-  for (const [
-    i,
-    { eye0_direction, eye1_direction, head_direction, tail_direction },
-  ] of triceratops.entries()) {
-    quat.fromEuler(
-      eye0_direction,
-      0,
-      Math.sin(t * 2) * 30,
-      Math.sin(t * 2.6 + 1) * 20
-    );
-    quat.fromEuler(
-      eye1_direction,
-      0,
-      Math.sin(-t * 3) * 36,
-      Math.sin(t * 2.3 + 1) * 28
-    );
-
-    quat.fromEuler(head_direction, 0, Math.sin(t * 3 + i) * 20, 0);
-    quat.fromEuler(tail_direction, 0, Math.sin(t * 3.3 + i) * 20, 0);
-  }
-
-  e.feet[0] = Math.sin(t * 4);
-  e.feet[1] = Math.sin(t * 4 + Math.PI);
-  e.feet[2] = Math.sin(t * 4 + Math.PI);
-  e.feet[3] = Math.sin(t * 4);
-
   update_system();
   update_raycast_debugger();
 
@@ -103,25 +71,12 @@ for (let i = MAX_ENTITY; i--; ) {
   );
 }
 
-for (let k = 50; k--; ) {
-  const t = { ...createSkeleton(), target: [0, 0] as [number, number] };
-
-  let d = 0;
-  while (d < 3 || d > 10) {
-    t.origin[0] = (Math.random() - 0.5) * 20;
-    t.origin[2] = (Math.random() - 0.5) * 20;
-
-    d = Math.hypot(t.origin[0], t.origin[2]);
-  }
-
-  quat.fromEuler(t.direction, 0, Math.random() * 360, 0);
-
-  triceratops.push(t);
-}
-
-quat.fromEuler(triceratops[0].direction, 0, 145, 0);
-triceratops[0].origin[0] = 0;
-triceratops[0].origin[2] = 0;
+//
+//
+//
+//
+//
+//
 
 const c = document.createElement("canvas");
 c.width = canvas.width;
