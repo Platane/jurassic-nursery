@@ -5,8 +5,8 @@ import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
 import { getAttribLocation, getUniformLocation } from "../../utils/location";
 import { N_TILES, billboardCanvas } from "./textureAtlas";
-import { MAX_PARTICLES, particles } from "../../../entities/particles";
-import { mat4, vec3 } from "gl-matrix";
+import { fruits, particles } from "../../../entities/fruits";
+import { vec3 } from "gl-matrix";
 import { setIntoArrayValues } from "../../../utils/vec3";
 
 const program = createProgram(gl, codeVert, codeFrag);
@@ -61,8 +61,10 @@ gl.generateMipmap(gl.TEXTURE_2D);
 //
 gl.bindVertexArray(null);
 
-let positions = new Float32Array(MAX_PARTICLES * 3);
-let uvs = new Float32Array(MAX_PARTICLES * 2);
+export const MAX_PARTICLES = 512;
+
+const positions = new Float32Array(MAX_PARTICLES * 2 * 3 * 3);
+const uvs = new Float32Array(MAX_PARTICLES * 2 * 3 * 2);
 
 const a = vec3.create();
 
@@ -78,6 +80,7 @@ export const draw = () => {
 
   const aspect = canvas.width / canvas.height;
 
+  const particles = [...fruits];
   for (let j = 0; j < particles.length; j++) {
     const { p, i, s } = particles[j];
 

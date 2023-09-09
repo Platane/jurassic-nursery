@@ -18,7 +18,7 @@ export const render = () => {
   drawBasic();
   drawBillboards();
   // drawGizmo();
-  // drawGizmos();
+  drawGizmos();
 };
 
 const onResize = (window.onresize = () => {

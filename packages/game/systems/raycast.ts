@@ -25,19 +25,15 @@ export const getRayFromScreen = (
   vec3.copy(outOrigin, eye);
 };
 
-const o = vec3.create();
-const v = vec3.create();
 /**
  * project the pointer on ground
  */
 export const projectOnGround = (
   out: vec3,
-  x: number,
-  y: number,
+  ray_origin: vec3,
+  ray_direction: vec3,
   y0: number = 0
 ) => {
-  getRayFromScreen(o, v, x, y);
-
-  const t = (y0 - o[1]) / v[1];
-  vec3.scaleAndAdd(out, o, v, t);
+  const t = (y0 - ray_origin[1]) / ray_direction[1];
+  vec3.scaleAndAdd(out, ray_origin, ray_direction, t);
 };

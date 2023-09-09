@@ -8,8 +8,15 @@ import { hslToRgb } from "./utils/color";
 import { triceratops } from "./entities/triceratops";
 import {
   MAX_ENTITY,
+  Skeleton,
   createSkeleton,
 } from "./renderer/geometries/model/skeleton";
+import { canvas } from "./renderer/canvas";
+import { getRayFromScreen, getScreenX, getScreenY } from "./systems/raycast";
+import { sphereRayCollision } from "./systems/capsuleCollision";
+import { triceratopsRayCollision } from "./systems/triceratopsCollisions";
+import { fruits } from "./entities/fruits";
+import { raycastScene } from "./systems/raycastScene";
 
 let t = 0;
 
@@ -35,14 +42,16 @@ const loop = () => {
       Math.sin(t * 2.3 + 1) * 28
     );
 
-    quat.fromEuler(head_direction, 0, Math.sin(t + i) * 30, 0);
-    quat.fromEuler(tail_direction, 0, Math.sin(t * 1.3 + i) * 30, 0);
+    quat.fromEuler(head_direction, 0, Math.sin(t * 3 + i) * 20, 0);
+    quat.fromEuler(tail_direction, 0, Math.sin(t * 3.3 + i) * 20, 0);
   }
 
   e.feet[0] = Math.sin(t * 4);
   e.feet[1] = Math.sin(t * 4 + Math.PI);
   e.feet[2] = Math.sin(t * 4 + Math.PI);
   e.feet[3] = Math.sin(t * 4);
+
+  update();
 
   render();
   requestAnimationFrame(loop);
@@ -107,3 +116,46 @@ for (let k = 50; k--; ) {
 quat.fromEuler(triceratops[0].direction, 0, 145, 0);
 triceratops[0].origin[0] = 0;
 triceratops[0].origin[2] = 0;
+
+const c = document.createElement("canvas");
+c.width = canvas.width;
+c.height = canvas.height;
+c.style.position = "absolute";
+c.style.top = "0";
+c.style.left = "0";
+c.style.zIndex = "10";
+c.style.pointerEvents = "none";
+document.body.appendChild(c);
+
+const ctx = c.getContext("2d")!;
+
+const o = [] as any as vec3;
+const v = [] as any as vec3;
+
+canvas.addEventListener("mousemove", ({ pageX, pageY }) => {
+  getRayFromScreen(o, v, getScreenX(pageX), getScreenY(pageY));
+
+  const tri = triceratops[0];
+  sphereRayCollision(tri.origin, 1.5, o, v);
+});
+
+const update = () => {
+  return;
+
+  ctx.clearRect(0, 0, 99999, 99999);
+
+  const h = 3;
+
+  for (let x = 0; x < c.width; x += h)
+    for (let y = 0; y < c.height; y += h) {
+      getRayFromScreen(o, v, getScreenX(x), getScreenY(y));
+      const s = raycastScene(o, v);
+
+      if (!s) continue;
+
+      ctx.beginPath();
+      ctx.fillStyle = `hsla( ${s.i * 13 * 30},80%,60%,0.93 )`;
+      const l = h;
+      ctx.fillRect(x - l / 2, y - l / 2, l, l);
+    }
+};

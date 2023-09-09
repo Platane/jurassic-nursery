@@ -5,15 +5,15 @@ const emojis = [
   "🥭",
   "🍍",
   "🥝",
-  "💜",
-  "⭐️",
-  "🌟",
-  "🌺",
-  "😀",
-  "🥰",
-  "❗️",
-  "❓",
-  "❌",
+  // "💜",
+  // "⭐️",
+  // "🌟",
+  // "🌺",
+  // "😀",
+  // "🥰",
+  // "❗️",
+  // "❓",
+  // "❌",
 ];
 export const N_TILES = emojis.length;
 
@@ -34,16 +34,18 @@ const ctx = billboardCanvas.getContext("2d")!;
 
 ctx.textAlign = "center";
 ctx.textBaseline = "middle";
-ctx.font = `${L * 0.5}px mono`;
+ctx.font = `${L * 0.58}px mono`;
 
 const N = 5;
 let contourFilter = "";
 
 for (let k = N; k--; ) {
   const a = (k / N) * Math.PI * 2;
-  contourFilter += `drop-shadow( ${Math.cos(a) * 8}px ${
-    Math.sin(a) * 8
-  }px 3px #fff)`;
+  const h = 2;
+  const b = 1;
+  contourFilter += `drop-shadow( ${Math.cos(a) * h}px ${
+    Math.sin(a) * h
+  }px ${b}px #fff)`;
 }
 for (let i = emojis.length; i--; ) {
   ctx.filter = contourFilter;

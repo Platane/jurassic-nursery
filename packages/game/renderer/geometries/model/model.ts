@@ -48,8 +48,8 @@ const createGeometry = async () => {
   const ux_default = (Math.random() - 0.5) * 1;
 
   const N_STRIPE = 6;
-  const N_WIDTH = 30;
-  const N_THICKNESS = 4;
+  const N_WIDTH = 25;
+  const N_THICKNESS = 3;
 
   for (let j = N_STRIPE; j--; ) {
     const ox = (j / N_STRIPE - 0.5) * 2;
