@@ -14,7 +14,7 @@ void main() {
 
   vec2 a = vec2( 0.5 - v_texcoord.x, 0.5 - v_texcoord.y );
 
-  float l = length(a) / 0.7071067811865476 * 1.3;
+  float l = length(a) * 1.84;
 
   float o = (1.0-l*l*l) ;
 
