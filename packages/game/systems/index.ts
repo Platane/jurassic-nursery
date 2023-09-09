@@ -31,31 +31,41 @@ export const update = () => {
 
   for (const fruit of fruits) {
     if (fruit.dragged_anchor) {
-      stepSpring3(fruit.p, fruit.dragged_v!, fruit.dragged_anchor, {
-        tension: 190,
-        friction: 12,
-      });
+      stepSpring3(
+        fruit.p,
+        fruit.dragged_v!,
+        fruit.dragged_anchor,
+        springParams
+      );
     } else if (fruit.dragged_v) {
       vec3.scale(fruit.dragged_v, fruit.dragged_v, 0.975);
 
-      fruit.dragged_v[1] -= 0.2;
+      fruit.dragged_v[1] -= 0.4;
 
       vec3.scaleAndAdd(fruit.p, fruit.p, fruit.dragged_v, 1 / 60);
 
-      if (fruit.p[1] < fruit.s / 2) {
+      const y0 = fruit.s * 0.32;
+
+      if (fruit.p[1] < y0) {
         fruit.dragged_v[1] *= -1;
         vec3.scale(fruit.dragged_v, fruit.dragged_v, 0.5);
-        fruit.p[1] = fruit.s / 2;
+        fruit.p[1] = y0;
       }
 
       if (
-        Math.abs(fruit.p[1] - fruit.s / 2) < 0.2 &&
+        Math.abs(fruit.p[1] - y0) < 0.2 &&
         vec3.length(fruit.dragged_v) < 0.4
       ) {
         fruit.dragged_v = undefined;
+        fruit.p[1] = y0;
       }
     }
   }
+};
+
+const springParams = {
+  tension: 190,
+  friction: 12,
 };
 
 //

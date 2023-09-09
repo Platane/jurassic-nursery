@@ -5,7 +5,7 @@ import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
 import { getAttribLocation, getUniformLocation } from "../../utils/location";
 import { N_TILES, billboardCanvas } from "./textureAtlas";
-import { fruits, particles } from "../../../entities/fruits";
+import { fruits } from "../../../entities/fruits";
 import { vec3 } from "gl-matrix";
 import { setIntoArrayValues } from "../../../utils/vec3";
 
@@ -73,7 +73,8 @@ export const draw = () => {
 
   gl.bindVertexArray(vao);
 
-  gl.disable(gl.CULL_FACE);
+  gl.enable(gl.CULL_FACE);
+  gl.cullFace(gl.BACK);
 
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.uniform1i(u_texture, 2);
