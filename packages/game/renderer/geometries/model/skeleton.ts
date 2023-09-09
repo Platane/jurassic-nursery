@@ -225,7 +225,7 @@ updateBones(bindPose, createSkeleton());
 const bindPoseInv = bindPose.map((m) => mat4.invert(mat4.create(), m));
 
 export const update = () => {
-  updateGizmo();
+  // updateGizmo();
 
   for (let i = triceratops.length; i--; ) {
     updateBones(ms[i], triceratops[i]);
@@ -235,9 +235,9 @@ export const update = () => {
   }
 };
 
-const forGizmo = Array.from({ length: N_BONES }, mat4.create);
-gizmos.push(...forGizmo);
-const updateGizmo = () => {
-  //just for gizmo
-  if (triceratops[0]) updateBones(forGizmo, triceratops[0]);
-};
+// const forGizmo = Array.from({ length: N_BONES }, mat4.create);
+// gizmos.push(...forGizmo);
+// const updateGizmo = () => {
+//   //just for gizmo
+//   if (triceratops[0]) updateBones(forGizmo, triceratops[0]);
+// };
