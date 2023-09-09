@@ -1,4 +1,4 @@
-import { gl } from "../../canvas";
+import { canvas, gl } from "../../canvas";
 import { eye, worldMatrix as viewMatrix } from "../../../entities/camera";
 import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
@@ -76,12 +76,15 @@ export const draw = () => {
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.uniform1i(u_texture, 2);
 
+  const aspect = canvas.width / canvas.height;
+
   for (let j = 0; j < particles.length; j++) {
     const { p, i, s } = particles[j];
 
     vec3.transformMat4(a, p, viewMatrix);
 
-    const l = s / vec3.distance(eye, p);
+    const ly = s / vec3.distance(eye, p);
+    const lx = ly / aspect;
 
     //  (5)        (4)
     //   +----------+        (2)
@@ -93,9 +96,9 @@ export const draw = () => {
     //  (3)       +-----------+
     //           (0)         (1)
 
-    setIntoArrayValues(positions, j * 2 * 3 + 0, a[0] - l, a[1] - l, a[2]);
-    setIntoArrayValues(positions, j * 2 * 3 + 1, a[0] + l, a[1] - l, a[2]);
-    setIntoArrayValues(positions, j * 2 * 3 + 2, a[0] + l, a[1] + l, a[2]);
+    setIntoArrayValues(positions, j * 2 * 3 + 0, a[0] - lx, a[1] - ly, a[2]);
+    setIntoArrayValues(positions, j * 2 * 3 + 1, a[0] + lx, a[1] - ly, a[2]);
+    setIntoArrayValues(positions, j * 2 * 3 + 2, a[0] + lx, a[1] + ly, a[2]);
 
     uvs[(j * 3 * 2 + 0) * 2 + 0] = (i + 0) / N_TILES;
     uvs[(j * 3 * 2 + 0) * 2 + 1] = 1;
@@ -106,9 +109,9 @@ export const draw = () => {
     uvs[(j * 3 * 2 + 2) * 2 + 0] = (i + 1) / N_TILES;
     uvs[(j * 3 * 2 + 2) * 2 + 1] = 0;
 
-    setIntoArrayValues(positions, j * 2 * 3 + 3, a[0] - l, a[1] - l, a[2]);
-    setIntoArrayValues(positions, j * 2 * 3 + 4, a[0] + l, a[1] + l, a[2]);
-    setIntoArrayValues(positions, j * 2 * 3 + 5, a[0] - l, a[1] + l, a[2]);
+    setIntoArrayValues(positions, j * 2 * 3 + 3, a[0] - lx, a[1] - ly, a[2]);
+    setIntoArrayValues(positions, j * 2 * 3 + 4, a[0] + lx, a[1] + ly, a[2]);
+    setIntoArrayValues(positions, j * 2 * 3 + 5, a[0] - lx, a[1] + ly, a[2]);
 
     uvs[(j * 3 * 2 + 3) * 2 + 0] = (i + 0) / N_TILES;
     uvs[(j * 3 * 2 + 3) * 2 + 1] = 1;

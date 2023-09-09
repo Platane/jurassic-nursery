@@ -36,7 +36,7 @@ export const onResize = () => {
   const fovX = Math.PI / 3;
   const near = 0.005;
   const far = 2000;
-  let aspect = canvas.width / canvas.height;
+  const aspect = canvas.width / canvas.height;
   mat4.perspective(perspectiveMatrix, fovX, aspect, near, far);
 
   updateLookAtMatrix();
