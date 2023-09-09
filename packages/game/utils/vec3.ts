@@ -13,8 +13,24 @@ export const setIntoArray = (
   arr: number[] | Float32Array | Uint8Array,
   i: number,
   out: vec3
+) =>
+  setIntoArrayValues(
+    arr,
+    i,
+
+    out[0],
+    out[1],
+    out[2]
+  );
+
+export const setIntoArrayValues = (
+  arr: number[] | Float32Array | Uint8Array,
+  i: number,
+  x: number,
+  y: number,
+  z: number
 ) => {
-  arr[i * 3 + 0] = out[0];
-  arr[i * 3 + 1] = out[1];
-  arr[i * 3 + 2] = out[2];
+  arr[i * 3 + 0] = x;
+  arr[i * 3 + 1] = y;
+  arr[i * 3 + 2] = z;
 };
