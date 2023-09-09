@@ -24,7 +24,7 @@ export const onTap: Handler = (touches) => {
 
   if (picked?.type === "tri") state.selectedTriceratops = picked.i;
   else if (state.selectedTriceratops !== null) {
-    projectOnGround(a, o, v, 0.6);
+    projectOnGround(a, o, v, 0);
 
     const target = triceratops[state.selectedTriceratops].target;
 
