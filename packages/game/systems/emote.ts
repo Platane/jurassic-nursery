@@ -19,11 +19,11 @@ export const updateEmote = (w: Skeleton & WithEmote & WithDecision) => {
       w.head_direction,
       ((1 - Math.sin(k * Math.PI * 7.5 + Math.PI / 2)) / 2) * -0.24
     );
-  } else if (w.emote === "no") {
+  } else if (w.activity.type === "say-no") {
     quat.rotateY(
       w.head_direction,
       w.head_direction,
-      Math.sin(state.t * 0.2) * 0.27
+      Math.sin(w.activity.t * 0.2) * 0.27
     );
   }
 };

@@ -8,24 +8,24 @@ export type Fruit = {
 } & Sprite &
   Draggable & { eaten_by?: number };
 
-const fruit_s = 0.6;
+export const FRUIT_S = 0.6;
 export const fruits = new Map<number, Fruit>();
 
-for (let i = 1; i--; )
-  fruits.set(fruits.size + 1, {
-    size: fruit_s,
-    i: (i ** 2 + 9 * (i % 7) ** 3 + (i % 13) ** 7) % 5,
+export const FRUIT_Y = FRUIT_S * 0.32;
 
-    position: [
-      (Math.random() - 0.5) * 20,
-      fruit_s * 0.32,
-      (Math.random() - 0.5) * 20,
-    ],
+export const addFruit = () => {
+  const id = fruits.size + 1;
+  const fruit = {
+    size: FRUIT_S,
+    i: 0,
+    position: [0, FRUIT_Y, 0],
+    id,
+  } as Fruit;
+  fruits.set(id, fruit);
+  return fruit;
+};
 
-    id: fruits.size + 1,
-  });
-
-const fruit0 = [...fruits.values()][0];
+const fruit0 = addFruit();
 fruit0.position[0] = 2;
 fruit0.position[2] = 0;
 
