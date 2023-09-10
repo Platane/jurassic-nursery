@@ -16,35 +16,53 @@ export type WithDecision = {
   v_max: number;
   target: vec2;
 
-  food_target_id?: number | null;
+  activity:
+    | {
+        type: "go-to-food";
+        food_target_id: number;
+      }
+    | {
+        type: "eating";
+        food_target_id: number;
+        t: number;
+      }
+    | {
+        type: "idle";
+      }
+    | {
+        type: "carried";
+      };
 
   wandering_center: vec2;
 } & WithNeed;
 
 export const WANDERING_RADIUS = 6;
 
+export const EATING_DURATION = 80;
+
 const a = vec2.create();
 
-export const updateDecision = (w: Skeleton & WithDecision) => {
+export const updateDecision = (w: Skeleton & WithDecision & { id: number }) => {
   //
   // once ever X frame, look for something to eat
   //
   const N = 140;
   const s = Math.floor(w.seed * N);
-  if (state.t % N === s) {
+  if (state.t % N === s && w.activity.type === "idle") {
     console.log("--- ", w.id, "thinking..");
-    if (!w.food_target_id) w.food_target_id = findANiceFruit(w);
+    const food_target_id = findANiceFruit(w);
+    if (food_target_id) w.activity = { type: "go-to-food", food_target_id };
   }
 
   //
   // go to where we want to eat something
   //
 
-  if (w.food_target_id) {
-    const fruit_target = fruits.get(w.food_target_id);
+  if (w.activity.type === "go-to-food") {
+    const fruit_target = fruits.get(w.activity.food_target_id);
 
     if (!fruit_target) {
-      w.food_target_id = null;
+      (w.activity as any).type = "idle";
     } else {
       // stop just before the fruit
       // so the head line up
@@ -56,6 +74,22 @@ export const updateDecision = (w: Skeleton & WithDecision) => {
 
       w.target[0] = fruit_target.position[0] + (a[0] / l) * -0.9;
       w.target[1] = fruit_target.position[2] + (a[1] / l) * -0.9;
+
+      if (l < 1.1 && !fruit_target.dragged_v) {
+        fruit_target.eaten_by = w.id;
+        (w.activity as any).type = "eating";
+        (w.activity as any).t = 0;
+      }
+    }
+  }
+
+  if (w.activity.type === "eating") {
+    w.activity.t++;
+
+    if (w.activity.t > EATING_DURATION) {
+      (w.activity as any).type = "idle";
+      fruits.delete(w.activity.food_target_id);
+      w.food_level++;
     }
   }
 };

@@ -1,9 +1,7 @@
 import { mat4, quat, vec2, vec3 } from "gl-matrix";
 import { MAX_ENTITY, Skeleton } from "../renderer/geometries/model/skeleton";
 import { triceratops } from "../entities/triceratops";
-import { clamp, invLerp, lerp } from "../utils/math";
-import { gizmos } from "../renderer/materials/gizmos";
-import { state } from "../ui/state";
+import { lerp } from "../utils/math";
 import { V_MAX, Walker } from "./walker";
 
 const X = [1, 0, 0] as vec3;

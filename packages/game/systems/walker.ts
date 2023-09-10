@@ -29,10 +29,10 @@ const ALLOWED_ANGLE_MAX = Math.PI / 100;
 const ALLOWED_ANGLE_MIN = Math.PI / 10000;
 
 const targetGizmo = mat4.create();
-gizmos.push(targetGizmo);
+// gizmos.push(targetGizmo);
 
 const trails = Array.from({ length: 50 }, mat4.create);
-gizmos.push(...trails);
+// gizmos.push(...trails);
 
 export const step = () => {
   const triceratops0 = [...triceratops.values()][0];

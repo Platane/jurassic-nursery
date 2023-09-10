@@ -29,8 +29,16 @@ export const onTouchStart: Handler = (touches) => {
 
   const picked = raycastToScene(o, v);
 
-  if (picked?.type === "fruit") state.dragged = fruits.get(picked.id)!;
-  else if (picked?.type === "tri") state.dragged = triceratops.get(picked.id)!;
+  if (picked?.type === "fruit") {
+    const f = fruits.get(picked.id)!;
+    if (!f.eaten_by) state.dragged = f;
+  } else if (picked?.type === "tri") {
+    const tri = triceratops.get(picked.id)!;
+    if (tri.activity.type !== "eating") {
+      tri.activity.type = "carried";
+      state.dragged = tri;
+    }
+  }
 
   if (!state.dragged) return;
 
@@ -53,6 +61,10 @@ export const onTouchMove: Handler = (touches) => {
 
 export const onTouchEnd: Handler = (touches) => {
   if (state.dragged) {
+    if (state.dragged.activity) {
+      state.dragged.activity.type = "idle";
+    }
+
     state.dragged.dragged_anchor = undefined;
     state.dragged = null;
   }
