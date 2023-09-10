@@ -61,5 +61,5 @@ for (let k = 1; k--; ) {
   // t.target[0] = (Math.random() - 0.5) * 12;
   // t.target[1] = (Math.random() - 0.5) * 12;
 
-  triceratops.set(triceratops.size + 1, t);
+  triceratops.set(t.id, t);
 }

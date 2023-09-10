@@ -13,15 +13,15 @@ export const fruits = new Map<number, Fruit>();
 
 export const FRUIT_Y = FRUIT_S * 0.32;
 
+let _id = 1;
 export const addFruit = () => {
-  const id = fruits.size + 1;
   const fruit = {
     size: FRUIT_S,
     i: 0,
     position: [0, FRUIT_Y, 0],
-    id,
+    id: _id++,
   } as Fruit;
-  fruits.set(id, fruit);
+  fruits.set(fruit.id, fruit);
   return fruit;
 };
 
