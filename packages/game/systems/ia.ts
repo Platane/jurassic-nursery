@@ -1,7 +1,7 @@
 import { vec2, vec3 } from "gl-matrix";
 import { Skeleton } from "../renderer/geometries/model/skeleton";
 import { state } from "../ui/state";
-import { addFruit, fruits } from "../entities/fruits";
+import { addFruit, fruits, triceratopsParticles } from "../entities/fruits";
 import { WithEmote } from "./emote";
 
 export type WithNeed = {
@@ -90,9 +90,7 @@ export const updateDecision = (
         (w.activity as any).food_target_i = fruit_target.i;
       }
     }
-  }
-
-  if (w.activity.type === "eating") {
+  } else if (w.activity.type === "eating") {
     w.activity.t++;
 
     if (w.activity.t == (0 | (EATING_DURATION * 0.8))) {
@@ -103,6 +101,7 @@ export const updateDecision = (
       if (w.activity.food_target_i & w.edible) {
         w.food_level++;
         (w.activity as any).type = "idle";
+        w.mood = { type: "happy", t: 0 };
       } else {
         const f = addFruit();
         f.position[0] = 1;
@@ -117,9 +116,7 @@ export const updateDecision = (
         (w.activity as any).t = 0;
       }
     }
-  }
-
-  if (w.activity.type === "say-no") {
+  } else if (w.activity.type === "say-no") {
     w.activity.t++;
 
     if (w.activity.t > 80) {

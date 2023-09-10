@@ -12,8 +12,7 @@ import { updateEmote } from "./emote";
 import { updateDecision } from "./ia";
 import { updateDraggedFruit, updateTriceratopsDragged } from "./dragged";
 import { fruits } from "../entities/fruits";
-
-const v = vec3.create();
+import { updateTriceratopsParticles } from "./triceratopsParticles";
 
 export const update = () => {
   state.t++;
@@ -27,10 +26,13 @@ export const update = () => {
     updateWalkerPose(tri);
 
     // emote might change the walker pose
+    // run it after
     updateEmote(tri);
   }
 
   fruits.forEach(updateDraggedFruit);
+
+  updateTriceratopsParticles();
 };
 
 //

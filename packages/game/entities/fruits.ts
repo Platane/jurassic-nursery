@@ -27,8 +27,25 @@ export const addFruit = () => {
 
 const fruit0 = addFruit();
 fruit0.position[0] = 2;
-fruit0.position[2] = 0;
+fruit0.position[2] = 3;
+fruit0.i = 1;
 
-export type Particle = Sprite;
+const fruit1 = addFruit();
+fruit1.position[0] = 4;
+fruit1.position[2] = 6;
+fruit1.i = 2;
 
-export const particles: Particle[] = [];
+const fruit3 = addFruit();
+fruit3.position[0] = -4;
+fruit3.position[2] = 3;
+fruit3.i = 3;
+
+export type Particle = Sprite & { t: number; position0: vec3 };
+
+export type TriceratopsParticle = Sprite & {
+  t: number;
+  localPosition0: vec3;
+  triceratopsId: number;
+};
+
+export const triceratopsParticles = new Set<TriceratopsParticle>();

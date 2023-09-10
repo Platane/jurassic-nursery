@@ -5,7 +5,7 @@ import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
 import { getAttribLocation, getUniformLocation } from "../../utils/location";
 import { N_SPRITES, billboardCanvas } from "./textureAtlas";
-import { Sprite, fruits } from "../../../entities/fruits";
+import { Sprite, fruits, triceratopsParticles } from "../../../entities/fruits";
 import { vec3 } from "gl-matrix";
 import { setIntoArrayValues } from "../../../utils/vec3";
 import { state } from "../../../ui/state";
@@ -83,7 +83,7 @@ export const draw = () => {
 
   const aspect = canvas.width / canvas.height;
 
-  const sprites: Sprite[] = [...fruits.values()];
+  const sprites: Sprite[] = [...fruits.values(), ...triceratopsParticles];
 
   if (state.selectedTriceratopsId !== null) {
     const o = triceratops.get(state.selectedTriceratopsId)!.origin;
@@ -91,7 +91,7 @@ export const draw = () => {
     sprites.push({
       position: [o[0], o[1] + 0.5 + Math.sin(state.t * 0.1) ** 2 * 0.1, o[2]],
       size: 1,
-      i: 5,
+      i: -1,
     });
   }
 
