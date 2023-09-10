@@ -16,6 +16,7 @@ export const terserOptions: MinifyOptions = {
   compress: {
     keep_infinity: true,
     pure_getters: true,
+    unsafe: true,
     unsafe_arrows: true,
     unsafe_math: true,
     unsafe_methods: true,
