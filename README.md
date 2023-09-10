@@ -20,9 +20,15 @@ npm run build
 # TODO
 
 - [x] color pattern
-- [ ] walk to a point
+- [x] triceratops ray collision
+- [x] walk to a point
+- [ ] restrict camera movement (pan only ? two finger on mobile and pan on mouse hover edge on desktop )
+- [ ] restrict playground, allows to have a spot for
+  - secure food
+  - drop triceratops
 - [ ] collision avoidance
+- [ ] react to mouse movement, fruit pick up ect ..
+
 - [ ] trees
 - [ ] bones on trees
-- [ ] triceratops ray collision
 - [ ] ui select triceratops
