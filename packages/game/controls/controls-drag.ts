@@ -29,8 +29,8 @@ export const onTouchStart: Handler = (touches) => {
 
   const picked = raycastToScene(o, v);
 
-  if (picked?.type === "fruit") state.dragged = fruits[picked.i];
-  else if (picked?.type === "tri") state.dragged = triceratops[picked.i];
+  if (picked?.type === "fruit") state.dragged = fruits.get(picked.id)!;
+  else if (picked?.type === "tri") state.dragged = triceratops.get(picked.id)!;
 
   if (!state.dragged) return;
 

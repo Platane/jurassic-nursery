@@ -10,36 +10,32 @@ export const raycastToScene = (
   fruit = true
 ) => {
   let d_min = Infinity;
-  let i_tri_min = -1;
+  let id_tri_min = -1;
 
-  for (let i = triceratops.length; i--; ) {
-    const d = triceratopsRayCollision(
-      triceratops[i],
-      ray_origin,
-      ray_direction
-    );
+  for (const t of triceratops.values()) {
+    const d = triceratopsRayCollision(t, ray_origin, ray_direction);
 
     if (d < d_min) {
-      i_tri_min = i;
+      id_tri_min = t.id;
       d_min = d;
     }
   }
 
-  let i_fruit_min = -1;
-  for (let i = fruits.length; i--; ) {
+  let id_fruit_min = -1;
+  for (const fruit of fruits.values()) {
     const d = sphereRayCollision(
-      fruits[i].p,
-      fruits[i].s * 0.45,
+      fruit.position,
+      fruit.size * 0.45,
       ray_origin,
       ray_direction
     );
 
     if (d < d_min) {
-      i_fruit_min = i;
+      id_fruit_min = fruit.id;
       d_min = d;
     }
   }
 
-  if (i_fruit_min >= 0) return { type: "fruit" as const, i: i_fruit_min };
-  if (i_tri_min >= 0) return { type: "tri" as const, i: i_tri_min };
+  if (id_fruit_min >= 0) return { type: "fruit" as const, id: id_fruit_min };
+  if (id_tri_min >= 0) return { type: "tri" as const, id: id_tri_min };
 };

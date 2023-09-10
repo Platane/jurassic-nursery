@@ -227,11 +227,14 @@ const bindPoseInv = bindPose.map((m) => mat4.invert(mat4.create(), m));
 export const update = () => {
   // updateGizmo();
 
-  for (let i = triceratops.length; i--; ) {
-    updateBones(ms[i], triceratops[i]);
+  let i = 0;
+  for (const t of triceratops.values()) {
+    updateBones(ms[i], t);
 
     for (let j = N_BONES; j--; )
       mat4.multiply(ms[i][j], ms[i][j], bindPoseInv[j]);
+
+    i++;
   }
 };
 

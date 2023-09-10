@@ -172,7 +172,7 @@ export const draw = () => {
   gl.cullFace(gl.BACK);
 
   // gl.drawArraysInstanced(gl.LINE_LOOP, 0, nVertices, triceratops.length);
-  gl.drawArraysInstanced(gl.TRIANGLES, 0, nVertices, triceratops.length);
+  gl.drawArraysInstanced(gl.TRIANGLES, 0, nVertices, triceratops.size);
 
   gl.bindVertexArray(null);
 };

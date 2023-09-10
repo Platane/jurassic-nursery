@@ -4,8 +4,10 @@ import { createSkeleton } from "../renderer/geometries/model/skeleton";
 import { fruits } from "../entities/fruits";
 import { stepSpring3 } from "../utils/spring";
 import { state } from "../ui/state";
-import { step } from "./walker";
+import { V_MAX, step } from "./walker";
 import { updateWalkerPose } from "./walkerPose";
+import { updateEmote } from "./emote";
+import { updateDecision } from "./ia";
 
 const v = vec3.create();
 
@@ -15,7 +17,7 @@ export const update = () => {
   //
   // target
   //
-  for (const tri of triceratops) {
+  for (const tri of triceratops.values()) {
     if (tri.dragged_anchor && tri.dragged_v) {
       stepSpring3(
         tri.origin,
@@ -88,12 +90,14 @@ export const update = () => {
 
   step();
 
+  triceratops.forEach(updateEmote);
   triceratops.forEach(updateWalkerPose);
+  triceratops.forEach(updateDecision);
 
-  for (const fruit of fruits) {
+  for (const fruit of fruits.values()) {
     if (fruit.dragged_anchor) {
       stepSpring3(
-        fruit.p,
+        fruit.position,
         fruit.dragged_v!,
         fruit.dragged_anchor,
         springParams_fruit
@@ -103,22 +107,22 @@ export const update = () => {
 
       fruit.dragged_v[1] -= 0.4;
 
-      vec3.scaleAndAdd(fruit.p, fruit.p, fruit.dragged_v, 1 / 60);
+      vec3.scaleAndAdd(fruit.position, fruit.position, fruit.dragged_v, 1 / 60);
 
-      const y0 = fruit.s * 0.32;
+      const y0 = fruit.size * 0.32;
 
-      if (fruit.p[1] < y0) {
+      if (fruit.position[1] < y0) {
         fruit.dragged_v[1] *= -1;
         vec3.scale(fruit.dragged_v, fruit.dragged_v, 0.5);
-        fruit.p[1] = y0;
+        fruit.position[1] = y0;
       }
 
       if (
-        Math.abs(fruit.p[1] - y0) < 0.2 &&
+        Math.abs(fruit.position[1] - y0) < 0.2 &&
         vec3.length(fruit.dragged_v) < 0.4
       ) {
         fruit.dragged_v = undefined;
-        fruit.p[1] = y0;
+        fruit.position[1] = y0;
       }
     }
   }
@@ -137,17 +141,18 @@ const springParams_fruit = {
 // init
 for (let k = 1; k--; ) {
   const t: Triceratops = {
-    id: 0,
+    id: triceratops.size + 1,
     ...createSkeleton(),
     target: [0, 10] as [number, number],
     genotype: [{ w: 1, v: 0 }],
 
     velocity: vec2.create(),
-    acceleration: vec2.create(),
     delta_angle_mean: 0,
     tail_t: Math.random() * 3,
     feet_t: Math.random() * 3,
+    v_max: V_MAX,
     seed: Math.random(),
+    edible: 1 + 2 + 4 + 8 + 16,
   };
 
   // t.origin[0] = Math.random() * 6;
@@ -157,5 +162,5 @@ for (let k = 1; k--; ) {
   // t.target[0] = (Math.random() - 0.5) * 12;
   // t.target[1] = (Math.random() - 0.5) * 12;
 
-  triceratops.push(t);
+  triceratops.set(triceratops.size + 1, t);
 }

@@ -13,6 +13,8 @@ export type Walker = {
 
   delta_angle_mean: number;
 
+  v_max: number;
+
   tail_t: number;
   feet_t: number;
 };
@@ -33,16 +35,15 @@ const trails = Array.from({ length: 50 }, mat4.create);
 gizmos.push(...trails);
 
 export const step = () => {
+  const triceratops0 = [...triceratops.values()][0];
   mat4.fromTranslation(targetGizmo, [
-    triceratops[0].target[0],
+    triceratops0.target[0],
     0,
-    triceratops[0].target[1],
+    triceratops0.target[1],
   ]);
 
-  for (let i = triceratops.length; i--; ) {
-    if (triceratops[i].dragged_anchor) continue;
-
-    const w = triceratops[i];
+  for (const w of triceratops.values()) {
+    if (w.dragged_anchor) continue;
 
     const direction3 = [1, 0, 0] as vec3;
     vec3.transformQuat(direction3, direction3, w.direction);

@@ -113,7 +113,7 @@ if (process.env.NODE_ENV !== "production") {
           if (!s) continue;
 
           ctx.beginPath();
-          ctx.fillStyle = `hsla( ${s.i * 13 * 30},80%,60%,0.93 )`;
+          ctx.fillStyle = `hsla( ${(s.id ?? s.id) * 13 * 30},80%,60%,0.93 )`;
           const l = h;
           ctx.fillRect(x - l / 2, y - l / 2, l, l);
         }

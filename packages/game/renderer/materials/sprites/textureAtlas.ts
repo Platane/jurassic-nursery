@@ -19,7 +19,7 @@ const emojis = [
   // "❓",
   // "❌",
 ];
-export const N_TILES = emojis.length;
+export const N_SPRITES = emojis.length;
 
 export const billboardCanvas = document.createElement("canvas");
 

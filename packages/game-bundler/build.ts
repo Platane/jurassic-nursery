@@ -34,6 +34,8 @@ export const bundle = async (
   if (minify) {
     jsCode = optimizeGlMatrix(jsCode);
 
+    // jsCode = jsCode.replaceAll("Math.PI", "3.1416");
+
     const out = await minifyJs(jsCode, terserOptions);
     jsCode = out.code!;
   }

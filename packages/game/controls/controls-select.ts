@@ -22,11 +22,11 @@ export const onTap: Handler = (touches) => {
 
   const picked = raycastToScene(o, v, false);
 
-  if (picked?.type === "tri") state.selectedTriceratops = picked.i;
-  else if (state.selectedTriceratops !== null) {
+  if (picked?.type === "tri") state.selectedTriceratopsId = picked.id;
+  else if (state.selectedTriceratopsId !== null) {
     projectOnGround(a, o, v, 0);
 
-    const target = triceratops[state.selectedTriceratops].target;
+    const target = triceratops.get(state.selectedTriceratopsId)!.target;
 
     target[0] = a[0];
     target[1] = a[2];

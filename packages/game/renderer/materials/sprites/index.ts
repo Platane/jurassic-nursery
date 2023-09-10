@@ -4,8 +4,8 @@ import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
 import { getAttribLocation, getUniformLocation } from "../../utils/location";
-import { N_TILES, billboardCanvas } from "./textureAtlas";
-import { fruits } from "../../../entities/fruits";
+import { N_SPRITES, billboardCanvas } from "./textureAtlas";
+import { Sprite, fruits } from "../../../entities/fruits";
 import { vec3 } from "gl-matrix";
 import { setIntoArrayValues } from "../../../utils/vec3";
 import { state } from "../../../ui/state";
@@ -83,20 +83,20 @@ export const draw = () => {
 
   const aspect = canvas.width / canvas.height;
 
-  const particles = [...fruits];
+  const sprites: Sprite[] = [...fruits.values()];
 
-  if (state.selectedTriceratops !== null) {
-    const o = triceratops[state.selectedTriceratops].origin;
+  if (state.selectedTriceratopsId !== null) {
+    const o = triceratops.get(state.selectedTriceratopsId)!.origin;
 
-    particles.push({
-      p: [o[0], o[1] + 0.5 + Math.sin(state.t * 0.1) ** 2 * 0.1, o[2]],
-      s: 1,
+    sprites.push({
+      position: [o[0], o[1] + 0.5 + Math.sin(state.t * 0.1) ** 2 * 0.1, o[2]],
+      size: 1,
       i: 5,
     });
   }
 
-  for (let j = 0; j < particles.length; j++) {
-    const { p, i, s } = particles[j];
+  for (let j = 0; j < sprites.length; j++) {
+    const { position: p, i, size: s } = sprites[j];
 
     vec3.transformMat4(a, p, viewMatrix);
 
@@ -117,26 +117,26 @@ export const draw = () => {
     setIntoArrayValues(positions, j * 2 * 3 + 1, a[0] + lx, a[1] - ly, a[2]);
     setIntoArrayValues(positions, j * 2 * 3 + 2, a[0] + lx, a[1] + ly, a[2]);
 
-    uvs[(j * 3 * 2 + 0) * 2 + 0] = (i + 0) / N_TILES;
+    uvs[(j * 3 * 2 + 0) * 2 + 0] = (i + 0) / N_SPRITES;
     uvs[(j * 3 * 2 + 0) * 2 + 1] = 1;
 
-    uvs[(j * 3 * 2 + 1) * 2 + 0] = (i + 1) / N_TILES;
+    uvs[(j * 3 * 2 + 1) * 2 + 0] = (i + 1) / N_SPRITES;
     uvs[(j * 3 * 2 + 1) * 2 + 1] = 1;
 
-    uvs[(j * 3 * 2 + 2) * 2 + 0] = (i + 1) / N_TILES;
+    uvs[(j * 3 * 2 + 2) * 2 + 0] = (i + 1) / N_SPRITES;
     uvs[(j * 3 * 2 + 2) * 2 + 1] = 0;
 
     setIntoArrayValues(positions, j * 2 * 3 + 3, a[0] - lx, a[1] - ly, a[2]);
     setIntoArrayValues(positions, j * 2 * 3 + 4, a[0] + lx, a[1] + ly, a[2]);
     setIntoArrayValues(positions, j * 2 * 3 + 5, a[0] - lx, a[1] + ly, a[2]);
 
-    uvs[(j * 3 * 2 + 3) * 2 + 0] = (i + 0) / N_TILES;
+    uvs[(j * 3 * 2 + 3) * 2 + 0] = (i + 0) / N_SPRITES;
     uvs[(j * 3 * 2 + 3) * 2 + 1] = 1;
 
-    uvs[(j * 3 * 2 + 4) * 2 + 0] = (i + 1) / N_TILES;
+    uvs[(j * 3 * 2 + 4) * 2 + 0] = (i + 1) / N_SPRITES;
     uvs[(j * 3 * 2 + 4) * 2 + 1] = 0;
 
-    uvs[(j * 3 * 2 + 5) * 2 + 0] = (i + 0) / N_TILES;
+    uvs[(j * 3 * 2 + 5) * 2 + 0] = (i + 0) / N_SPRITES;
     uvs[(j * 3 * 2 + 5) * 2 + 1] = 0;
   }
 
@@ -146,7 +146,7 @@ export const draw = () => {
   gl.bindBuffer(gl.ARRAY_BUFFER, texcoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, uvs, gl.DYNAMIC_DRAW);
 
-  gl.drawArrays(gl.TRIANGLES, 0, particles.length * 3 * 2);
+  gl.drawArrays(gl.TRIANGLES, 0, sprites.length * 3 * 2);
 
   gl.bindVertexArray(null);
 };

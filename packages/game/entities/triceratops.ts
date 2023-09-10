@@ -2,6 +2,8 @@ import { vec2, vec3 } from "gl-matrix";
 import type { Skeleton } from "../renderer/geometries/model/skeleton";
 import type { Genotype } from "../systems/gene";
 import { Walker } from "../systems/walker";
+import { WithEmote } from "../systems/emote";
+import { WithDecision } from "../systems/ia";
 
 export type Entity = {
   id: number;
@@ -16,6 +18,8 @@ export type Draggable = {
 
 export type Triceratops = Skeleton & { target: vec2 } & Entity &
   Draggable &
-  Walker;
+  Walker &
+  WithEmote &
+  WithDecision;
 
-export const triceratops: Triceratops[] = [];
+export const triceratops = new Map<number, Triceratops>();

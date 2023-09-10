@@ -2,7 +2,7 @@ import { gl } from "./canvas";
 import { draw as drawGizmo } from "./materials/gizmo";
 import { draw as drawBasic } from "./materials/basic";
 import { draw as drawGizmos } from "./materials/gizmos";
-import { draw as drawBillboards } from "./materials/billboard";
+import { draw as drawSprites } from "./materials/sprites";
 import { onResize as onResizeCamera } from "../entities/camera";
 import { onResize as onResizeCanvas } from "./canvas";
 import { draw as drawShadow } from "./materials/shadow";
@@ -18,8 +18,8 @@ export const render = () => {
 
   drawShadow();
   drawBasic();
-  drawBillboards();
-  drawGizmo();
+  drawSprites();
+  // drawGizmo();
   drawGizmos();
 };
 
