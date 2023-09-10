@@ -32,7 +32,7 @@ export const updateEmote = (
         localPosition0: [0.7, 0, 0],
         position: [] as any as vec3,
         size: 0,
-        i: 0,
+        i: 5,
         t: 0,
       });
 
@@ -52,7 +52,7 @@ export const updateEmote = (
         ],
         position: [] as any as vec3,
         size: 0,
-        i: 7,
+        i: 8,
         t: 0,
       });
     }

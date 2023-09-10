@@ -5,6 +5,8 @@ import { stepSpring3 } from "../utils/spring";
 
 export const updateTriceratopsDragged = (tri: Triceratops) => {
   if (tri.dragged_anchor && tri.dragged_v) {
+    tri.activity.type = "idle";
+
     stepSpring3(
       tri.origin,
       tri.dragged_v,

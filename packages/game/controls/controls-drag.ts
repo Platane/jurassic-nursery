@@ -61,10 +61,6 @@ export const onTouchMove: Handler = (touches) => {
 
 export const onTouchEnd: Handler = (touches) => {
   if (state.dragged) {
-    if (state.dragged.activity) {
-      state.dragged.activity.type = "idle";
-    }
-
     state.dragged.dragged_anchor = undefined;
     state.dragged = null;
   }

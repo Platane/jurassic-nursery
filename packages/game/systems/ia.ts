@@ -9,7 +9,7 @@ export type WithNeed = {
   love_level: number;
   happiness_level: number;
 
-  edible: number;
+  edible: Set<number>;
 };
 
 export type WithDecision = {
@@ -83,6 +83,8 @@ export const updateDecision = (
       w.target[0] = fruit_target.position[0] + (a[0] / l) * -0.9;
       w.target[1] = fruit_target.position[2] + (a[1] / l) * -0.9;
 
+      if (l > 10) (w.activity as any).type = "idle";
+
       if (l < 1.1 && !fruit_target.dragged_v) {
         fruit_target.eaten_by = w.id;
         (w.activity as any).type = "eating";
@@ -98,13 +100,15 @@ export const updateDecision = (
     }
 
     if (w.activity.t > EATING_DURATION) {
-      if (w.activity.food_target_i & w.edible) {
+      if (w.edible.has(w.activity.food_target_i)) {
         w.food_level++;
         (w.activity as any).type = "idle";
         w.mood = { type: "happy", t: 0 };
       } else {
         const f = addFruit();
         f.position[0] = 1;
+        f.i = w.activity.food_target_i;
+
         vec3.transformQuat(f.position, f.position, w.direction);
 
         f.dragged_v = [f.position[0] * 3, 3, f.position[2] * 3];
@@ -129,9 +133,9 @@ const findANiceFruit = (w: Skeleton & WithDecision): number | undefined => {
   const grabbable: number[] = [];
 
   for (const fruit of fruits.values()) {
-    const { position, i: j } = fruit;
+    const { position, i } = fruit;
 
-    if (w.edible | j) {
+    if (true) {
       // const v = [position[0] - w.origin[0], position[2] - w.origin[2]] as vec2;
       // const l = vec2.length(v);
 
@@ -141,7 +145,7 @@ const findANiceFruit = (w: Skeleton & WithDecision): number | undefined => {
     }
   }
 
-  const toGrab = grabbable[Math.floor(Math.random() * grabbable.length * 1.5)];
+  const toGrab = grabbable[Math.floor(Math.random() * grabbable.length)];
 
   return toGrab;
 };

@@ -50,7 +50,7 @@ for (let k = 1; k--; ) {
     feet_t: Math.random() * 3,
     v_max: V_MAX,
     seed: Math.random(),
-    edible: 1 + 2 + 4 + 8 + 16,
+    edible: new Set([1]),
     activity: { type: "idle" },
   };
 

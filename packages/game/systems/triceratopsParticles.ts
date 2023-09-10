@@ -11,7 +11,7 @@ export const updateTriceratopsParticles = () => {
     const tri = triceratops.get(p.triceratopsId);
 
     if (!tri) triceratopsParticles.delete(p);
-    else if (p.i === 0 || p.i === 8) {
+    else if (p.i === 5 || p.i === 6) {
       if (p.t > 80) triceratopsParticles.delete(p);
 
       const u = clamp(p.t / 24, 0, 1);
@@ -25,7 +25,7 @@ export const updateTriceratopsParticles = () => {
       vec3.scaleAndAdd(p.position, p.position, UP, k * 0.6);
 
       p.size = (h < 1 ? h : k) * 0.6;
-    } else if (p.i === 7 || p.i === 6) {
+    } else if (p.i === 7 || p.i === 8) {
       const L = 57;
 
       if (p.t > L) triceratopsParticles.delete(p);
