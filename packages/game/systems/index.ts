@@ -4,7 +4,8 @@ import { createSkeleton } from "../renderer/geometries/model/skeleton";
 import { fruits } from "../entities/fruits";
 import { stepSpring3 } from "../utils/spring";
 import { state } from "../ui/state";
-import { step, updateWalkerPose } from "./walker";
+import { step } from "./walker";
+import { updateWalkerPose } from "./walkerPose";
 
 const v = vec3.create();
 
@@ -87,6 +88,8 @@ export const update = () => {
 
   step();
 
+  triceratops.forEach(updateWalkerPose);
+
   for (const fruit of fruits) {
     if (fruit.dragged_anchor) {
       stepSpring3(
@@ -141,6 +144,10 @@ for (let k = 1; k--; ) {
 
     velocity: vec2.create(),
     acceleration: vec2.create(),
+    delta_angle_mean: 0,
+    tail_t: Math.random() * 3,
+    feet_t: Math.random() * 3,
+    seed: Math.random(),
   };
 
   // t.origin[0] = Math.random() * 6;

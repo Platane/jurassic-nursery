@@ -1,39 +1,33 @@
 import { mat4, quat, vec2, vec3 } from "gl-matrix";
-import { MAX_ENTITY, Skeleton } from "../renderer/geometries/model/skeleton";
 import { triceratops } from "../entities/triceratops";
 import { clamp, invLerp, lerp } from "../utils/math";
 import { gizmos } from "../renderer/materials/gizmos";
 import { state } from "../ui/state";
 
 export type Walker = {
+  seed: number;
+
   target: vec2;
 
   velocity: vec2;
+
+  delta_angle_mean: number;
+
+  tail_t: number;
+  feet_t: number;
 };
-
-const X = [1, 0, 0] as vec3;
-
-export const updateWalkerPose = (w: Skeleton & Walker) => {
-  const v = [1, 0, 0] as vec3;
-  vec3.transformQuat(v, v, w.direction);
-  v[1] = 0;
-  vec3.normalize(v, v);
-
-  console.log(v);
-
-  // debugger;
-};
-
-const accelerations = Array.from({ length: MAX_ENTITY }, vec2.create);
 
 // world unit per frame
-const V_MAX = 0.05;
+export const V_MAX = 0.05;
+
+// half turn in 100 frames
+const ALLOWED_ANGLE_MAX = Math.PI / 100;
+
+// half turn in 1000 frames
+const ALLOWED_ANGLE_MIN = Math.PI / 10000;
 
 const targetGizmo = mat4.create();
 gizmos.push(targetGizmo);
-
-const directionGizmo = mat4.create();
-gizmos.push(directionGizmo);
 
 const trails = Array.from({ length: 50 }, mat4.create);
 gizmos.push(...trails);
@@ -61,13 +55,16 @@ export const step = () => {
     const target = w.target;
 
     const desired_v = [
-      w.target[0] - w.origin[0],
-      w.target[1] - w.origin[2],
+      target[0] - w.origin[0],
+      target[1] - w.origin[2],
     ] as vec2;
     const d = vec2.length(desired_v);
 
     if (d < 0.2) {
       // bravo
+
+      w.velocity[0] = 0;
+      w.velocity[1] = 0;
     } else {
       desired_v[0] /= d;
       desired_v[1] /= d;
@@ -87,16 +84,22 @@ export const step = () => {
         invLerp(current_v_l, 0, V_MAX),
 
         // half turn in 100 frames
-        Math.PI / 100,
+        ALLOWED_ANGLE_MAX,
 
         // half turn in 1000 frames
-        Math.PI / 1000
+        ALLOWED_ANGLE_MIN
       );
 
       const da =
         delta_angle > 0
           ? Math.min(delta_angle, allowed_angle_delta)
           : -Math.min(-delta_angle, allowed_angle_delta);
+
+      w.delta_angle_mean = lerp(
+        0.08,
+        w.delta_angle_mean,
+        da / ALLOWED_ANGLE_MAX
+      );
 
       const new_angle = current_angle + da;
 
@@ -124,14 +127,8 @@ export const step = () => {
 
       quat.fromEuler(w.direction, 0, -(new_angle / Math.PI) * 180, 0);
 
-      mat4.fromTranslation(directionGizmo, [
-        w.origin[0] + Math.cos(new_angle) * 2,
-        0,
-        w.origin[2] + Math.sin(new_angle) * 2,
-      ]);
-
       if (state.t % 8 === 0) {
-        mat4.fromTranslation(trails[0], [w.origin[0], 0, w.origin[2]]);
+        // mat4.fromTranslation(trails[0], [w.origin[0], 0, w.origin[2]]);
         trails.push(trails.shift()!);
       }
     }
