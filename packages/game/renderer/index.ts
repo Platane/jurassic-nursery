@@ -19,7 +19,7 @@ export const render = () => {
   drawShadow();
   drawBasic();
   drawBillboards();
-  // drawGizmo();
+  drawGizmo();
   drawGizmos();
 };
 

@@ -1,9 +1,10 @@
-import { quat, vec3 } from "gl-matrix";
+import { quat, vec2, vec3 } from "gl-matrix";
 import { Triceratops, triceratops } from "../entities/triceratops";
 import { createSkeleton } from "../renderer/geometries/model/skeleton";
 import { fruits } from "../entities/fruits";
 import { stepSpring3 } from "../utils/spring";
 import { state } from "../ui/state";
+import { step, updateWalkerPose } from "./walker";
 
 const v = vec3.create();
 
@@ -65,20 +66,26 @@ export const update = () => {
         tri.target[1] = tri.origin[2];
       }
     } else {
-      v[0] = tri.target[0] - tri.origin[0];
-      v[1] = 0;
-      v[2] = tri.target[1] - tri.origin[2];
+      continue;
 
-      const l = vec3.length(v);
+      // updateWalkerPose(tri);
 
-      if (l > 0.01) {
-        const h = Math.min(l, 0.04);
+      // v[0] = tri.target[0] - tri.origin[0];
+      // v[1] = 0;
+      // v[2] = tri.target[1] - tri.origin[2];
 
-        tri.origin[0] += (v[0] / l) * h;
-        tri.origin[2] += (v[2] / l) * h;
-      }
+      // const l = vec3.length(v);
+
+      // if (l > 0.01) {
+      //   const h = Math.min(l, 0.04);
+
+      //   tri.origin[0] += (v[0] / l) * h;
+      //   tri.origin[2] += (v[2] / l) * h;
+      // }
     }
   }
+
+  step();
 
   for (const fruit of fruits) {
     if (fruit.dragged_anchor) {
@@ -125,20 +132,23 @@ const springParams_fruit = {
 
 //
 // init
-for (let k = 3; k--; ) {
+for (let k = 1; k--; ) {
   const t: Triceratops = {
     id: 0,
     ...createSkeleton(),
-    target: [0, 0] as [number, number],
+    target: [0, 10] as [number, number],
     genotype: [{ w: 1, v: 0 }],
+
+    velocity: vec2.create(),
+    acceleration: vec2.create(),
   };
 
-  t.origin[0] = Math.random() * 6;
-  t.origin[2] = -2;
+  // t.origin[0] = Math.random() * 6;
+  // t.origin[2] = -2;
 
-  quat.fromEuler(t.direction, 0, Math.random() * 360, 0);
-  t.target[0] = (Math.random() - 0.5) * 12;
-  t.target[1] = (Math.random() - 0.5) * 12;
+  // quat.fromEuler(t.direction, 0, Math.random() * 360, 0);
+  // t.target[0] = (Math.random() - 0.5) * 12;
+  // t.target[1] = (Math.random() - 0.5) * 12;
 
   triceratops.push(t);
 }
