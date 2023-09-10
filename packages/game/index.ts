@@ -23,7 +23,6 @@ import { update as update_system } from "./systems";
 
 const loop = () => {
   update_system();
-  update_raycast_debugger();
 
   render();
   requestAnimationFrame(loop);
@@ -75,46 +74,49 @@ for (let i = MAX_ENTITY; i--; ) {
 //
 //
 //
+if (process.env.NODE_ENV !== "production") {
+  const c = document.createElement("canvas");
+  c.width = canvas.width;
+  c.height = canvas.height;
+  c.style.position = "absolute";
+  c.style.top = "0";
+  c.style.left = "0";
+  c.style.zIndex = "10";
+  c.style.pointerEvents = "none";
+  document.body.appendChild(c);
 
-const c = document.createElement("canvas");
-c.width = canvas.width;
-c.height = canvas.height;
-c.style.position = "absolute";
-c.style.top = "0";
-c.style.left = "0";
-c.style.zIndex = "10";
-c.style.pointerEvents = "none";
-document.body.appendChild(c);
+  const ctx = c.getContext("2d")!;
 
-const ctx = c.getContext("2d")!;
+  const o = [] as any as vec3;
+  const v = [] as any as vec3;
 
-const o = [] as any as vec3;
-const v = [] as any as vec3;
+  canvas.addEventListener("mousedown", ({ pageX, pageY, ctrlKey }) => {
+    if (!ctrlKey) ctx.clearRect(0, 0, 99999, 99999);
 
-canvas.addEventListener("mousemove", ({ pageX, pageY }) => {
-  getRayFromScreen(o, v, getScreenX(pageX), getScreenY(pageY));
+    if (ctrlKey) {
+      const h = 2;
+      const l = 100;
 
-  const tri = triceratops[0];
-  sphereRayCollision(tri.origin, 1.5, o, v);
-});
+      for (
+        let x = Math.max(0, pageX - l);
+        x < Math.min(c.width, pageX + l);
+        x += h
+      )
+        for (
+          let y = Math.max(0, pageY - l);
+          y < Math.min(c.height, pageY + l);
+          y += h
+        ) {
+          getRayFromScreen(o, v, getScreenX(x), getScreenY(y));
+          const s = raycastToScene(o, v);
 
-const update_raycast_debugger = () => {
-  return;
+          if (!s) continue;
 
-  ctx.clearRect(0, 0, 99999, 99999);
-
-  const h = 3;
-
-  for (let x = 0; x < c.width; x += h)
-    for (let y = 0; y < c.height; y += h) {
-      getRayFromScreen(o, v, getScreenX(x), getScreenY(y));
-      const s = raycastToScene(o, v);
-
-      if (!s) continue;
-
-      ctx.beginPath();
-      ctx.fillStyle = `hsla( ${s.i * 13 * 30},80%,60%,0.93 )`;
-      const l = h;
-      ctx.fillRect(x - l / 2, y - l / 2, l, l);
+          ctx.beginPath();
+          ctx.fillStyle = `hsla( ${s.i * 13 * 30},80%,60%,0.93 )`;
+          const l = h;
+          ctx.fillRect(x - l / 2, y - l / 2, l, l);
+        }
     }
-};
+  });
+}
