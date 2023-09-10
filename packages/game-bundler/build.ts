@@ -32,6 +32,8 @@ export const bundle = async (
 
   // minify with terser
   if (minify) {
+    jsCode = optimizeGlMatrix(jsCode);
+
     const out = await minifyJs(jsCode, terserOptions);
     jsCode = out.code!;
   }
@@ -95,4 +97,18 @@ const renameAssetName = (assets: Record<string, string | Buffer>) => {
     }
 
   return a;
+};
+
+const forceArrowFunction = (code: string) =>
+  code.replaceAll(/^function\s+([^(]+)\(([^)]*)\)/gm, (_, name, args) => {
+    return `const ${name} = (${args}) =>`;
+  });
+
+const optimizeGlMatrix = (code: string) => {
+  code = code
+    // remove some needless compat code
+    .replace("typeof Float32Array", '"object"')
+    .replace(/if\s*\(\s*!\s*Math.hypot\s*\)/, "if(false)");
+
+  return forceArrowFunction(code);
 };
