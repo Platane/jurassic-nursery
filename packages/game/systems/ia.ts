@@ -3,8 +3,8 @@ import { Skeleton } from "../renderer/geometries/model/skeleton";
 import { state } from "../ui/state";
 import { addFruit, fruits, triceratopsParticles } from "../entities/fruits";
 import { WithEmote } from "./emote";
-import { PLAYGROUND_SIZE } from ".";
 import { triceratops, updateTriceratops } from "../entities/triceratops";
+import { PLAYGROUND_SIZE, WANDERING_RADIUS } from "./const";
 
 export type WithNeed = {
   food_level: number;
@@ -52,8 +52,6 @@ export type WithDecision = {
 
   wandering_center: vec2;
 } & WithNeed;
-
-export const WANDERING_RADIUS = 3.6;
 
 export const isInsidePlayground = (x: number, y: number) =>
   -PLAYGROUND_SIZE / 2 <= x &&
@@ -173,7 +171,10 @@ const findANiceFruit = (w: Skeleton & WithDecision): number | undefined => {
   const grabbable: number[] = [];
 
   for (const fruit of fruits.values()) {
-    if (!w.will_not_eat_again.has(fruit.id) || fruit.dragged_anchor) {
+    if (
+      (!w.will_not_eat_again.has(fruit.id) || fruit.dragged_anchor) &&
+      isInsidePlayground(fruit.position[0], fruit.position[2])
+    ) {
       // const v = [position[0] - w.origin[0], position[2] - w.origin[2]] as vec2;
       // const l = vec2.length(v);
 

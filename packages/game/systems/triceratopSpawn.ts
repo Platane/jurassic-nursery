@@ -1,17 +1,25 @@
-import { PLAYGROUND_SIZE } from ".";
 import {
   addTriceratops,
   triceratops,
   updateTriceratops,
 } from "../entities/triceratops";
 import { state } from "../ui/state";
+import { MAX_FOOD_LEVEL, PLAYGROUND_SIZE } from "./const";
 
-const first_variants = [0, 1, 0];
+const first_variants = [1, 2];
 
-export const updateSpawn = () => {
-  const N = 100;
+let tuto_done = false;
 
-  if (triceratops.size < 2 && state.t % N === 0) {
+export const updateTriceratopsSpawn = () => {
+  const N = 200;
+
+  if (!tuto_done) {
+    triceratops.forEach((tri) => {
+      if (tri.food_level >= MAX_FOOD_LEVEL) tuto_done = true;
+    });
+  }
+
+  if (tuto_done && triceratops.size < 2 && state.t % N === 0) {
     const tri = addTriceratops(
       first_variants.shift() ?? 0 | (Math.random() * 3)
     );
@@ -26,3 +34,8 @@ export const updateSpawn = () => {
     updateTriceratops();
   }
 };
+
+const tri = addTriceratops(0);
+tri.origin[0] = -PLAYGROUND_SIZE * 0.6;
+tri.origin[2] = 3;
+updateTriceratops();

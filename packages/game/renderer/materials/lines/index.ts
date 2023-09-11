@@ -3,11 +3,11 @@ import { worldMatrix } from "../../../entities/camera";
 import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
-import { PLAYGROUND_SIZE } from "../../../systems";
 import { createPolygonLine } from "../../geometries/line/polygon";
-import { WANDERING_RADIUS, isInsidePlayground } from "../../../systems/ia";
+import { isInsidePlayground } from "../../../systems/ia";
 import { state } from "../../../ui/state";
 import { isTriceratops } from "../../../entities/triceratops";
+import { PLAYGROUND_SIZE, WANDERING_RADIUS } from "../../../systems/const";
 
 const program = createProgram(gl, codeVert, codeFrag);
 

@@ -1,17 +1,14 @@
-import { vec2 } from "gl-matrix";
-import { Triceratops, triceratops } from "../entities/triceratops";
-import { createSkeleton } from "../renderer/geometries/model/skeleton";
+import { triceratops } from "../entities/triceratops";
 import { state } from "../ui/state";
-import { V_MAX, step } from "./walker";
 import { updateWalkerPose } from "./walkerPose";
 import { updateEmote } from "./emote";
 import { updateDecision } from "./ia";
 import { updateDraggedFruit, updateTriceratopsDragged } from "./dragged";
 import { fruits } from "../entities/fruits";
 import { updateTriceratopsParticles } from "./triceratopsParticles";
-import { updateSpawn } from "./spawn";
-
-export const PLAYGROUND_SIZE = 12;
+import { updateTriceratopsSpawn } from "./triceratopSpawn";
+import { step } from "./walker";
+import { updateFruitSpawn } from "./fruitSpawn";
 
 export const update = () => {
   state.t++;
@@ -32,5 +29,6 @@ export const update = () => {
   fruits.forEach(updateDraggedFruit);
 
   updateTriceratopsParticles();
-  updateSpawn();
+  updateTriceratopsSpawn();
+  updateFruitSpawn();
 };
