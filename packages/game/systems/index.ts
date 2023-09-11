@@ -14,6 +14,8 @@ import { updateDraggedFruit, updateTriceratopsDragged } from "./dragged";
 import { fruits } from "../entities/fruits";
 import { updateTriceratopsParticles } from "./triceratopsParticles";
 
+export const PLAYGROUND_SIZE = 12;
+
 export const update = () => {
   state.t++;
 
