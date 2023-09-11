@@ -56,6 +56,8 @@ jobs:
         run: |
           curl --silent --show-error --max-time 120 --connect-timeout 120 --retry 3  -X POST --form bundle=@bundle.zip --form category=desktop https://wdbnnia6lj.execute-api.eu-west-1.amazonaws.com/stage/analyze-bundle > report.json
 
+      - run: cat report.json
+
       - name: fails if the report failed
         uses: actions/github-script@v6
         with:
