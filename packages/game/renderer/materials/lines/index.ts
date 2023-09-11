@@ -7,6 +7,9 @@ import { PLAYGROUND_SIZE } from "../../../systems";
 import { createPolygonLine } from "../../geometries/line/polygon";
 import { setFromArray } from "../../../utils/vec3";
 import { quat, vec3 } from "gl-matrix";
+import { WANDERING_RADIUS } from "../../../systems/ia";
+import { state } from "../../../ui/state";
+import { isTriceratops, triceratops } from "../../../entities/triceratops";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
@@ -28,8 +31,8 @@ gl.bindVertexArray(vao);
 
 const positions = createPolygonLine(4, PLAYGROUND_SIZE, 0.1, 0.2, 0.04);
 
-const p = vec3.create();
-const q = quat.create();
+const wanderingZone = createPolygonLine(50, WANDERING_RADIUS, 0.1, 0);
+
 for (let k = 60; k--; ) {
   const a = Math.random() * Math.PI * 2;
   const x = (Math.random() - 0.5) * PLAYGROUND_SIZE * 3;
@@ -42,26 +45,13 @@ for (let k = 60; k--; ) {
       return v;
     })
   );
-
-  // const u = createPolygonLine(5, Math.random() + 1, 0.1, 0.2);
-
-  // quat.fromEuler(q, 0, Math.random() * Math.PI, 0);
-
-  // for (let i = 0; i < u.length; i += 3) {
-  //   setFromArray(p, u, i);
-  //   // vec3.transformQuat(p, p, q);
-  //   // p[0] += x;
-  //   // p[2] += y;
-  //   // positions.push(...p);
-  //   positions.push(...p);
-  // }
 }
 
-console.log(positions.length / 3);
+const positionFloat32 = new Float32Array(positions);
 
 const positionBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.DYNAMIC_DRAW);
+gl.bufferData(gl.ARRAY_BUFFER, positionFloat32, gl.STATIC_DRAW);
 const a_position = gl.getAttribLocation(program, "a_position");
 gl.enableVertexAttribArray(a_position);
 gl.vertexAttribPointer(a_position, 3, gl.FLOAT, false, 0, 0);
@@ -71,6 +61,8 @@ gl.bindVertexArray(null);
 //
 //
 
+let dragged = false;
+
 export const draw = () => {
   gl.useProgram(program);
 
@@ -78,10 +70,38 @@ export const draw = () => {
 
   gl.uniformMatrix4fv(u_matrix, false, worldMatrix);
 
+  let n = positions.length / 3;
+
+  if (isTriceratops(state.dragged)) {
+    dragged = true;
+
+    const x = state.dragged.origin[0];
+    const y = state.dragged.origin[2];
+
+    const ps = [
+      ...positions,
+      ...wanderingZone.map((v, i) => {
+        if (i % 3 === 0) return v + x;
+        if (i % 3 === 2) return v + y;
+        return v;
+      }),
+    ];
+
+    n = ps.length / 3;
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(ps), gl.STATIC_DRAW);
+  } else if (dragged) {
+    dragged = false;
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, positionFloat32, gl.STATIC_DRAW);
+  }
+
   gl.enable(gl.CULL_FACE);
   gl.cullFace(gl.BACK);
 
-  gl.drawArrays(gl.TRIANGLES, 0, positions.length / 3);
+  gl.drawArrays(gl.TRIANGLES, 0, n);
 
   gl.bindVertexArray(null);
 };

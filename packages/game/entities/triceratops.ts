@@ -24,4 +24,5 @@ export type Triceratops = Skeleton & { target: vec2 } & Entity &
 
 export const triceratops = new Map<number, Triceratops>();
 
-export const isTriceratops = (x: any): x is Triceratops => !!x.tail_direction;
+export const isTriceratops = (x: any): x is Triceratops =>
+  x && !!x.tail_direction;
