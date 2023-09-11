@@ -12,6 +12,8 @@ export type WithNeed = {
   happiness_level: number;
 
   edible: Set<number>;
+
+  will_not_eat_again: Set<number>;
 };
 
 export type WithDecision = {
@@ -132,6 +134,8 @@ export const updateDecision = (
 
         (w.activity as any).type = "say-no";
         (w.activity as any).t = 0;
+
+        w.will_not_eat_again.add(f.id);
       }
     }
   } else if (w.activity.type === "say-no") {
@@ -161,6 +165,7 @@ export const updateDecision = (
       triceratops.delete(w.id);
       updateTriceratops();
     }
+  } else if (w.activity.type === "idle") {
   }
 };
 
@@ -168,13 +173,11 @@ const findANiceFruit = (w: Skeleton & WithDecision): number | undefined => {
   const grabbable: number[] = [];
 
   for (const fruit of fruits.values()) {
-    const { position, i } = fruit;
-
-    if (true) {
+    if (!w.will_not_eat_again.has(fruit.id) || fruit.dragged_anchor) {
       // const v = [position[0] - w.origin[0], position[2] - w.origin[2]] as vec2;
       // const l = vec2.length(v);
 
-      const l = vec3.distance(position, w.origin);
+      const l = vec3.distance(fruit.position, w.origin);
 
       if (l < WANDERING_RADIUS * 0.6) grabbable.push(fruit.id);
     }

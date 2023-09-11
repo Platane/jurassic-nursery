@@ -45,7 +45,7 @@ export const addTriceratops = (variant_index: number) => {
     food_level: 0,
     love_level: 0,
     happiness_level: 0,
-
+    will_not_eat_again: new Set(),
     target: [0, 0],
     wandering_center: [0, 0],
     velocity: vec2.create(),
@@ -54,7 +54,7 @@ export const addTriceratops = (variant_index: number) => {
     feet_t: Math.random() * 3,
     v_max: V_MAX,
     seed: Math.random(),
-    edible: new Set(),
+
     activity: { type: "idle" },
   };
 
