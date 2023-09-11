@@ -21,7 +21,7 @@ export const render = () => {
   drawShadow();
   drawBasic();
   drawSprites();
-  drawGizmo();
+  // drawGizmo();
   // drawGizmos();
 };
 
