@@ -14,14 +14,14 @@
     "chokidar": "3.5.3",
     "esbuild": "0.19.2",
     "html-minifier-terser": "7.2.0",
-    "lightningcss": "1.21.7",
+    "lightningcss": "1.21.8",
     "roadroller": "2.1.0",
     "rollup-plugin-css-only": "4.3.0",
     "rollup-plugin-esbuild": "5.0.0",
     "rollup-plugin-import-assets": "1.1.1",
     "rollup-plugin-visualizer": "5.9.2",
     "rollup-pluginutils": "2.8.2",
-    "rollup": "3.29.0",
+    "rollup": "3.29.1",
     "terser": "5.19.4"
   }
 }
