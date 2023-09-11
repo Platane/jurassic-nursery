@@ -21,7 +21,7 @@ gl.bindVertexArray(vao);
 //
 // position
 //
-var positionBuffer = gl.createBuffer();
+const positionBuffer = gl.createBuffer();
 
 const lll = 1;
 
@@ -52,7 +52,7 @@ gl.vertexAttribPointer(a_position, 3, gl.FLOAT, false, 0, 0);
 //
 // color
 //
-var colorBuffer = gl.createBuffer();
+const colorBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 gl.bufferData(
   gl.ARRAY_BUFFER,

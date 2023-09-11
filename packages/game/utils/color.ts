@@ -13,8 +13,8 @@ export const hslToRgb = (
   // if (s == 0) {
   //   out[0] = out[1] = out[2] = l; // achromatic
   // } else {
-  var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-  var p = 2 * l - q;
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
 
   out[0] = hue2rgb(p, q, h + 1 / 3);
   out[1] = hue2rgb(p, q, h);

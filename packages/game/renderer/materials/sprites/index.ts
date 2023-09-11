@@ -46,7 +46,7 @@ gl.vertexAttribPointer(a_texcoord, 2, gl.FLOAT, false, 0, 0);
 //
 // texture
 //
-var texture = gl.createTexture();
+const texture = gl.createTexture();
 gl.activeTexture(gl.TEXTURE0 + 2);
 gl.bindTexture(gl.TEXTURE_2D, texture);
 gl.texImage2D(
