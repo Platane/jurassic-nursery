@@ -3,6 +3,8 @@ import { Skeleton } from "../renderer/geometries/model/skeleton";
 import { state } from "../ui/state";
 import { addFruit, fruits, triceratopsParticles } from "../entities/fruits";
 import { WithEmote } from "./emote";
+import { PLAYGROUND_SIZE } from ".";
+import { triceratops, updateTriceratops } from "../entities/triceratops";
 
 export type WithNeed = {
   food_level: number;
@@ -25,8 +27,8 @@ export type WithDecision = {
     | {
         type: "eating";
         food_target_id: number;
-        t: number;
         food_target_i: number;
+        t: number;
       }
     | {
         type: "idle";
@@ -37,12 +39,25 @@ export type WithDecision = {
       }
     | {
         type: "carried";
+      }
+    | {
+        type: "leaving-hesitation";
+        t: number;
+      }
+    | {
+        type: "leaving";
       };
 
   wandering_center: vec2;
 } & WithNeed;
 
-export const WANDERING_RADIUS = 6;
+export const WANDERING_RADIUS = 3.6;
+
+export const isInsidePlayground = (x: number, y: number) =>
+  -PLAYGROUND_SIZE / 2 <= x &&
+  x <= PLAYGROUND_SIZE / 2 &&
+  -PLAYGROUND_SIZE / 2 <= y &&
+  y <= PLAYGROUND_SIZE / 2;
 
 export const EATING_DURATION = 80;
 
@@ -65,11 +80,10 @@ export const updateDecision = (
   //
   // go to where we want to eat something
   //
-
   if (w.activity.type === "go-to-food") {
     const fruit_target = fruits.get(w.activity.food_target_id);
 
-    if (!fruit_target) {
+    if (!fruit_target || fruit_target.eaten_by) {
       (w.activity as any).type = "idle";
     } else {
       // stop just before the fruit
@@ -125,6 +139,27 @@ export const updateDecision = (
 
     if (w.activity.t > 80) {
       (w.activity as any).type = "idle";
+    }
+  } else if (w.activity.type === "leaving-hesitation") {
+    w.activity.t++;
+
+    if (w.activity.t > 80) {
+      (w.activity as any).type = "leaving";
+
+      const ox = w.origin[0] * 1.4;
+      const oy = w.origin[2];
+
+      const l = Math.hypot(ox, oy);
+
+      w.target[0] = (ox / l) * PLAYGROUND_SIZE * 2.2;
+      w.target[1] = (oy / l) * PLAYGROUND_SIZE * 2.2;
+    }
+  } else if (w.activity.type === "leaving") {
+    const l = Math.hypot(w.target[0] - w.origin[0], w.target[1] - w.origin[2]);
+
+    if (l < 1) {
+      triceratops.delete(w.id);
+      updateTriceratops();
     }
   }
 };

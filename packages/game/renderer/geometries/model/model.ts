@@ -84,9 +84,9 @@ const createGeometry = async () => {
             isInsideTriangle(a[0], a[2], b[0], b[2], c[0], c[2], x, z) &&
             vec3.dot(n, UP) > 0.2
           ) {
-            colorPattern[i + 0] = 3;
-            colorPattern[i + 1] = 3;
-            colorPattern[i + 2] = 3;
+            colorPattern[i + 0] = 2;
+            colorPattern[i + 1] = 2;
+            colorPattern[i + 2] = 2;
           }
         }
       }
@@ -107,7 +107,7 @@ const createGeometry = async () => {
         isInsideTriangle(a[0], a[2], b[0], b[2], c[0], c[2], x, z) &&
         vec3.dot(n, UP) > 0.2
       ) {
-        const h = colorPattern[i + 0] === 3 ? 4 : 1;
+        const h = colorPattern[i + 0] === 2 ? 3 : 1;
 
         colorPattern[i + 0] = h;
         colorPattern[i + 1] = h;
@@ -121,9 +121,9 @@ const createGeometry = async () => {
     setFromArray(a, positions, i + 0);
 
     if (vec3.dot(n, UP) < -0.6 && a[1] < 0.48) {
-      colorPattern[i + 0] = 2;
-      colorPattern[i + 1] = 2;
-      colorPattern[i + 2] = 2;
+      colorPattern[i + 0] = 4;
+      colorPattern[i + 1] = 4;
+      colorPattern[i + 2] = 4;
     }
   }
 

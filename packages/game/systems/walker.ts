@@ -1,7 +1,6 @@
 import { mat4, quat, vec2, vec3 } from "gl-matrix";
 import { triceratops } from "../entities/triceratops";
 import { clamp, invLerp, lerp } from "../utils/math";
-import { gizmos } from "../renderer/materials/gizmos";
 import { state } from "../ui/state";
 
 export type Walker = {
@@ -35,12 +34,12 @@ const trails = Array.from({ length: 50 }, mat4.create);
 // gizmos.push(...trails);
 
 export const step = () => {
-  const triceratops0 = [...triceratops.values()][0];
-  mat4.fromTranslation(targetGizmo, [
-    triceratops0.target[0],
-    0,
-    triceratops0.target[1],
-  ]);
+  // const triceratops0 = [...triceratops.values()][0];
+  // mat4.fromTranslation(targetGizmo, [
+  //   triceratops0.target[0],
+  //   0,
+  //   triceratops0.target[1],
+  // ]);
 
   for (const w of triceratops.values()) {
     if (w.dragged_anchor) continue;

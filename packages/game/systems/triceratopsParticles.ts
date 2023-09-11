@@ -4,6 +4,9 @@ import { clamp, invLerp } from "../utils/math";
 import { UP } from "../utils/vec3";
 import { triceratops } from "../entities/triceratops";
 
+/**
+ * particles that emanate from a triceratops
+ */
 export const updateTriceratopsParticles = () => {
   for (const p of triceratopsParticles) {
     p.t++;

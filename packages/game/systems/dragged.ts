@@ -2,11 +2,10 @@ import { quat, vec2, vec3 } from "gl-matrix";
 import { Triceratops } from "../entities/triceratops";
 import { Fruit } from "../entities/fruits";
 import { stepSpring3 } from "../utils/spring";
+import { isInsidePlayground } from "./ia";
 
 export const updateTriceratopsDragged = (tri: Triceratops) => {
   if (tri.dragged_anchor && tri.dragged_v) {
-    tri.activity.type = "idle";
-
     stepSpring3(
       tri.origin,
       tri.dragged_v,
@@ -45,6 +44,15 @@ export const updateTriceratopsDragged = (tri: Triceratops) => {
       tri.dragged_v[1] *= -1;
       vec3.scale(tri.dragged_v, tri.dragged_v, 0.5);
       tri.origin[1] = y0;
+
+      if (tri.activity.type === "carried") {
+        if (isInsidePlayground(tri.origin[0], tri.origin[2])) {
+          (tri.activity as any).type = "idle";
+        } else {
+          (tri.activity as any).type = "leaving-hesitation";
+          (tri.activity as any).t = 0;
+        }
+      }
     }
 
     if (

@@ -1,13 +1,7 @@
-import { mat4, quat, vec2, vec3 } from "gl-matrix";
-import { MAX_ENTITY, Skeleton } from "../renderer/geometries/model/skeleton";
-import { triceratops } from "../entities/triceratops";
+import { quat, vec2, vec3 } from "gl-matrix";
+import { Skeleton } from "../renderer/geometries/model/skeleton";
 import { lerp } from "../utils/math";
 import { V_MAX, Walker } from "./walker";
-
-const X = [1, 0, 0] as vec3;
-
-const QUAT0 = quat.create();
-const q = quat.create();
 
 export const updateWalkerPose = (w: Skeleton & Walker) => {
   const v_l = vec2.length(w.velocity) / V_MAX;

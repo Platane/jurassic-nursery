@@ -5,11 +5,9 @@ import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
 import { PLAYGROUND_SIZE } from "../../../systems";
 import { createPolygonLine } from "../../geometries/line/polygon";
-import { setFromArray } from "../../../utils/vec3";
-import { quat, vec3 } from "gl-matrix";
-import { WANDERING_RADIUS } from "../../../systems/ia";
+import { WANDERING_RADIUS, isInsidePlayground } from "../../../systems/ia";
 import { state } from "../../../ui/state";
-import { isTriceratops, triceratops } from "../../../entities/triceratops";
+import { isTriceratops } from "../../../entities/triceratops";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
@@ -29,7 +27,14 @@ gl.bindVertexArray(vao);
 // position
 //
 
-const positions = createPolygonLine(4, PLAYGROUND_SIZE, 0.1, 0.2, 0.04);
+const positions = createPolygonLine(
+  4,
+  PLAYGROUND_SIZE * 0.707,
+  0.1,
+  0.2,
+  0.04,
+  Math.PI / 4
+);
 
 const wanderingZone = createPolygonLine(50, WANDERING_RADIUS, 0.1, 0);
 
@@ -72,7 +77,10 @@ export const draw = () => {
 
   let n = positions.length / 3;
 
-  if (isTriceratops(state.dragged)) {
+  if (
+    isTriceratops(state.dragged) &&
+    isInsidePlayground(state.dragged.origin[0], state.dragged.origin[2])
+  ) {
     dragged = true;
 
     const x = state.dragged.origin[0];

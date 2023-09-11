@@ -5,12 +5,12 @@ import { state } from "../ui/state";
 import { triceratopsParticles } from "../entities/fruits";
 
 export type WithEmote = {
-  emote: null | "happy";
+  emote?: null | "happy";
 
   mood?: { type: "happy"; t: 0 } | { type: "love"; t: 0 };
 
-  inLove: boolean;
-  lookAt: vec3 | null;
+  inLove?: boolean;
+  lookAt?: vec3 | null;
   seed: number;
 };
 
