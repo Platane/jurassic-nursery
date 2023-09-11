@@ -8,6 +8,7 @@ import linaria from "@linaria/rollup";
 import css from "rollup-plugin-css-only";
 import { glsl } from "./rollup-plugin-glsl";
 import { shaderVariables } from "./rollup-plugin-shader-variables";
+import visualizer from "rollup-plugin-visualizer";
 
 // @ts-ignore
 import importAssets from "rollup-plugin-import-assets";
@@ -69,6 +70,7 @@ export const createRollupInputOptions = (production: boolean) => {
         exclude: /node_modules/,
         sourceMap: false,
         target: "es2022",
+        minify: production,
         define: {
           "process.env.NODE_ENV": production ? '"production"' : '"dev"',
         },
@@ -86,11 +88,21 @@ export const createRollupInputOptions = (production: boolean) => {
         compress: production,
       }),
 
-      ...(production ? [shaderVariables()] : []),
-
       css({
         output: "style.css",
       }),
+
+      ...(production
+        ? [
+            shaderVariables(),
+            visualizer({
+              filename: "dist/bundle-stats.html",
+              template: "sunburst",
+              gzipSize: true,
+              // "treemap",
+            }),
+          ]
+        : []),
     ],
   } as InputOptions;
 };

@@ -27,7 +27,9 @@ execFileSync("advzip", [
   "--add",
   "--shrink-insane",
   path.join(distDir, "bundle.zip"),
-  ...listFiles(distDir),
+  ...listFiles(distDir).filter(
+    (fileName) => !fileName.endsWith("bundle-stats.html")
+  ),
 ]);
 
 //
