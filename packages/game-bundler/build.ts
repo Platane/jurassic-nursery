@@ -31,6 +31,20 @@ export const bundle = async (
     (output.find((o) => o.fileName === "style.css") as OutputAsset)?.source ??
     "";
 
+  const assets = Object.fromEntries(
+    output
+      .filter((o) => o.fileName !== "index.js" && o.fileName !== "style.css")
+      .map((o) => [o.fileName, o.type === "chunk" ? o.code : o.source])
+  );
+
+  const filenameAlias = new Map(
+    Object.keys(assets).map((filename, i) => [filename, i.toString()])
+  );
+
+  filenameAlias.forEach((alias, filename) => {
+    jsCode = jsCode.replaceAll(filename, alias);
+  });
+
   // minify with terser
   if (minify) {
     jsCode = optimizeGlMatrix(jsCode);
@@ -76,38 +90,20 @@ export const bundle = async (
 
   if (minify) htmlContent = await minifyHtml(htmlContent, minifyHtmlOptions);
 
-  return renameAssetName({
+  return {
     "index.html": htmlContent,
     ...Object.fromEntries(
-      output
-        .filter((o) => o.fileName !== "index.js" && o.fileName !== "style.css")
-        .map((o) => [o.fileName, o.type === "chunk" ? o.code : o.source])
+      Object.entries(assets).map(([filename, content]) => [
+        filenameAlias.get(filename),
+        content,
+      ])
     ),
-  });
+  } as Record<string, string | Buffer>;
 };
 
 const replace = (text: string, pattern: string, replace: string) => {
   const [before, after] = text.split(pattern);
   return before + replace + after;
-};
-
-const renameAssetName = (assets: Record<string, string | Buffer>) => {
-  const a: Record<string, string | Buffer> = {};
-
-  const paths = new Map<string, string>();
-
-  a["index.html"] = assets["index.html"] as string;
-
-  for (const fileName of Object.keys(assets))
-    if (fileName !== "index.html") {
-      const alias = paths.size.toString(36);
-      paths.set(fileName, alias);
-
-      a[alias] = assets[fileName];
-      a["index.html"] = a["index.html"].replaceAll(fileName, alias);
-    }
-
-  return a;
 };
 
 const forceArrowFunction = (code: string) =>
