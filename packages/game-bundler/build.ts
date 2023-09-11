@@ -10,6 +10,7 @@ import {
   terserOptions,
 } from "./rollup-config";
 import { transform as transformCss } from "lightningcss";
+import { Input, Packer } from "roadroller";
 
 export const build = async (minify = false) => {
   // bundle with rollup
@@ -34,10 +35,18 @@ export const bundle = async (
   if (minify) {
     jsCode = optimizeGlMatrix(jsCode);
 
-    // jsCode = jsCode.replaceAll("Math.PI", "3.1416");
-
     const out = await minifyJs(jsCode, terserOptions);
     jsCode = out.code!;
+
+    const packer = new Packer(
+      [{ data: jsCode, type: "js", action: "eval" } as Input],
+      { allowFreeVars: true }
+    );
+    await packer.optimize(2);
+
+    const { firstLine, secondLine } = packer.makeDecoder();
+
+    jsCode = firstLine + secondLine;
   }
 
   if (minify)

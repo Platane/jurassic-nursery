@@ -70,7 +70,7 @@ export const createRollupInputOptions = (production: boolean) => {
         exclude: /node_modules/,
         sourceMap: false,
         target: "es2022",
-        minify: production,
+        minify: false,
         define: {
           "process.env.NODE_ENV": production ? '"production"' : '"dev"',
         },

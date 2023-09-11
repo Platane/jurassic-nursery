@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "rollup-plugin-visualizer": "5.9.2",
     "@babel/preset-typescript": "7.22.15",
     "@linaria/rollup": "4.5.4",
     "@rollup/plugin-commonjs": "25.0.4",
@@ -16,9 +15,11 @@
     "esbuild": "0.19.2",
     "html-minifier-terser": "7.2.0",
     "lightningcss": "1.21.7",
+    "roadroller": "2.1.0",
     "rollup-plugin-css-only": "4.3.0",
     "rollup-plugin-esbuild": "5.0.0",
     "rollup-plugin-import-assets": "1.1.1",
+    "rollup-plugin-visualizer": "5.9.2",
     "rollup-pluginutils": "2.8.2",
     "rollup": "3.29.0",
     "terser": "5.19.4"
