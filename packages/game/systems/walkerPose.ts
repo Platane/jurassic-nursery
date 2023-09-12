@@ -2,8 +2,20 @@ import { quat, vec2, vec3 } from "gl-matrix";
 import { Skeleton } from "../renderer/geometries/model/skeleton";
 import { lerp } from "../utils/math";
 import { V_MAX, Walker } from "./walker";
+import { Triceratops } from "../entities/triceratops";
 
-export const updateWalkerPose = (w: Skeleton & Walker) => {
+export const updateWalkerPose = (w: Triceratops) => {
+  if (w.dragged_anchor) {
+    quat.fromEuler(w.head_direction, 0, 0, -55);
+    quat.fromEuler(w.tail_direction, 0, 0, 30);
+    w.feet[0] = 0.3;
+    w.feet[1] = 0.3;
+    w.feet[2] = -0.3;
+    w.feet[3] = -0.3;
+
+    return;
+  }
+
   const v_l = vec2.length(w.velocity) / V_MAX;
 
   //

@@ -30,25 +30,25 @@ export const variants = (
     [2, [0.41, 0.11], [1, 2]],
 
     // 5 indigo
-    [2, [0.75], [4, 0]],
+    [2, [0.75], [0, 4]],
 
     // 6 opal
     [3, [0.34], [2, 3]],
 
     // 7 red - indigo
-    [5, [0, 0.75], [5, 0]],
+    [4, [0, 0.75], [0, 5]],
 
     // 8 opal - indigo
-    [1, [0.75, 0.35], [6, 5]],
+    [1, [0.75, 0.35], [5, 6]],
 
     // 9 blue
-    [0, [0.49], [8, 4]],
+    [0, [0.49], [4, 8]],
 
     // 10 blue - beige
-    [2, [0.5, 0.1], [9, 1]],
+    [2, [0.5, 0.1], [1, 9]],
 
     // 11 gold
-    [3, [0.15], [10, 7]],
+    [3, [0.15], [7, 10]],
   ] satisfies [
     number,
     [number] | [number, number],
@@ -93,3 +93,22 @@ export const variants = (
 
   return { edible, colors, variant_index: i, variant_parent };
 });
+
+export const getChildVariant = (va: number, vb: number) => {
+  let v0 = Math.min(va, vb);
+  let v1 = Math.max(va, vb);
+
+  for (let k = variants.length; k--; ) {
+    const variant = variants[k];
+
+    if (
+      variant.variant_parent &&
+      variant.variant_parent[0] === v0 &&
+      variant.variant_parent[1] === v1
+    )
+      return k;
+  }
+
+  if (Math.random() > 0.5) return va;
+  else return vb;
+};

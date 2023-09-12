@@ -11,6 +11,7 @@ import { setEntityColorSchema } from "../renderer/geometries/model/colorSchema";
 
 export type Entity = {
   id: number;
+  variant_index: number;
   // genotype: Genotype;
   // parents?: [Entity, Entity];
 };

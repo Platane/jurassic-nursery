@@ -10,26 +10,7 @@ export const updateTriceratopsDragged = (tri: Triceratops) => {
     tri.go_to_target = undefined;
 
     stepSpring3(tri.o, tri.dragged_v, tri.dragged_anchor, springParams_tri);
-
-    // v[0] = tri.dragged_v[0];
-    // v[1] = tri.dragged_v[1] - 1;
-    // v[2] = tri.dragged_v[2];
-    // vec3.normalize(v, v);
-
-    quat.fromEuler(tri.head_direction, 0, 0, -55);
-    quat.fromEuler(tri.tail_direction, 0, 0, 30);
-    tri.feet[0] = 0.3;
-    tri.feet[1] = 0.3;
-    tri.feet[2] = -0.3;
-    tri.feet[3] = -0.3;
   } else if (tri.dragged_v) {
-    quat.fromEuler(tri.head_direction, 0, 0, 0);
-    quat.fromEuler(tri.tail_direction, 0, 0, 0);
-    tri.feet[0] = 0;
-    tri.feet[1] = 0;
-    tri.feet[2] = 0;
-    tri.feet[3] = 0;
-
     vec3.scale(tri.dragged_v, tri.dragged_v, 0.96);
 
     tri.dragged_v[1] -= 0.4;

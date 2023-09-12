@@ -63,7 +63,10 @@ export const updateEmote = (
     if (w.mood.t > 120) w.mood = undefined;
   }
 
-  if (w.food_level >= MAX_FOOD_LEVEL && (w.seed + state.t) % 53 === 0) {
+  if (
+    (w.food_level >= MAX_FOOD_LEVEL && (w.seed + state.t) % 53 === 0) ||
+    (w.activity.type === "in-love" && (w.seed + state.t) % 21 === 0)
+  ) {
     triceratopsParticles.add({
       triceratopsId: w.id,
       localPosition0: [

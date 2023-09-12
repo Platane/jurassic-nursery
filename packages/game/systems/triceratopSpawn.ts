@@ -13,7 +13,7 @@ const first_variants = [1, 2];
 let tuto_done = false;
 
 export const updateTriceratopsSpawn = () => {
-  const N = 200;
+  const N = 300;
 
   if (!tuto_done) {
     triceratops.forEach((tri) => {
@@ -21,7 +21,7 @@ export const updateTriceratopsSpawn = () => {
     });
   }
 
-  if (tuto_done && triceratops.size < 2 && state.t % N === 0) {
+  if (tuto_done && triceratops.size < 3 && state.t % N === 0) {
     const tri = addTriceratops(
       first_variants.shift() ?? 0 | (Math.random() * 3)
     );
