@@ -11,7 +11,7 @@ import { mat4, vec3 } from "gl-matrix";
 import { PLAYGROUND_SIZE } from "../systems/const";
 
 const maxZoom = 10;
-const minZoom = 0;
+const minZoom = 6;
 
 const rotationSpeed = 5;
 
@@ -22,7 +22,7 @@ let theta = 0.03;
 let zoom = 6;
 
 const update = () => {
-  const radius = 1 + zoom * zoom * 0.18;
+  const radius = zoom * zoom * 0.18;
 
   const sinPhiRadius = Math.sin(phi) * radius;
   eye[0] = lookAtPoint[0] + sinPhiRadius * Math.sin(theta);
@@ -51,7 +51,7 @@ const rotateMove: H = ([{ pageX: x, pageY: y }]) => {
     theta -= (dx / window.innerHeight) * rotationSpeed;
     phi -= (dy / window.innerHeight) * rotationSpeed;
 
-    phi = clamp(phi, Math.PI * 0.0002, Math.PI * 0.49);
+    phi = clamp(phi, Math.PI * 0.0002, Math.PI * 0.38);
 
     px = x;
     py = y;

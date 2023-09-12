@@ -86,7 +86,7 @@ export const draw = () => {
   const sprites: Sprite[] = [...fruits.values(), ...triceratopsParticles];
 
   for (let j = 0; j < sprites.length; j++) {
-    const { position: p, i, size: s } = sprites[j];
+    const { p: p, i, size: s } = sprites[j];
 
     vec3.transformMat4(a, p, viewMatrix);
 

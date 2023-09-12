@@ -22,10 +22,10 @@ export const updateTriceratopsParticles = () => {
 
       const h = clamp(-(p.t - 73) / 5, 0, 1);
 
-      vec3.copy(p.position, p.localPosition0);
-      vec3.transformQuat(p.position, p.position, tri.direction);
-      vec3.add(p.position, p.position, tri.origin);
-      vec3.scaleAndAdd(p.position, p.position, UP, k * 0.6);
+      vec3.copy(p.p, p.localPosition0);
+      vec3.transformQuat(p.p, p.p, tri.direction);
+      vec3.add(p.p, p.p, tri.o);
+      vec3.scaleAndAdd(p.p, p.p, UP, k * 0.6);
 
       p.size = (h < 1 ? h : k) * 0.6;
     } else if (p.i === 7 || p.i === 8) {
@@ -38,12 +38,12 @@ export const updateTriceratopsParticles = () => {
       const a = k * 10;
       const A = k * k * 0.1;
 
-      p.position[0] = p.localPosition0[0] + Math.sin(a) * A;
-      p.position[1] = p.localPosition0[1];
-      p.position[2] = p.localPosition0[2] + Math.cos(a) * A;
-      vec3.transformQuat(p.position, p.position, tri.direction);
-      vec3.add(p.position, p.position, tri.origin);
-      vec3.scaleAndAdd(p.position, p.position, UP, k * 0.65);
+      p.p[0] = p.localPosition0[0] + Math.sin(a) * A;
+      p.p[1] = p.localPosition0[1];
+      p.p[2] = p.localPosition0[2] + Math.cos(a) * A;
+      vec3.transformQuat(p.p, p.p, tri.direction);
+      vec3.add(p.p, p.p, tri.o);
+      vec3.scaleAndAdd(p.p, p.p, UP, k * 0.65);
 
       p.size = (k > 0.5 ? clamp(invLerp(k, 1, 0.8), 0, 1) : k / 0.5) * 0.3;
     }

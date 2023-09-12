@@ -10,9 +10,9 @@ export const updateFruitSpawn = () => {
     const f = addFruit();
     f.i = 0 | (Math.random() * 5);
 
-    f.position[0] = (Math.random() - 0.5) * PLAYGROUND_SIZE * 1.2;
-    f.position[1] = 5;
-    f.position[2] = PLAYGROUND_SIZE / 2 + -0.4 + Math.random() * 0.6;
+    f.p[0] = (Math.random() - 0.5) * PLAYGROUND_SIZE * 1.2;
+    f.p[1] = 5;
+    f.p[2] = PLAYGROUND_SIZE / 2 + -0.4 + Math.random() * 0.6;
 
     f.dragged_v = [(Math.random() - 0.5) * 3, 0, 2 + Math.random() * 3];
   }

@@ -79,12 +79,12 @@ export const draw = () => {
 
   if (
     isTriceratops(state.dragged) &&
-    isInsidePlayground(state.dragged.origin[0], state.dragged.origin[2])
+    isInsidePlayground(state.dragged.o[0], state.dragged.o[2])
   ) {
     dragged = true;
 
-    const x = state.dragged.origin[0];
-    const y = state.dragged.origin[2];
+    const x = state.dragged.o[0];
+    const y = state.dragged.o[2];
 
     const ps = [
       ...positions,

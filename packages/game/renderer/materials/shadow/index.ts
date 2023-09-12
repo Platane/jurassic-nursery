@@ -70,7 +70,7 @@ export const draw = () => {
 
   let j = 0;
   for (const fruit of fruits.values()) {
-    const { position: p, size } = fruit;
+    const { p: p, size } = fruit;
 
     const l = size / 2;
 
@@ -101,7 +101,7 @@ export const draw = () => {
   }
 
   for (const tri of triceratops.values()) {
-    const { origin, direction } = tri;
+    const { o: origin, direction } = tri;
 
     const lx = 0.85;
     const lz = 0.5;

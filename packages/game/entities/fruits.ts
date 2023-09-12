@@ -1,7 +1,7 @@
 import { vec3 } from "gl-matrix";
 import { Draggable } from "./triceratops";
 
-export type Sprite = { position: vec3; size: number; i: number };
+export type Sprite = { p: vec3; size: number; i: number };
 
 export type Fruit = {
   id: number;
@@ -18,7 +18,7 @@ export const addFruit = () => {
   const fruit = {
     size: FRUIT_S,
     i: 0,
-    position: [0, FRUIT_Y, 0],
+    p: [0, FRUIT_Y, 0],
     id: _id++,
   } as Fruit;
   fruits.set(fruit.id, fruit);
@@ -26,18 +26,18 @@ export const addFruit = () => {
 };
 
 const fruit0 = addFruit();
-fruit0.position[0] = 2;
-fruit0.position[2] = 3;
+fruit0.p[0] = 2;
+fruit0.p[2] = 3;
 fruit0.i = 1;
 
 const fruit1 = addFruit();
-fruit1.position[0] = 4;
-fruit1.position[2] = 6;
+fruit1.p[0] = 4;
+fruit1.p[2] = 6;
 fruit1.i = 2;
 
 const fruit3 = addFruit();
-fruit3.position[0] = -4;
-fruit3.position[2] = 3;
+fruit3.p[0] = -4;
+fruit3.p[2] = 3;
 fruit3.i = 3;
 
 export type Particle = Sprite & { t: number; position0: vec3 };

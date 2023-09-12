@@ -25,8 +25,8 @@ export const updateTriceratopsSpawn = () => {
     );
 
     const a = Math.random() * 6;
-    tri.origin[0] = Math.cos(a) * PLAYGROUND_SIZE * 1.5;
-    tri.origin[2] = Math.sin(a) * PLAYGROUND_SIZE * 1.5;
+    tri.o[0] = Math.cos(a) * PLAYGROUND_SIZE * 1.5;
+    tri.o[2] = Math.sin(a) * PLAYGROUND_SIZE * 1.5;
 
     tri.wandering_center[0] = (Math.random() - 0.5) * PLAYGROUND_SIZE * 0.9;
     tri.wandering_center[1] = (Math.random() - 0.5) * PLAYGROUND_SIZE * 0.9;
@@ -36,6 +36,6 @@ export const updateTriceratopsSpawn = () => {
 };
 
 const tri = addTriceratops(0);
-tri.origin[0] = -PLAYGROUND_SIZE * 0.6;
-tri.origin[2] = 3;
+tri.o[0] = -PLAYGROUND_SIZE * 0.6;
+tri.o[2] = 3;
 updateTriceratops();

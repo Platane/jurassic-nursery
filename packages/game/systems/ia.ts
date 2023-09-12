@@ -89,13 +89,13 @@ export const updateDecision = (
       // stop just before the fruit
       // so the head line up
 
-      a[0] = fruit_target.position[0] - w.origin[0];
-      a[1] = fruit_target.position[2] - w.origin[2];
+      a[0] = fruit_target.p[0] - w.o[0];
+      a[1] = fruit_target.p[2] - w.o[2];
 
       const l = vec2.length(a);
 
-      w.target[0] = fruit_target.position[0] + (a[0] / l) * -0.9;
-      w.target[1] = fruit_target.position[2] + (a[1] / l) * -0.9;
+      w.target[0] = fruit_target.p[0] + (a[0] / l) * -0.9;
+      w.target[1] = fruit_target.p[2] + (a[1] / l) * -0.9;
 
       if (l > 10) (w.activity as any).type = "idle";
 
@@ -120,15 +120,15 @@ export const updateDecision = (
         w.mood = { type: "happy", t: 0 };
       } else {
         const f = addFruit();
-        f.position[0] = 1;
+        f.p[0] = 1;
         f.i = w.activity.food_target_i;
 
-        vec3.transformQuat(f.position, f.position, w.direction);
+        vec3.transformQuat(f.p, f.p, w.direction);
 
-        f.dragged_v = [f.position[0] * 3, 3, f.position[2] * 3];
+        f.dragged_v = [f.p[0] * 3, 3, f.p[2] * 3];
 
-        f.position[0] += w.origin[0];
-        f.position[2] += w.origin[2];
+        f.p[0] += w.o[0];
+        f.p[2] += w.o[2];
 
         (w.activity as any).type = "say-no";
         (w.activity as any).t = 0;
@@ -148,8 +148,8 @@ export const updateDecision = (
     if (w.activity.t > 80) {
       (w.activity as any).type = "leaving";
 
-      const ox = w.origin[0] * 1.4;
-      const oy = w.origin[2];
+      const ox = w.o[0] * 1.4;
+      const oy = w.o[2];
 
       const l = Math.hypot(ox, oy);
 
@@ -157,7 +157,7 @@ export const updateDecision = (
       w.target[1] = (oy / l) * PLAYGROUND_SIZE * 2.2;
     }
   } else if (w.activity.type === "leaving") {
-    const l = Math.hypot(w.target[0] - w.origin[0], w.target[1] - w.origin[2]);
+    const l = Math.hypot(w.target[0] - w.o[0], w.target[1] - w.o[2]);
 
     if (l < 1) {
       triceratops.delete(w.id);
@@ -173,12 +173,12 @@ const findANiceFruit = (w: Skeleton & WithDecision): number | undefined => {
   for (const fruit of fruits.values()) {
     if (
       (!w.will_not_eat_again.has(fruit.id) || fruit.dragged_anchor) &&
-      isInsidePlayground(fruit.position[0], fruit.position[2])
+      isInsidePlayground(fruit.p[0], fruit.p[2])
     ) {
       // const v = [position[0] - w.origin[0], position[2] - w.origin[2]] as vec2;
       // const l = vec2.length(v);
 
-      const l = vec3.distance(fruit.position, w.origin);
+      const l = vec3.distance(fruit.p, w.o);
 
       if (l < WANDERING_RADIUS * 0.6) grabbable.push(fruit.id);
     }

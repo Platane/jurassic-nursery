@@ -13,7 +13,7 @@ const m = mat4.create();
 const QUAT0 = quat.create();
 
 export type Skeleton = {
-  origin: vec3;
+  o: vec3;
 
   direction: quat;
 
@@ -29,7 +29,7 @@ export type Skeleton = {
 const updateBones = (
   bones: mat4[],
   {
-    origin,
+    o: origin,
     direction,
     tail_direction,
     head_direction,
@@ -198,7 +198,7 @@ export const createSkeleton = () => {
   const feet = [0, 0, 0, 0];
 
   return {
-    origin,
+    o: origin,
     direction,
     tail_direction,
     head_direction,

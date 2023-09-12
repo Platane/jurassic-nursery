@@ -54,10 +54,7 @@ export const step = () => {
     // to introduce collision avoidance
     const target = w.target;
 
-    const desired_v = [
-      target[0] - w.origin[0],
-      target[1] - w.origin[2],
-    ] as vec2;
+    const desired_v = [target[0] - w.o[0], target[1] - w.o[2]] as vec2;
     const d = vec2.length(desired_v);
 
     if (d < 0.2) {
@@ -122,8 +119,8 @@ export const step = () => {
       w.velocity[0] = Math.cos(new_angle) * new_v_l;
       w.velocity[1] = Math.sin(new_angle) * new_v_l;
 
-      w.origin[0] += w.velocity[0];
-      w.origin[2] += w.velocity[1];
+      w.o[0] += w.velocity[0];
+      w.o[2] += w.velocity[1];
 
       quat.fromEuler(w.direction, 0, -(new_angle / Math.PI) * 180, 0);
 

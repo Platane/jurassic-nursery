@@ -30,7 +30,7 @@ export const updateEmote = (
       triceratopsParticles.add({
         triceratopsId: w.id,
         localPosition0: [0.7, 0, 0],
-        position: [] as any as vec3,
+        p: [] as any as vec3,
         size: 0,
         i: 5,
         t: 0,
@@ -50,7 +50,7 @@ export const updateEmote = (
           0.3,
           (Math.random() - 0.5) * 0.5,
         ],
-        position: [] as any as vec3,
+        p: [] as any as vec3,
         size: 0,
         i: 8,
         t: 0,
