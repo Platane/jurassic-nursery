@@ -49,7 +49,7 @@ export const createRollupInputOptions = (production: boolean) => {
       commonjs(),
 
       resolve({
-        extensions: [".ts", ".js"],
+        extensions: [".tsx", ".ts", ".js"],
       }),
 
       linaria({
@@ -66,7 +66,7 @@ export const createRollupInputOptions = (production: boolean) => {
       }),
 
       esbuild({
-        include: ["**/*.ts"],
+        include: ["**/*.ts", "**/*.tsx"],
         exclude: /node_modules/,
         sourceMap: false,
         target: "es2022",
