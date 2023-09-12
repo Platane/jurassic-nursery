@@ -4,8 +4,8 @@ import {
   getScreenX,
   getScreenY,
 } from "./utils/getRayFromScreen";
-import { Handler } from "./controls-type";
-import { Draggable, triceratops } from "../entities/triceratops";
+import { Handler, Touche } from "./controls-type";
+import { triceratops } from "../entities/triceratops";
 import { fruits } from "../entities/fruits";
 import { raycastToScene } from "../systems/raycastScene";
 import { projectOnGround } from "../utils/collision/projectOnGround";
@@ -15,7 +15,7 @@ const o = vec3.create();
 const v = vec3.create();
 
 export const onTouchStart: Handler = (touches) => {
-  if (touches.length !== 1) {
+  if (touches.length !== 1 || touches[0]?.button) {
     if (state.dragged) {
       state.dragged.dragged_anchor = undefined;
       state.dragged = null;
@@ -50,6 +50,8 @@ export const onTouchStart: Handler = (touches) => {
 };
 
 export const onTouchMove: Handler = (touches) => {
+  _touches = touches;
+
   if (!state.dragged) return;
 
   const [{ pageX, pageY }] = touches;
@@ -65,3 +67,6 @@ export const onTouchEnd: Handler = (touches) => {
     state.dragged = null;
   }
 };
+
+let _touches: Touche[];
+export const onFrame = () => onTouchMove(_touches);

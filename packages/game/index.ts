@@ -3,25 +3,18 @@ import "./controls";
 import { render } from "./renderer";
 import { mat4, quat, vec3 } from "gl-matrix";
 import { geometryPromise } from "./renderer/geometries/model/model";
-import { setEntityColorSchema } from "./renderer/geometries/model/colorSchema";
-import { hslToRgb } from "./utils/color";
-import { triceratops } from "./entities/triceratops";
-import {
-  MAX_ENTITY,
-  Skeleton,
-  createSkeleton,
-} from "./renderer/geometries/model/skeleton";
 import { canvas } from "./renderer/canvas";
 import {
   getRayFromScreen,
   getScreenX,
   getScreenY,
 } from "./controls/utils/getRayFromScreen";
-import { sphereRayCollision } from "./utils/collision/sphereRayCollision";
 import { raycastToScene } from "./systems/raycastScene";
 import { update as update_system } from "./systems";
+import { onFrame as onFrame_controls } from "./controls";
 
 const loop = () => {
+  onFrame_controls();
   update_system();
 
   render();
@@ -36,7 +29,7 @@ geometryPromise.then(() => requestAnimationFrame(loop));
 //
 //
 //
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== "production" && false) {
   const c = document.createElement("canvas");
   c.width = canvas.width;
   c.height = canvas.height;

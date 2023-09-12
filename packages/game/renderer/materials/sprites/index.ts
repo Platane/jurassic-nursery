@@ -85,16 +85,6 @@ export const draw = () => {
 
   const sprites: Sprite[] = [...fruits.values(), ...triceratopsParticles];
 
-  if (state.selectedTriceratopsId !== null) {
-    const o = triceratops.get(state.selectedTriceratopsId)!.origin;
-
-    sprites.push({
-      position: [o[0], o[1] + 0.5 + Math.sin(state.t * 0.1) ** 2 * 0.1, o[2]],
-      size: 1,
-      i: -1,
-    });
-  }
-
   for (let j = 0; j < sprites.length; j++) {
     const { position: p, i, size: s } = sprites[j];
 

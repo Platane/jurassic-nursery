@@ -10,25 +10,14 @@ export const perspectiveMatrix = new Float32Array(4 * 4);
 
 // lookAtMatrix, build from the camera
 export const lookAtMatrix = mat4.create();
-export const lookAtMatrix3 = mat3.create();
 
 // combination or perspective and lookAt matrices
 export const worldMatrix = mat4.create();
-
-// to apply to normal
-export const normalTransformMatrix3 = mat3.create();
-export const normalTransformMatrix4 = mat4.create();
 
 export const updateLookAtMatrix = () => {
   mat4.lookAt(lookAtMatrix, eye, lookAtPoint, UP);
 
   mat4.multiply(worldMatrix, perspectiveMatrix, lookAtMatrix);
-
-  mat3.fromMat4(lookAtMatrix3, lookAtMatrix);
-
-  mat3.normalFromMat4(normalTransformMatrix3, lookAtMatrix);
-
-  mat4FromMat3(normalTransformMatrix4, normalTransformMatrix3);
 };
 
 export const onResize = () => {
