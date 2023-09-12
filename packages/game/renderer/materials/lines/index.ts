@@ -31,8 +31,8 @@ const positions = createPolygonLine(
   4,
   PLAYGROUND_SIZE * 0.707,
   0.1,
-  0.2,
-  0.04,
+  0,
+  0,
   Math.PI / 4
 );
 

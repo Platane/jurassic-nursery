@@ -6,7 +6,7 @@ import { state } from "../ui/state";
 export type Walker = {
   seed: number;
 
-  target: vec2;
+  go_to_target?: vec2;
 
   velocity: vec2;
 
@@ -27,32 +27,14 @@ const ALLOWED_ANGLE_MAX = Math.PI / 100;
 // half turn in 1000 frames
 const ALLOWED_ANGLE_MIN = Math.PI / 10000;
 
-const targetGizmo = mat4.create();
-// gizmos.push(targetGizmo);
-
-const trails = Array.from({ length: 50 }, mat4.create);
-// gizmos.push(...trails);
-
 export const step = () => {
-  // const triceratops0 = [...triceratops.values()][0];
-  // mat4.fromTranslation(targetGizmo, [
-  //   triceratops0.target[0],
-  //   0,
-  //   triceratops0.target[1],
-  // ]);
-
   for (const w of triceratops.values()) {
-    if (w.dragged_anchor) continue;
-
-    const direction3 = [1, 0, 0] as vec3;
-    vec3.transformQuat(direction3, direction3, w.direction);
-    direction3[1] = 0;
-    vec3.normalize(direction3, direction3);
+    if (w.dragged_anchor || !w.go_to_target) continue;
 
     //
     // intermediate target
     // to introduce collision avoidance
-    const target = w.target;
+    const target = w.go_to_target;
 
     const desired_v = [target[0] - w.o[0], target[1] - w.o[2]] as vec2;
     const d = vec2.length(desired_v);
@@ -60,11 +42,18 @@ export const step = () => {
     if (d < 0.2) {
       // bravo
 
+      w.go_to_target = undefined;
+
       w.velocity[0] = 0;
       w.velocity[1] = 0;
     } else {
       desired_v[0] /= d;
       desired_v[1] /= d;
+
+      const direction3 = [1, 0, 0] as vec3;
+      vec3.transformQuat(direction3, direction3, w.direction);
+      direction3[1] = 0;
+      vec3.normalize(direction3, direction3);
 
       const desired_angle = Math.atan2(desired_v[1], desired_v[0]);
       const current_angle = Math.atan2(direction3[2], direction3[0]);
@@ -78,7 +67,7 @@ export const step = () => {
       //
       // depending on the current velocity, the entity is allowed a certain turning radius
       const allowed_angle_delta = lerp(
-        invLerp(current_v_l, 0, V_MAX),
+        invLerp(current_v_l, 0, w.v_max),
 
         // half turn in 100 frames
         ALLOWED_ANGLE_MAX,
@@ -109,7 +98,7 @@ export const step = () => {
         u = 1 - clamp(a / (Math.PI * 0.6), 0, 1);
       }
 
-      let desired_v_l = lerp(u, V_MAX * 0.2, V_MAX);
+      let desired_v_l = lerp(u, w.v_max * 0.2, w.v_max);
 
       const new_v_l =
         current_v_l > desired_v_l
@@ -123,11 +112,6 @@ export const step = () => {
       w.o[2] += w.velocity[1];
 
       quat.fromEuler(w.direction, 0, -(new_angle / Math.PI) * 180, 0);
-
-      if (state.t % 8 === 0) {
-        // mat4.fromTranslation(trails[0], [w.origin[0], 0, w.origin[2]]);
-        trails.push(trails.shift()!);
-      }
     }
   }
 };

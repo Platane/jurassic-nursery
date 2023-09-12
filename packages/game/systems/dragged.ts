@@ -7,6 +7,8 @@ import { PLAYGROUND_SIZE } from "./const";
 
 export const updateTriceratopsDragged = (tri: Triceratops) => {
   if (tri.dragged_anchor && tri.dragged_v) {
+    tri.go_to_target = undefined;
+
     stepSpring3(tri.o, tri.dragged_v, tri.dragged_anchor, springParams_tri);
 
     // v[0] = tri.dragged_v[0];
@@ -44,6 +46,8 @@ export const updateTriceratopsDragged = (tri: Triceratops) => {
       if (tri.activity.type === "carried") {
         if (isInsidePlayground(tri.o[0], tri.o[2])) {
           (tri.activity as any).type = "idle";
+          tri.wandering_center[0] = tri.o[0];
+          tri.wandering_center[1] = tri.o[2];
         } else {
           (tri.activity as any).type = "leaving-hesitation";
           (tri.activity as any).t = 0;
@@ -54,9 +58,6 @@ export const updateTriceratopsDragged = (tri: Triceratops) => {
     if (Math.abs(tri.o[1] - y0) < 0.2 && vec3.length(tri.dragged_v) < 0.4) {
       tri.dragged_v = undefined;
       tri.o[1] = y0;
-
-      tri.target[0] = tri.o[0];
-      tri.target[1] = tri.o[2];
     }
   }
 };

@@ -11,7 +11,7 @@ export const updateWalkerPose = (w: Skeleton & Walker) => {
   //
 
   w.tail_t += lerp(v_l, 0.015, 0.12);
-  w.feet_t += lerp(1 - (v_l - 1) ** 2, 0, 0.13);
+  w.feet_t += lerp(1 - (1 - v_l) ** 3, 0, 0.12);
 
   const blobbing_A = lerp(v_l, 5, 10);
 

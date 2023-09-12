@@ -4,7 +4,9 @@ import { state } from "../ui/state";
 import { addFruit, fruits, triceratopsParticles } from "../entities/fruits";
 import { WithEmote } from "./emote";
 import { triceratops, updateTriceratops } from "../entities/triceratops";
-import { PLAYGROUND_SIZE, WANDERING_RADIUS } from "./const";
+import { MAX_FOOD_LEVEL, PLAYGROUND_SIZE, WANDERING_RADIUS } from "./const";
+import { V_MAX } from "./walker";
+import { lerp } from "../utils/math";
 
 export type WithNeed = {
   food_level: number;
@@ -19,7 +21,8 @@ export type WithNeed = {
 export type WithDecision = {
   seed: number;
   v_max: number;
-  target: vec2;
+
+  go_to_target?: vec2;
 
   activity:
     | {
@@ -69,16 +72,15 @@ export const updateDecision = (
   //
   // once ever X frame, look for something to eat
   //
-  const N = 140;
-  const s = Math.floor(w.seed * N);
-  if (state.t % N === s && w.activity.type === "idle") {
+
+  if ((state.t + w.seed) % 140 === 0 && w.activity.type === "idle") {
     console.log("--- ", w.id, "thinking..");
     const food_target_id = findANiceFruit(w);
     if (food_target_id) w.activity = { type: "go-to-food", food_target_id };
   }
 
   //
-  // go to where we want to eat something
+  // for each activity
   //
   if (w.activity.type === "go-to-food") {
     const fruit_target = fruits.get(w.activity.food_target_id);
@@ -94,8 +96,12 @@ export const updateDecision = (
 
       const l = vec2.length(a);
 
-      w.target[0] = fruit_target.p[0] + (a[0] / l) * -0.9;
-      w.target[1] = fruit_target.p[2] + (a[1] / l) * -0.9;
+      w.go_to_target = w.go_to_target ?? [0, 0];
+
+      w.go_to_target[0] = fruit_target.p[0] + (a[0] / l) * -0.9;
+      w.go_to_target[1] = fruit_target.p[2] + (a[1] / l) * -0.9;
+
+      w.v_max = V_MAX;
 
       if (l > 10) (w.activity as any).type = "idle";
 
@@ -116,6 +122,7 @@ export const updateDecision = (
     if (w.activity.t > EATING_DURATION) {
       if (w.edible.has(w.activity.food_target_i)) {
         w.food_level++;
+
         (w.activity as any).type = "idle";
         w.mood = { type: "happy", t: 0 };
       } else {
@@ -153,17 +160,34 @@ export const updateDecision = (
 
       const l = Math.hypot(ox, oy);
 
-      w.target[0] = (ox / l) * PLAYGROUND_SIZE * 2.2;
-      w.target[1] = (oy / l) * PLAYGROUND_SIZE * 2.2;
+      w.go_to_target = w.go_to_target ?? [0, 0];
+
+      w.go_to_target[0] = (ox / l) * PLAYGROUND_SIZE * 2.2;
+      w.go_to_target[1] = (oy / l) * PLAYGROUND_SIZE * 2.2;
     }
   } else if (w.activity.type === "leaving") {
-    const l = Math.hypot(w.target[0] - w.o[0], w.target[1] - w.o[2]);
-
-    if (l < 1) {
+    if (!w.go_to_target) {
       triceratops.delete(w.id);
       updateTriceratops();
     }
   } else if (w.activity.type === "idle") {
+    if (!w.go_to_target && (state.t + w.seed) % 78 === 0) {
+      let x = 9999;
+      let y = 9999;
+      while (
+        !isInsidePlayground(x, y) ||
+        Math.hypot(x - w.wandering_center[0], y - w.wandering_center[1]) >
+          WANDERING_RADIUS
+      ) {
+        x =
+          (Math.random() - 0.5) * WANDERING_RADIUS * 2 + w.wandering_center[0];
+        y =
+          (Math.random() - 0.5) * WANDERING_RADIUS * 2 + w.wandering_center[1];
+      }
+
+      w.v_max = V_MAX * lerp(Math.random(), 0.2, 0.5);
+      w.go_to_target = [x, y];
+    }
   }
 };
 
@@ -173,7 +197,8 @@ const findANiceFruit = (w: Skeleton & WithDecision): number | undefined => {
   for (const fruit of fruits.values()) {
     if (
       (!w.will_not_eat_again.has(fruit.id) || fruit.dragged_anchor) &&
-      isInsidePlayground(fruit.p[0], fruit.p[2])
+      isInsidePlayground(fruit.p[0], fruit.p[2]) &&
+      (w.food_level < MAX_FOOD_LEVEL || fruit.dragged_anchor)
     ) {
       // const v = [position[0] - w.origin[0], position[2] - w.origin[2]] as vec2;
       // const l = vec2.length(v);

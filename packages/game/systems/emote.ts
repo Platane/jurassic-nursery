@@ -3,6 +3,7 @@ import { Skeleton } from "../renderer/geometries/model/skeleton";
 import { EATING_DURATION, WithDecision } from "./ia";
 import { state } from "../ui/state";
 import { triceratopsParticles } from "../entities/fruits";
+import { MAX_FOOD_LEVEL } from "./const";
 
 export type WithEmote = {
   emote?: null | "happy";
@@ -60,5 +61,20 @@ export const updateEmote = (
     w.mood.t++;
 
     if (w.mood.t > 120) w.mood = undefined;
+  }
+
+  if (w.food_level >= MAX_FOOD_LEVEL && (w.seed + state.t) % 53 === 0) {
+    triceratopsParticles.add({
+      triceratopsId: w.id,
+      localPosition0: [
+        0.6 + (Math.random() - 0.5) * 0.5,
+        0.3,
+        (Math.random() - 0.5) * 0.5,
+      ],
+      p: [] as any as vec3,
+      size: 0,
+      i: 7,
+      t: 0,
+    });
   }
 };

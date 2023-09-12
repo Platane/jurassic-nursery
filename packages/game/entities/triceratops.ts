@@ -21,7 +21,6 @@ export type Draggable = {
 };
 
 export type Triceratops = Skeleton & {
-  target: vec2;
   colors: number[];
 } & Entity &
   Draggable &
@@ -46,14 +45,13 @@ export const addTriceratops = (variant_index: number) => {
     love_level: 0,
     happiness_level: 0,
     will_not_eat_again: new Set(),
-    target: [0, 0],
     wandering_center: [0, 0],
     velocity: vec2.create(),
     delta_angle_mean: 0,
     tail_t: Math.random() * 3,
     feet_t: Math.random() * 3,
     v_max: V_MAX,
-    seed: Math.random(),
+    seed: Math.floor(Math.random() * 100),
 
     activity: { type: "idle" },
   };
