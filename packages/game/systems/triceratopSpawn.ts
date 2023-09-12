@@ -21,7 +21,7 @@ export const updateTriceratopsSpawn = () => {
     });
   }
 
-  if (tuto_done && triceratops.size < 3 && state.t % N === 0) {
+  if (tuto_done && triceratops.size < 0 && state.t % N === 0) {
     const tri = addTriceratops(
       first_variants.shift() ?? 0 | (Math.random() * 3)
     );
@@ -42,7 +42,6 @@ tri.o[0] = -PLAYGROUND_SIZE * 0.6;
 tri.o[2] = 3;
 tri.go_to_target = [0, 0];
 tri.v_max = V_MAX;
-updateTriceratops();
 
 //
 //
@@ -53,4 +52,5 @@ updateTriceratops();
 //   tri.o[2] = k;
 //   tri.o[0] = -6;
 // }
-// updateTriceratops();
+
+updateTriceratops();
