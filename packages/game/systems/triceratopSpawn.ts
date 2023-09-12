@@ -5,6 +5,7 @@ import {
 } from "../entities/triceratops";
 import { state } from "../ui/state";
 import { MAX_FOOD_LEVEL, PLAYGROUND_SIZE } from "./const";
+import { variants } from "./gene";
 
 const first_variants = [1, 2];
 
@@ -38,4 +39,12 @@ export const updateTriceratopsSpawn = () => {
 const tri = addTriceratops(0);
 tri.o[0] = -PLAYGROUND_SIZE * 0.6;
 tri.o[2] = 3;
+updateTriceratops();
+
+for (let k = variants.length; k--; ) {
+  const tri = addTriceratops(k);
+
+  tri.target[1] = tri.o[2] = k;
+  tri.target[0] = tri.o[0] = -6;
+}
 updateTriceratops();

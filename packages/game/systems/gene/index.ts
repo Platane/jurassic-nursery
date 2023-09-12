@@ -12,54 +12,49 @@ export type Genotype = {
   v: number;
 }[];
 
-// export const variants = [
-//   //
-//   { name: "crimson", hue: [0], food: 0 },
-//   { name: "coral", hue: [0], food: 0 },
-//   { name: "orchid", hue: [0], food: 0 },
-//   { name: "turquoise", hue: [0], food: 0 },
-//   { name: "fuchsia", hue: [0], food: 0 },
-//   { name: "lavender", hue: [0], food: 0 },
-//   { name: "mint", hue: [0], food: 0 },
-//   { name: "teal", hue: [0], food: 0 },
-//   { name: "tomato", hue: [0], food: 0 },
-//   { name: "gold", hue: [0], food: 0 },
-// ] satisfies {
-//   name: string;
-//   hue: [number] | [number | number];
-//   parent?: [number, number];
-//   food: 0 | 1 | 2 | 3 | 4;
-// }[];
-
-export const variants = [
+export const variants = (
   [
-    // ediblePack
-    1,
+    // 0 red
+    [1, [0], undefined],
 
-    // hue 1
-    0,
-  ],
+    // 1 beige
+    [0, [0.1], undefined],
 
-  [
-    // ediblePack
-    3,
+    // 2 light green
+    [0, [0.41], undefined],
 
-    // hue 1
-    0.23,
-    // hue 2
-    0.62,
-  ],
+    // 3 beige - red
+    [3, [0.1, 0.02], [0, 1]],
 
-  [
-    // ediblePack
-    2,
+    // 4 beige- light green
+    [2, [0.41, 0.11], [1, 2]],
 
-    // hue 1
-    0.53,
-    // hue 2
-    0.22,
-  ],
-].map(([ediblePack, h1, h2], i) => {
+    // 5 indigo
+    [2, [0.75], [4, 0]],
+
+    // 6 opal
+    [2, [0.34], [2, 3]],
+
+    // 7 red - indigo
+    [2, [0, 0.75], [5, 0]],
+
+    // 8 opal - indigo
+    [2, [0.75, 0.35], [6, 5]],
+
+    // 9 blue
+    [2, [0.49], [8, 4]],
+
+    // 10 blue - beige
+    [2, [0.5, 0.1], [9, 1]],
+
+    // 11 gold
+    [2, [0.15], [10, 7]],
+  ] satisfies [
+    number,
+    [number] | [number, number],
+    [number, number] | undefined,
+  ][]
+).map(([ediblePack, [h1, h2], variant_parent], i) => {
   const edible = new Set<number>([ediblePack]);
 
   const colors: number[] = [];
@@ -73,9 +68,9 @@ export const variants = [
   colors.push(...out);
 
   if (h2) {
-    hslToRgb(out, (h2 + 0.4) % 1, 0.7, 0.61);
+    hslToRgb(out, h2, 0.7, 0.61);
     colors.push(...out);
-    hslToRgb(out, (h2 + 0.404) % 1, 0.73, 0.45);
+    hslToRgb(out, (h2 + 0.02) % 1, 0.73, 0.45);
     colors.push(...out);
   } else {
     colors.push(...colors);
@@ -96,5 +91,5 @@ export const variants = [
     0.5
   );
 
-  return { edible, colors, variant_index: i };
+  return { edible, colors, variant_index: i, variant_parent };
 });

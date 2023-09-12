@@ -25,21 +25,6 @@ export const addFruit = () => {
   return fruit;
 };
 
-const fruit0 = addFruit();
-fruit0.p[0] = 2;
-fruit0.p[2] = 3;
-fruit0.i = 1;
-
-const fruit1 = addFruit();
-fruit1.p[0] = 4;
-fruit1.p[2] = 6;
-fruit1.i = 2;
-
-const fruit3 = addFruit();
-fruit3.p[0] = -4;
-fruit3.p[2] = 3;
-fruit3.i = 3;
-
 export type Particle = Sprite & { t: number; position0: vec3 };
 
 export type TriceratopsParticle = Sprite & {
