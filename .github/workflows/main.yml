@@ -62,7 +62,9 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const report = require("./report.json");
+            let content = fs.readFileSync("./report.json").toString();
+            content = content.replaceAll('{"message": "Endpoint request timed out"}','');
+            const report = JSON.parse(content);
 
             console.log(JSON.stringify(report, null, 2));
 
