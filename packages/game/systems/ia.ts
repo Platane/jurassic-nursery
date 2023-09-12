@@ -84,7 +84,6 @@ export const updateDecision = (w: Triceratops) => {
   //
 
   if ((state.t + w.seed) % 140 === 0 && w.activity.type === "idle") {
-    console.log("--- ", w.id, "thinking..");
     const food_target_id = findANiceFruit(w);
     if (food_target_id) w.activity = { type: "go-to-food", food_target_id };
 
