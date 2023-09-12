@@ -18,8 +18,8 @@ const rotationSpeed = 5;
 // lookAtPoint[2] = PLAYGROUND_SIZE * 0.02;
 
 let phi = 0.67;
-let theta = 0.03;
-let zoom = 6;
+let theta = 3.14;
+let zoom = 8;
 
 const update = () => {
   const radius = zoom * zoom * 0.18;
