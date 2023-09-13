@@ -32,7 +32,6 @@ const positions = createPolygonLine(
   PLAYGROUND_SIZE * 0.707,
   0.1,
   0,
-  0,
   Math.PI / 4
 );
 
@@ -44,7 +43,7 @@ for (let k = 60; k--; ) {
   const y = (Math.random() - 0.5) * PLAYGROUND_SIZE * 3;
 
   positions.push(
-    ...createPolygonLine(5, Math.random() + 1, 0.02, 0, 0, a).map((v, i) => {
+    ...createPolygonLine(5, Math.random() + 1, 0.02, 0, a).map((v, i) => {
       if (i % 3 === 0) return v + x;
       if (i % 3 === 2) return v + y;
       return v;

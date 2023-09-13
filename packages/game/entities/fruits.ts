@@ -8,7 +8,7 @@ export type Fruit = {
 } & Sprite &
   Draggable & { eaten_by?: number };
 
-export const FRUIT_S = 0.6;
+export const FRUIT_S = 0.7;
 export const fruits = new Map<number, Fruit>();
 
 export const FRUIT_Y = FRUIT_S * 0.32;

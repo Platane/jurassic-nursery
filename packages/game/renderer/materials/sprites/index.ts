@@ -63,7 +63,7 @@ gl.generateMipmap(gl.TEXTURE_2D);
 //
 gl.bindVertexArray(null);
 
-export const MAX_PARTICLES = 512;
+export const MAX_PARTICLES = 256;
 
 const positions = new Float32Array(MAX_PARTICLES * 2 * 3 * 3);
 const uvs = new Float32Array(MAX_PARTICLES * 2 * 3 * 2);

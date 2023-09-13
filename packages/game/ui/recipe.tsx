@@ -23,6 +23,7 @@ dialog.className = css`
     position: absolute;
     top: 10px;
     right: 10px;
+    font-size: 18px;
   }
 
   h4 {
@@ -82,12 +83,46 @@ document.body.appendChild(dialog);
 export const recipeDialogButton = document.createElement("button");
 recipeDialogButton.className = css`
   position: absolute;
-  bottom: 4px;
-  right: 4px;
+  bottom: 12px;
+  right: 12px;
   z-index: 2;
-  font-size: 22px;
-  /* display: none; */
+  font-size: 24px;
+  display: none;
+  padding: 6px;
 `;
 recipeDialogButton.innerText = "🧬";
 recipeDialogButton.onclick = () => dialog.showModal();
 document.body.appendChild(recipeDialogButton);
+
+const visibleButtonClassName = css`
+  display: block;
+
+  transform-origin: 50% 30%;
+
+  @keyframes appear {
+    0% {
+      transform: translateY(-110px) scale(0.5);
+    }
+    35% {
+      transform: scale(0.8);
+    }
+    50% {
+      transform: scale(1.8);
+    }
+    74% {
+      transform: scale(0.95);
+    }
+    90% {
+      transform: scale(1.08);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  animation: appear 500ms linear;
+`;
+
+export const showRecipeButton = () => {
+  recipeDialogButton.className += " " + visibleButtonClassName;
+};

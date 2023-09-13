@@ -245,14 +245,15 @@ export const updateDecision = (w: Triceratops) => {
         w.go_to_target[1] = w2.o[2];
       } else {
         if (!w.go_to_target && (state.t + w.seed) % 78 === 0) {
-          w2.v_max = w.v_max = V_MAX * lerp(Math.random(), 0.2, 0.5);
+          w.v_max = V_MAX * lerp(Math.random(), 0.2, 0.5);
+          w2.v_max = w.v_max * 1.1;
           w.go_to_target = getWanderingPoint(w, WANDERING_RADIUS * 2);
         }
       }
 
       w.activity.t++;
 
-      if (w.activity.t > 600) {
+      if (w.activity.t > 700) {
         (w.activity as any).type = "idle";
 
         const baby = addTriceratops(

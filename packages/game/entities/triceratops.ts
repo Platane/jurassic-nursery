@@ -72,7 +72,7 @@ export const updateTriceratops = () => {
   }
 
   localStorage.setItem(
-    "triceratops-tamagotchi",
+    "jurassic-nursery",
     [...triceratops.values()].map((t) => t.variant_index).join(",")
   );
 };

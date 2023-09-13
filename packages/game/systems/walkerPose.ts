@@ -3,11 +3,12 @@ import { Skeleton } from "../renderer/geometries/model/skeleton";
 import { lerp } from "../utils/math";
 import { V_MAX, Walker } from "./walker";
 import { Triceratops } from "../entities/triceratops";
+import { state } from "../ui/state";
 
 export const updateWalkerPose = (w: Triceratops) => {
   if (w.dragged_anchor) {
-    quat.fromEuler(w.head_direction, 0, 0, -55);
-    quat.fromEuler(w.tail_direction, 0, 0, 30);
+    quat.fromEuler(w.head_direction, 0, 0, -55 - Math.sin(state.t * 0.1) * 10);
+    quat.fromEuler(w.tail_direction, 0, 0, 30 + Math.sin(state.t * 0.1) * 5);
     w.feet[0] = 0.3;
     w.feet[1] = 0.3;
     w.feet[2] = -0.3;

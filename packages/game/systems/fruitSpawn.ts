@@ -23,7 +23,7 @@ export const updateFruitSpawn = () => {
     let min_i = 0;
     for (let i = 5; i--; ) if (fruit_count[i] < fruit_count[min_i]) min_i = i;
 
-    next_spawn_t = state.t + lerp(fruits.size / MAX_FRUIT, 80, 700);
+    next_spawn_t = state.t + lerp(fruits.size / MAX_FRUIT, 60, 700);
 
     f.i = min_i;
 
@@ -32,5 +32,19 @@ export const updateFruitSpawn = () => {
     f.p[2] = PLAYGROUND_SIZE / 2 + -0.4 + Math.random() * 0.6;
 
     f.dragged_v = [(Math.random() - 0.5) * 3, 0, 2 + Math.random() * 3];
+
+    if (Math.random() < 0.5) {
+      f.dragged_v[2] *= -1;
+      f.p[2] *= -1;
+    }
+    if (Math.random() < 0.5) {
+      const tmp = f.dragged_v[2];
+      f.dragged_v[2] = f.dragged_v[0];
+      f.dragged_v[0] = tmp;
+
+      const tmp2 = f.p[2];
+      f.p[2] = f.p[0];
+      f.p[0] = tmp2;
+    }
   }
 };

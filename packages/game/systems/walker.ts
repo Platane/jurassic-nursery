@@ -137,7 +137,7 @@ export const step = () => {
 
         const penetration = Math.max(0, -(l - s1 - s2));
 
-        const f = 0.03 * (1 - (1 - penetration) ** 2);
+        const f = 0.04 * (1 - (1 - penetration) ** 3);
 
         w1.o[0] += (v[0] / l) * f;
         w1.o[2] += (v[1] / l) * f;

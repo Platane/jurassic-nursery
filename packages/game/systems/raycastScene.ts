@@ -22,19 +22,20 @@ export const raycastToScene = (
   }
 
   let id_fruit_min = -1;
-  for (const fruit of fruits.values()) {
-    const d = sphereRayCollision(
-      fruit.p,
-      fruit.size * 0.5,
-      ray_origin,
-      ray_direction
-    );
+  if (fruit)
+    for (const fruit of fruits.values()) {
+      const d = sphereRayCollision(
+        fruit.p,
+        fruit.size * 0.6,
+        ray_origin,
+        ray_direction
+      );
 
-    if (d < d_min) {
-      id_fruit_min = fruit.id;
-      d_min = d;
+      if (d < d_min) {
+        id_fruit_min = fruit.id;
+        d_min = d;
+      }
     }
-  }
 
   if (id_fruit_min >= 0) return { type: "fruit" as const, id: id_fruit_min };
   if (id_tri_min >= 0) return { type: "tri" as const, id: id_tri_min };

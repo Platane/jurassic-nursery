@@ -31,13 +31,15 @@ geometryPromise.then(() => requestAnimationFrame(loop));
 //
 //
 //
-if (process.env.NODE_ENV !== "production" && false) {
+if (process.env.NODE_ENV !== "production") {
   const c = document.createElement("canvas");
   c.width = canvas.width;
   c.height = canvas.height;
   c.style.position = "absolute";
   c.style.top = "0";
   c.style.left = "0";
+  c.style.width = "100%";
+  c.style.height = "100%";
   c.style.zIndex = "10";
   c.style.pointerEvents = "none";
   document.body.appendChild(c);
@@ -52,7 +54,7 @@ if (process.env.NODE_ENV !== "production" && false) {
 
     if (ctrlKey) {
       const h = 2;
-      const l = 100;
+      const l = 300;
 
       for (
         let x = Math.max(0, pageX - l);

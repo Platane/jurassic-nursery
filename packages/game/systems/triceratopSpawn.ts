@@ -3,7 +3,7 @@ import {
   triceratops,
   updateTriceratops,
 } from "../entities/triceratops";
-import { recipeDialogButton } from "../ui/recipe";
+import { showRecipeButton } from "../ui/recipe";
 import { state } from "../ui/state";
 import { MAX_FOOD_LEVEL, PLAYGROUND_SIZE } from "./const";
 import { variants } from "./gene";
@@ -21,7 +21,7 @@ export const updateTriceratopsSpawn = () => {
       if (tri.food_level >= MAX_FOOD_LEVEL) tuto_done = true;
     });
 
-    if (tuto_done) recipeDialogButton.style.display = "block";
+    if (tuto_done) showRecipeButton();
   }
 
   if (tuto_done && triceratops.size < 3 && state.t % N === 0) {
@@ -44,7 +44,7 @@ export const updateTriceratopsSpawn = () => {
 // init
 //
 
-const save = localStorage.getItem("triceratops-tamagotchi");
+const save = localStorage.getItem("jurassic-nursery");
 
 if (save) {
   const variant_indexes = save.split(",").map((x) => {
@@ -54,11 +54,14 @@ if (save) {
   });
   for (const i of variant_indexes) {
     const tri = addTriceratops(i);
-    tri.o[0] = Math.random() * PLAYGROUND_SIZE;
-    tri.o[2] = Math.random() * PLAYGROUND_SIZE;
+    tri.wandering_center[0] = tri.o[0] =
+      (Math.random() - 0.5) * PLAYGROUND_SIZE;
+    tri.wandering_center[2] = tri.o[2] =
+      (Math.random() - 0.5) * PLAYGROUND_SIZE;
   }
   first_variants.length = 0;
   tuto_done = true;
+  showRecipeButton();
 } else {
   const tri = addTriceratops(0);
   tri.o[0] = -PLAYGROUND_SIZE * 0.6;
