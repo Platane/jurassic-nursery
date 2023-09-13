@@ -4,6 +4,13 @@
 
 ![game poster](./doc/images/400x250.png)
 
+Pet and feed adorable triceratops.
+
+If you feed them well they might reproduce. Would you be able to breed a golden one ?
+
+- 🦎 [play](platane.github.io/jurassic-nursery/)
+- 🏆 or go to the [js13k entry page]()
+
 # Usage
 
 ```sh
