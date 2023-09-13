@@ -45,6 +45,8 @@ export const bundle = async (
     jsCode = jsCode.replaceAll(filename, alias);
   });
 
+  jsCode = replaceSomeVar(jsCode);
+
   // minify with terser
   if (minify) {
     jsCode = optimizeGlMatrix(jsCode);
@@ -99,6 +101,22 @@ export const bundle = async (
       ])
     ),
   } as Record<string, string | Buffer>;
+};
+
+const replaceSomeVar = (code: string) => {
+  const words = [
+    "go-to-food",
+    "eating",
+    "idle",
+    "in-love",
+    "say-no",
+    "carried",
+    "leaving-hesitation",
+    "leaving",
+  ];
+
+  words.forEach((w, i) => (code = code.replaceAll(`"${w}"`, i + "")));
+  return code;
 };
 
 const replace = (text: string, pattern: string, replace: string) => {
