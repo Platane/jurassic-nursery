@@ -80,4 +80,20 @@ export const updateEmote = (
       t: 0,
     });
   }
+
+  //
+  // eye rolling
+  //
+  quat.fromEuler(
+    w.eye0_direction,
+    3 + Math.sin(state.t * 0.063 + w.seed) * 20,
+    Math.sin(state.t * 0.074 + w.seed) * 30,
+    0
+  );
+  quat.fromEuler(
+    w.eye1_direction,
+    3 + Math.sin(state.t * 0.035 + w.seed) * 50,
+    Math.sin(state.t * 0.057 + w.seed) * 35,
+    0
+  );
 };

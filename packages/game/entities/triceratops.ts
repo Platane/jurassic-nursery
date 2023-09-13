@@ -70,4 +70,9 @@ export const updateTriceratops = () => {
     setEntityColorSchema(i, tri.colors);
     i++;
   }
+
+  localStorage.setItem(
+    "triceratops-tamagotchi",
+    [...triceratops.values()].map((t) => t.variant_index).join(",")
+  );
 };

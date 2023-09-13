@@ -8,6 +8,8 @@ const a = vec3.create();
  * approximate the mesh with 3 spheres
  *
  * good enough
+ *
+ * TODO take account of the size -> use the main matrix
  */
 export const triceratopsRayCollision = (
   s: Skeleton,

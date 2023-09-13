@@ -4,7 +4,6 @@ import { variants } from "../systems/gene";
 const dialog = document.createElement("dialog");
 
 dialog.className = css`
-  margin-top: 60px;
   background-color: #fff;
   padding: 12px;
   display: flex;
@@ -13,6 +12,8 @@ dialog.className = css`
   font-family: monospace;
   font-size: 22px;
   border-radius: 8px;
+
+  max-height: calc(100vh - 30px);
 
   &:not([open]) {
     display: none;
@@ -26,6 +27,7 @@ dialog.className = css`
 
   h4 {
     align-self: center;
+    margin: 4px;
   }
 
   span {
@@ -60,14 +62,14 @@ dialog.innerHTML =
   "<button>×</button>" +
   variants
     .map(({ colors, variant_parents }) => {
+      if (!variant_parents) return "";
+
       return (
         "<span>" +
-        (variant_parents
-          ? swatch(variants[variant_parents[0]].colors) +
-            " + " +
-            swatch(variants[variant_parents[1]].colors) +
-            " = "
-          : "") +
+        swatch(variants[variant_parents[0]].colors) +
+        " + " +
+        swatch(variants[variant_parents[1]].colors) +
+        " = " +
         swatch(colors) +
         "</span>"
       );
@@ -84,7 +86,7 @@ recipeDialogButton.className = css`
   right: 4px;
   z-index: 2;
   font-size: 22px;
-  display: none;
+  /* display: none; */
 `;
 recipeDialogButton.innerText = "🧬";
 recipeDialogButton.onclick = () => dialog.showModal();

@@ -14,6 +14,7 @@ const QUAT0 = quat.create();
 
 export type Skeleton = {
   o: vec3;
+  size: number;
 
   direction: quat;
 
@@ -29,6 +30,7 @@ export type Skeleton = {
 const updateBones = (
   bones: mat4[],
   {
+    size,
     o: origin,
     direction,
     tail_direction,
@@ -63,7 +65,11 @@ const updateBones = (
 
   // main
 
-  mat4.fromRotationTranslation(main, direction, origin);
+  vec3.set(a, size, size, size);
+  const originy0 = origin[1];
+  if (origin[1] === 0.6) origin[1] *= size;
+  mat4.fromRotationTranslationScale(main, direction, origin, a);
+  origin[1] = originy0;
 
   // // tail
   vec3.set(a, -0.3, -0.02, 0);
@@ -198,6 +204,7 @@ export const createSkeleton = () => {
   const feet = [0, 0, 0, 0];
 
   return {
+    size: 1,
     o: origin,
     direction,
     tail_direction,

@@ -73,7 +73,7 @@ const onEnd_ = (touches: Touche[], event: Event) => {
 
 canvas.onmousedown = (event) => onStart_([event], event);
 canvas.onmousemove = (event) => onMove_([event], event);
-canvas.onmouseup = (event) => onEnd_([], event);
+canvas.onmouseleave = canvas.onmouseup = (event) => onEnd_([], event);
 
 canvas.ontouchstart = (event) => onStart_(Array.from(event.touches), event);
 canvas.ontouchmove = (event) => onMove_(Array.from(event.touches), event);

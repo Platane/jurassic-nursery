@@ -101,10 +101,10 @@ export const draw = () => {
   }
 
   for (const tri of triceratops.values()) {
-    const { o: origin, direction } = tri;
+    const { o: origin, direction, size } = tri;
 
-    const lx = 0.85;
-    const lz = 0.5;
+    const lx = 0.85 * size;
+    const lz = 0.5 * size;
 
     //
     //  (1)

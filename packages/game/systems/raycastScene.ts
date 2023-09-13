@@ -25,7 +25,7 @@ export const raycastToScene = (
   for (const fruit of fruits.values()) {
     const d = sphereRayCollision(
       fruit.p,
-      fruit.size * 0.45,
+      fruit.size * 0.5,
       ray_origin,
       ray_direction
     );

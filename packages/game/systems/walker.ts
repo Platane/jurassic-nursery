@@ -107,30 +107,46 @@ export const step = () => {
       w.velocity[0] = Math.cos(new_angle) * new_v_l;
       w.velocity[1] = Math.sin(new_angle) * new_v_l;
 
-      w.o[0] += w.velocity[0];
-      w.o[2] += w.velocity[1];
+      w.o[0] += w.velocity[0] * w.size;
+      w.o[2] += w.velocity[1] * w.size;
 
       quat.fromEuler(w.direction, 0, -(new_angle / Math.PI) * 180, 0);
     }
   }
 
   for (const w1 of triceratops.values()) {
-    if (w1.dragged_anchor || !w1.go_to_target) continue;
+    if (w1.dragged_anchor) continue;
 
     for (const w2 of triceratops.values()) {
-      if (w2.dragged_anchor || !w2.go_to_target) continue;
+      if (w2.dragged_anchor) continue;
       if (w1 === w2) break;
 
       const v = [w1.o[0] - w2.o[0], w1.o[2] - w2.o[2]];
       const l = Math.hypot(v[0], v[1]);
 
-      const f = clamp((1 / Math.max(0.1, l - 0.5) ** 2 - 0.1) * 0.01, 0, 0.1);
+      if (l < 2) {
+        vec3.set(a, 1, 0, 0);
+        vec3.transformQuat(a, a, w1.direction);
+        const dot1 = a[0] * v[0] + a[2] * v[1];
+        const s1 = lerp(Math.abs(dot1), 0.3, 0.66);
 
-      w1.o[0] += (v[0] / l) * f;
-      w1.o[2] += (v[1] / l) * f;
+        vec3.set(a, 1, 0, 0);
+        vec3.transformQuat(a, a, w2.direction);
+        const dot2 = a[0] * v[0] + a[2] * v[1];
+        const s2 = lerp(Math.abs(dot2), 0.3, 0.66);
 
-      w2.o[0] -= (v[0] / l) * f;
-      w2.o[2] -= (v[1] / l) * f;
+        const penetration = Math.max(0, -(l - s1 - s2));
+
+        const f = 0.03 * (1 - (1 - penetration) ** 2);
+
+        w1.o[0] += (v[0] / l) * f;
+        w1.o[2] += (v[1] / l) * f;
+
+        w2.o[0] -= (v[0] / l) * f;
+        w2.o[2] -= (v[1] / l) * f;
+      }
     }
   }
 };
+
+const a = vec3.create();

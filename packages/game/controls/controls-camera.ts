@@ -161,7 +161,7 @@ let dx = 0;
 let dy = 0;
 
 const borderDollyMove: Handler = ([{ pageX, pageY }]) => {
-  const M = Math.min(100, window.innerWidth * 0.2);
+  const M = Math.min(40, window.innerWidth * 0.2);
 
   if (px === null) {
     dx = pageX < M ? -1 : window.innerWidth - pageX < M ? 1 : 0;

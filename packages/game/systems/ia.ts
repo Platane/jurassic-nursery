@@ -83,7 +83,11 @@ export const updateDecision = (w: Triceratops) => {
   // once ever X frame, look for something to eat
   //
 
-  if ((state.t + w.seed) % 140 === 0 && w.activity.type === "idle") {
+  if (
+    (state.t + w.seed) % 140 === 0 &&
+    w.activity.type === "idle" &&
+    w.size > 0.9
+  ) {
     const food_target_id = findANiceFruit(w);
     if (food_target_id) w.activity = { type: "go-to-food", food_target_id };
 
@@ -116,6 +120,11 @@ export const updateDecision = (w: Triceratops) => {
       }
     }
   }
+
+  //
+  // grow
+  //
+  w.size = Math.min(1, w.size + 0.001);
 
   //
   // for each activity
@@ -198,10 +207,12 @@ export const updateDecision = (w: Triceratops) => {
 
       const l = Math.hypot(ox, oy);
 
-      w.go_to_target = w.go_to_target ?? [0, 0];
+      if (l < PLAYGROUND_SIZE * 2) {
+        w.go_to_target = w.go_to_target ?? [0, 0];
 
-      w.go_to_target[0] = (ox / l) * PLAYGROUND_SIZE * 2.2;
-      w.go_to_target[1] = (oy / l) * PLAYGROUND_SIZE * 2.2;
+        w.go_to_target[0] = (ox / l) * PLAYGROUND_SIZE * 2.2;
+        w.go_to_target[1] = (oy / l) * PLAYGROUND_SIZE * 2.2;
+      }
     }
   } else if (w.activity.type === "leaving") {
     if (!w.go_to_target) {
@@ -222,7 +233,10 @@ export const updateDecision = (w: Triceratops) => {
 
       w.go_to_target[0] = w2?.go_to_target?.[0] ?? PLAYGROUND_SIZE * 2;
       w.go_to_target[1] = w2?.go_to_target?.[1] ?? PLAYGROUND_SIZE;
-    } else if (w2.activity.type !== "in-love") {
+    } else if (
+      w2.activity.type !== "in-love" &&
+      w2.activity.type !== "leaving-hesitation"
+    ) {
       (w.activity as any).type = "idle";
     } else {
       if (w.activity.follower) {
@@ -244,6 +258,7 @@ export const updateDecision = (w: Triceratops) => {
         const baby = addTriceratops(
           getChildVariant(w.variant_index, w2.variant_index)
         );
+        baby.size = 0.2;
 
         updateTriceratops();
 
