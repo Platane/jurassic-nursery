@@ -13,6 +13,8 @@ import { raycastToScene } from "./systems/raycastScene";
 import { update as update_system } from "./systems";
 import { onFrame as onFrame_controls } from "./controls";
 
+import "./ui/recipe";
+
 const loop = () => {
   onFrame_controls();
   update_system();

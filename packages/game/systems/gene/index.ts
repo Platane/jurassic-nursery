@@ -54,7 +54,7 @@ export const variants = (
     [number] | [number, number],
     [number, number] | undefined,
   ][]
-).map(([ediblePack, [h1, h2], variant_parent], i) => {
+).map(([ediblePack, [h1, h2], variant_parents], i) => {
   const edible = new Set<number>([ediblePack]);
 
   const colors: number[] = [];
@@ -91,7 +91,7 @@ export const variants = (
     0.5
   );
 
-  return { edible, colors, variant_index: i, variant_parent };
+  return { edible, colors, variant_index: i, variant_parents };
 });
 
 export const getChildVariant = (va: number, vb: number) => {
@@ -102,9 +102,9 @@ export const getChildVariant = (va: number, vb: number) => {
     const variant = variants[k];
 
     if (
-      variant.variant_parent &&
-      variant.variant_parent[0] === v0 &&
-      variant.variant_parent[1] === v1
+      variant.variant_parents &&
+      variant.variant_parents[0] === v0 &&
+      variant.variant_parents[1] === v1
     )
       return k;
   }

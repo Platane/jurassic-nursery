@@ -3,6 +3,7 @@ import {
   triceratops,
   updateTriceratops,
 } from "../entities/triceratops";
+import { recipeDialogButton } from "../ui/recipe";
 import { state } from "../ui/state";
 import { MAX_FOOD_LEVEL, PLAYGROUND_SIZE } from "./const";
 import { variants } from "./gene";
@@ -19,9 +20,11 @@ export const updateTriceratopsSpawn = () => {
     triceratops.forEach((tri) => {
       if (tri.food_level >= MAX_FOOD_LEVEL) tuto_done = true;
     });
+
+    if (tuto_done) recipeDialogButton.style.display = "block";
   }
 
-  if (tuto_done && triceratops.size < 0 && state.t % N === 0) {
+  if (tuto_done && triceratops.size < 3 && state.t % N === 0) {
     const tri = addTriceratops(
       first_variants.shift() ?? 0 | (Math.random() * 3)
     );
