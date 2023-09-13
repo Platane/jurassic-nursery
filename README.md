@@ -7,7 +7,7 @@ Pet and feed adorable triceratops.
 If you feed them well they might reproduce. Would you be able to breed a golden one ?
 
 - 🦎 [play](https://platane.github.io/jurassic-nursery/)
-- 🏆 or go to the [js13k entry page]()
+- 🏆 or go to the [js13k entry page](https://js13kgames.com/entries/jurassic-nursery)
 
 # Usage
 
