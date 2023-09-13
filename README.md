@@ -1,14 +1,12 @@
-# jurassic-nursery
+![Jurassic Nursery](./doc/images/400x250.png)
 
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Platane/jurassic-nursery/main.yml?style=flat-square)](https://github.com/Platane/jurassic-nursery/actions/workflows/main.yml) [![Size report](https://img.shields.io/endpoint?url=https://platane.github.io/jurassic-nursery/shieldio_size.json&style=flat-square)](https://platane.github.io/jurassic-nursery/bundle.zip)
-
-![game poster](./doc/images/400x250.png)
 
 Pet and feed adorable triceratops.
 
 If you feed them well they might reproduce. Would you be able to breed a golden one ?
 
-- 🦎 [play](platane.github.io/jurassic-nursery/)
+- 🦎 [play](https://platane.github.io/jurassic-nursery/)
 - 🏆 or go to the [js13k entry page]()
 
 # Usage
