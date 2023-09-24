@@ -1,6 +1,6 @@
 # Jurassic Nursery Post-mortem
 
-This is a postmodern post for a game I wrote for the 13kjs 2023 competition.
+This is a postmodern post for a [game](https://github.com/Platane/jurassic-nursery) I wrote for the 13kjs 2023 competition.
 
 # Summary
 
