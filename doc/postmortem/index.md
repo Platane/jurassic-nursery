@@ -141,8 +141,8 @@ For simplicity, there are a few params which determine the pose of the skeleton.
 
 Those params are mixed depending of the triceratops velocity and angular velocity to produce the walk / run animation.
 
-<img src="./images/bones.png" height="320px" title="triceratops mesh with bones, the color show the influence of the bone of the back leg">
-<a href="./images/animated-bones.mp4"><img src="./images/animated-bones.gif" height="320px" title="triceratops mesh with bones animated">
+<img src="./images/bones.png" height="280px" title="triceratops mesh with bones, the color show the influence of the bone of the back leg">
+<a href="./images/animated-bones.mp4"><img src="./images/animated-bones.gif" height="280px" title="triceratops mesh with bones animated"></a>
 
 # Gameplay loop
 
