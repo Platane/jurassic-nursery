@@ -30,10 +30,10 @@ This is a postmodern post for a game I wrote for the 13kjs 2023 competition.
 The last two years, I had a lot of fun making 3d rendering with webgl.
 
 [
-<img src="https://github.com/Platane/skull-ocean/blob/master/doc/images/800x800.jpg?raw=true" height="300px" title="flour of four, a previous game">
+<img src="https://github.com/Platane/skull-ocean/blob/master/doc/images/800x800.jpg?raw=true" height="320px" title="flour of four, a previous game">
 ](https://github.com/Platane/skull-ocean)
 [
-<img src="https://raw.githubusercontent.com/Platane/flour-oh-flour/master/doc/screenshots/1200x750.jpg" height="300px" title="flour of four, a previous game featuring a hill with wheat fields and windmill">
+<img src="https://raw.githubusercontent.com/Platane/flour-oh-flour/master/doc/screenshots/1200x750.jpg" height="320px" title="flour of four, a previous game featuring a hill with wheat fields and windmill">
 ](https://github.com/Platane/flour-oh-flour)
 
 Before the theme announcement, I was exited to improve on my 3d skills again.
@@ -46,7 +46,7 @@ I had this idea of a RTS where users were insensitive to adopt nomadic a style b
 
 I started working on it, gameplay first with a crude 2d canvas renderer.
 
-<video src="./images/rts.mp4" height="300px" title="a boring rts" loop autoplay muted ></video>
+[![a boring rts](./images/rts.jpg)](./images/rts.mp4)
 
 After some hours of work, it hits me. I was never going to finish this game. Not the way I wanted. It became clear that I will not be able to implement a pretty renderer for a lack of time / space, nor that I will be able to implement an IA the user can play against for a lack of skill.
 
@@ -59,7 +59,7 @@ I was looking for ideas to restart, ideally something simple where I could have 
 Then I saw a tweet by a fellow js13k creator.
 
 [
-<img src="./images/mad_maw-tweet.jpg" height="300px" title="mad_maw tweet, featuring a video with what seems to be a red t-rex">
+<img src="./images/mad_maw-tweet.jpg" height="320px" title="mad_maw tweet, featuring a video with what seems to be a red t-rex">
 ](https://twitter.com/mad_maw/status/1696878011717476383)
 
 Well yes I too want to abandon the theme and do a free roaming dinosaur game. (Except not really, its is about a 13th century dragon, so it works)
@@ -81,7 +81,7 @@ I took inspiration from an aspect of an old game I used to play: breeding dragot
 I like that you have "recipes" to make a new pet: a golden-almond and ginger-almond can produce an indigo one for example.
 
 [
-<img src="./images/dofus-dragoturkey-genealogical-tree.jpg" height="300px" title="genealogical tree of a dragoturkey from the game Dofus.com">
+<img src="./images/dofus-dragoturkey-genealogical-tree.jpg" height="320px" title="genealogical tree of a dragoturkey from the game Dofus.com">
 ](https://papycha.fr/tuto-les-dragodindes/)
 
 **Free range**
@@ -100,8 +100,8 @@ I am absolutely not a 3d artist. However this is how I created the triceratops m
 
 I started by sculpting a potato, then reducing the face count with the decimation tool first and adjusting by removing / merging vertices.
 
-<img src="./images/sculpting.jpg" height="300px" title="triceratops model being sculpted in blender">
-<img src="./images/mesh.jpg" height="300px" title="triceratops mesh in blender">
+<img src="./images/sculpting.jpg" height="320px" title="triceratops model being sculpted in blender">
+<img src="./images/mesh.jpg" height="320px" title="triceratops mesh in blender">
 
 ## Compressing the model
 
@@ -141,8 +141,8 @@ For simplicity, there are a few params which determine the pose of the skeleton.
 
 Those params are mixed depending of the triceratops velocity and angular velocity to produce the walk / run animation.
 
-<img src="./images/bones.png" height="300px" title="triceratops mesh with bones, the color show the influence of the bone of the back leg">
-<video src="./images/animated-bones.mp4" height="300px" title="triceratops mesh with bones animated" loop autoplay muted ></video>
+<img src="./images/bones.png" height="320px" title="triceratops mesh with bones, the color show the influence of the bone of the back leg">
+<a href="./images/animated-bones.mp4"><img src="./images/animated-bones.gif" height="320px" title="triceratops mesh with bones animated">
 
 # Gameplay loop
 
@@ -160,8 +160,8 @@ After three lunches, the triceratops no longer want to eat. It is looking for a 
 
 They will run together for a bit and then produce a new one, getting hungry again in the process. The new one will be of the variant of one of its parent, or a new variant if its parent are part of a special recipe.
 
-<video src="./images/eat.mp4" height="300px" title="triceratops eating fruits" loop autoplay muted ></video>
-<video src="./images/birth.mp4" height="300px" title="triceratops reproducing" loop autoplay muted ></video>
+[![triceratops eating fruits](./images/eat.gif)](./images/eat.mp4)
+[![triceratops reproducing](./images/birth.gif)](./images/birth.mp4)
 
 ## Controls
 
@@ -169,8 +169,8 @@ As the user, you can drag and drop fruits for the triceratops to feed. The fruit
 
 You can also drag and drop dinosaur. By doing so you constraint them to roam in a specific zone. It's useful to separate them and select which ones should mate.
 
-<video src="./images/pick.mp4" height="300px" title="picking fruits" loop autoplay muted ></video>
-<video src="./images/carry.mp4" height="300px" title="carrying triceratops" loop autoplay muted ></video>
+[![picking fruits](./images/pick.gif)](./images/pick.mp4)
+[![carrying triceratops](./images/carry.gif)](./images/carry.mp4)
 
 ## Camera
 
@@ -182,7 +182,7 @@ I decided to have a fixed camera angle on mobile: Touch actions with one finger 
 
 After all, I think the camera works ok in desktop, but for mobile the vertical viewport can truncate the world in frustrating ways.
 
-<img src="./images/mobile-viewport.jpg" height="300px" title="frustrating mobile viewport">
+<img src="./images/mobile-viewport.jpg" height="320px" title="frustrating mobile viewport">
 
 # Tooling
 
