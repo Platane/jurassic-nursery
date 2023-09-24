@@ -12,9 +12,9 @@ If you feed them well they might reproduce. Would you be able to breed a golden 
 
 # Screenshots
 
-[<img src="./doc/postmortem/images/eat.gif" height="240px" title="triceratops eating fruits" >](./doc/postmortem/images/eat.mp4)
-[<img src="./doc/postmortem/images/mate.gif" height="240px" title="triceratops reproducing" >](./doc/postmortem/images/mate.mp4)
-[<img src="./doc/postmortem/images/pick.gif" height="240px" title="triceratops eating fruits" >](./doc/postmortem/images/pick.mp4)
+[<img src="./doc/postmortem/images/eat.gif" height="200px" title="triceratops eating fruits" >](./doc/postmortem/images/eat.mp4)
+[<img src="./doc/postmortem/images/mate.gif" height="200px" title="triceratops reproducing" >](./doc/postmortem/images/mate.mp4)
+[<img src="./doc/postmortem/images/pick.gif" height="200px" title="triceratops eating fruits" >](./doc/postmortem/images/pick.mp4)
 
 _Adorable, I know_
 

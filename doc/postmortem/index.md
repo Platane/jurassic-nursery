@@ -100,8 +100,7 @@ I am absolutely not a 3d artist. However this is how I created the triceratops m
 
 I started by sculpting a potato, then reducing the face count with the decimation tool first and adjusting by removing / merging vertices.
 
-<img src="./images/sculpting.jpg" height="320px" title="triceratops model being sculpted in blender">
-<img src="./images/mesh.jpg" height="320px" title="triceratops mesh in blender">
+<img src="./images/sculpting.jpg" height="320px" title="triceratops model being sculpted in blender"><img src="./images/mesh.jpg" height="320px" title="triceratops mesh in blender">
 
 ## Compressing the model
 
@@ -141,8 +140,7 @@ For simplicity, there are a few params which determine the pose of the skeleton.
 
 Those params are mixed depending of the triceratops velocity and angular velocity to produce the walk / run animation.
 
-<img src="./images/bones.png" height="280px" title="triceratops mesh with bones, the color show the influence of the bone of the back leg">
-<a href="./images/animated-bones.mp4"><img src="./images/animated-bones.gif" height="280px" title="triceratops mesh with bones animated"></a>
+<img src="./images/bones.png" height="280px" title="triceratops mesh with bones, the color show the influence of the bone of the back leg"><a href="./images/animated-bones.mp4"><img src="./images/animated-bones.gif" height="280px" title="triceratops mesh with bones animated"></a>
 
 # Gameplay loop
 
