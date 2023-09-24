@@ -46,7 +46,7 @@ I had this idea of a RTS where users were insensitive to adopt nomadic a style b
 
 I started working on it, gameplay first with a crude 2d canvas renderer.
 
-[![a boring rts](./images/rts.jpg)](./images/rts.mp4)
+[![a boring rts](./images/rts.jpg)](./images/rts.mp4?raw=true)
 
 After some hours of work, it hits me. I was never going to finish this game. Not the way I wanted. It became clear that I will not be able to implement a pretty renderer for a lack of time / space, nor that I will be able to implement an IA the user can play against for a lack of skill.
 
@@ -140,7 +140,7 @@ For simplicity, there are a few params which determine the pose of the skeleton.
 
 Those params are mixed depending of the triceratops velocity and angular velocity to produce the walk / run animation.
 
-<img src="./images/bones.png" height="280px" title="triceratops mesh with bones, the color show the influence of the bone of the back leg"> <a href="./images/animated-bones.mp4"><img src="./images/animated-bones.gif" height="280px" title="triceratops mesh with bones animated"></a>
+<img src="./images/bones.png" height="280px" title="triceratops mesh with bones, the color show the influence of the bone of the back leg"> <a href="./images/animated-bones.mp4?raw=true"><img src="./images/animated-bones.gif" height="280px" title="triceratops mesh with bones animated"></a>
 
 # Gameplay loop
 
@@ -158,8 +158,8 @@ After three lunches, the triceratops no longer want to eat. It is looking for a 
 
 They will run together for a bit and then produce a new one, getting hungry again in the process. The new one will be of the variant of one of its parent, or a new variant if its parent are part of a special recipe.
 
-[![triceratops eating fruits](./images/eat.gif)](./images/eat.mp4)
-[![triceratops reproducing](./images/birth.gif)](./images/birth.mp4)
+[![triceratops eating fruits](./images/eat.gif)](./images/eat.mp4?raw=true)
+[![triceratops reproducing](./images/birth.gif)](./images/birth.mp4?raw=true)
 
 ## Controls
 
@@ -167,8 +167,8 @@ As the user, you can drag and drop fruits for the triceratops to feed. The fruit
 
 You can also drag and drop dinosaur. By doing so you constraint them to roam in a specific zone. It's useful to separate them and select which ones should mate.
 
-[![picking fruits](./images/pick.gif)](./images/pick.mp4)
-[![carrying triceratops](./images/carry.gif)](./images/carry.mp4)
+[![picking fruits](./images/pick.gif)](./images/pick.mp4?raw=true)
+[![carrying triceratops](./images/carry.gif)](./images/carry.mp4?raw=true)
 
 ## Camera
 
