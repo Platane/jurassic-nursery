@@ -38,7 +38,7 @@ The last two years, I had a lot of fun making 3d rendering with webgl.
 <img src="https://raw.githubusercontent.com/Platane/flour-oh-flour/master/doc/screenshots/1200x750.jpg" height="320px" title="flour of four, a previous game featuring a hill with wheat fields and windmill">
 ](https://github.com/Platane/flour-oh-flour)
 
-Before the theme announcement, I was exited to improve on my 3d skills again.
+Before the theme announcement, I was excited to improve on my 3d skills again.
 
 ## Dead-end
 
