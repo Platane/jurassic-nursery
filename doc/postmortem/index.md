@@ -2,6 +2,8 @@
 
 This is a postmodern post for a [game](https://github.com/Platane/jurassic-nursery) I wrote for the 13kjs 2023 competition.
 
+![Jurassic Nursery](../images/400x250.png)
+
 # Summary
 
 - [Inspiration](#inspiration)
