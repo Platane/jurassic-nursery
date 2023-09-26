@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@types/three": "0.155.1",
+    "@types/three": "0.156.0",
     "three": "0.156.1",
-    "three-stdlib": "2.25.1"
+    "three-stdlib": "2.26.8"
   }
 }
