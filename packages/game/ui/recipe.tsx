@@ -97,7 +97,7 @@ document.body.appendChild(recipeDialogButton);
 const visibleButtonClassName = css`
   display: block;
 
-  transform-origin: 50% 30%;
+  /* transform-origin: 50% 30%;
 
   @keyframes appear {
     0% {
@@ -120,7 +120,7 @@ const visibleButtonClassName = css`
     }
   }
 
-  animation: appear 500ms linear;
+  animation: appear 500ms linear; */
 `;
 
 export const showRecipeButton = () => {

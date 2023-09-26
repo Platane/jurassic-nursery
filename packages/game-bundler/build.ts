@@ -108,6 +108,7 @@ const replaceSomeVar = (code: string) => {
     "go-to-food",
     "eating",
     "idle",
+    "happy",
     "in-love",
     "say-no",
     "carried",
