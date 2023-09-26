@@ -36,7 +36,7 @@ execFileSync("advzip", [
 // write size info
 {
   const size = fs.statSync(path.join(distDir, "bundle.zip")).size;
-  const literalSize = (size / 1024).toFixed(2) + "K";
+  const literalSize = (size / 1024).toFixed(3) + "K";
   const content = {
     label: "size",
     message: literalSize,
