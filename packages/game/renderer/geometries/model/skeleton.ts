@@ -1,6 +1,5 @@
 import { mat4, quat, vec3 } from "gl-matrix";
 import { triceratops } from "../../../entities/triceratops";
-import { gizmos } from "../../materials/gizmos";
 
 export const MAX_ENTITY = 128;
 
