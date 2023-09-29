@@ -8,10 +8,8 @@ import { setFromArray, setIntoArray } from "../../../utils/vec3";
  *
  * returns an array of oriented faces
  */
-export const createPyramidKernel = () => {
+export const createPyramidKernel = (n = 5) => {
   const positions: number[] = [];
-
-  const n = 5;
 
   const a = [0, 0, 0] as vec3;
   const b = [0, 0, 0] as vec3;

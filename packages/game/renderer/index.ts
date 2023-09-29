@@ -1,6 +1,7 @@
 import { gl } from "./canvas";
 import { draw as drawGizmo } from "./materials/gizmo";
-import { draw as drawBasic } from "./materials/basic";
+import { draw as drawSkinnedMesh } from "./materials/skinnedMesh";
+import { draw as drawSkinnedMeshTree } from "./materials/skinnedMeshTree";
 import { draw as drawGizmos } from "./materials/gizmos";
 import { draw as drawSprites } from "./materials/sprites";
 import { onResize as onResizeCamera } from "../entities/camera";
@@ -19,7 +20,8 @@ export const render = () => {
 
   drawLines();
   drawShadow();
-  drawBasic();
+  drawSkinnedMesh();
+  drawSkinnedMeshTree();
   drawSprites();
   // drawGizmo();
   // drawGizmos();

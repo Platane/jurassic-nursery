@@ -23,6 +23,7 @@ void main() {
   outColor.rgb *= 0.6 + clamp(  p, -0.47, 10.0 ) * 0.45  ;
   
   // outColor.rgb = v_normal;
+  // outColor.rgb = vec3(0.615457,0.492365 ,0.615457);
 
   
 }

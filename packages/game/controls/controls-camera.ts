@@ -179,6 +179,9 @@ const borderDollyMove: Handler = ([{ pageX, pageY }]) => {
     dx = 0;
     dy = 0;
   }
+
+  dx = 0;
+  dy = 0;
 };
 const borderDollyEnd = () => {
   dx = dy = 0;

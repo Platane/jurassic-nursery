@@ -61,8 +61,10 @@ void main() {
     bm3 * a_weights[3] ;
 
   gl_Position = u_viewMatrix * bm * a_position;
+  // gl_Position = u_viewMatrix  * a_position;
 
   v_normal = mat3( bm) * vec3(a_normal);
+  // v_normal =  vec3(a_normal);
 
 
   vec4 color = texelFetch(u_colorSchemaTexture, ivec2(a_colorPattern, n), 0);
