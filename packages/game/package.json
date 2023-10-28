@@ -5,6 +5,7 @@
   "type": "module",
   "dependencies": {
     "gl-matrix": "3.4.3",
-    "@linaria/core": "5.0.1"
+    "@linaria/core": "5.0.1",
+    "park-miller": "2.0.0"
   }
 }
