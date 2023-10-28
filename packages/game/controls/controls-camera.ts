@@ -260,7 +260,7 @@ export const onTouchStart: Handler = (touches) => {
 
   if (touches.length === 1) {
     scaleTranslateRotateEnd();
-    if (touches[0].button === 1) rotateStart(touches);
+    if (touches[0].button === 0) rotateStart(touches);
     if (touches[0].button === 2) dollyStart(touches);
   } else if (touches.length > 1) {
     rotateEnd();
