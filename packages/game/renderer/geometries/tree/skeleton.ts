@@ -4,42 +4,58 @@ import { Tree, trees } from "../../../entities/trees";
 import { gizmos } from "../../materials/gizmos";
 import ParkMiller from "park-miller";
 
+export const TRUNK_BASE_HEIGHT = 1;
+
 export const bonesMatrices = new Float32Array(16 * N_BONES * MAX_ENTITY);
 
 const a = vec3.create();
 const q = quat.create();
 const m = mat4.create();
+const parent = mat4.create();
+
+const circles = [
+  [0.45, 0.85, 3],
+  [0.7, 0.96, 4],
+  [0.75, 0.74, 4],
+  [0.48, 0, 1],
+];
 
 const updateBones = ([root, base, ...keys]: mat4[], tree: Tree) => {
   mat4.fromTranslation(root, [tree.position[0], 0, tree.position[1]]);
-  mat4.fromTranslation(base, [tree.position[0], 0.4, tree.position[1]]);
+
+  a[0] = 0;
+  a[1] = tree.trunkHeight;
+  a[2] = 0;
+  mat4.fromTranslation(parent, a);
+  mat4.fromQuat(m, tree.direction);
+  mat4.multiply(parent, m, parent);
+  mat4.multiply(parent, root, parent);
 
   const pm = new ParkMiller(tree.seed);
 
-  for (const m of keys) mat4.fromTranslation(m, [9999, 9999, 9999]);
+  mat4.copy(base, parent);
 
   let i = 0;
-  for (let [y, l] of [
-    [0.8, 0.88],
-    [1.5, 0.85],
-    [1.95, 0.6],
-  ]) {
-    if (tree.seed) {
-      y += pm.floatInRange(-0.1, 0.1);
-    }
+  for (let [dy, l, n] of circles) {
+    a[0] = 0;
+    a[1] = dy * tree.height;
+    a[2] = 0;
+    mat4.fromTranslation(m, a);
+    mat4.multiply(parent, parent, m);
+    mat4.fromQuat(m, tree.direction);
+    mat4.multiply(parent, parent, m);
 
-    for (let k = 4; k--; ) {
-      //
-
+    for (let k = n; k--; ) {
       const bone = keys[i++];
 
-      let phy = (k / 4) * Math.PI * 2 + y;
+      let phy = (k / n) * Math.PI * 2 + dy * 13;
       let theta = 0;
+      l *= tree.radius;
 
       if (tree.seed) {
         phy += pm.floatInRange(-0.35, 0.35);
         theta = pm.floatInRange(-0.36, 0.36);
-        l *= pm.floatInRange(0.85, 1.25);
+        l *= pm.floatInRange(0.85, 1.15);
       }
 
       a[0] = l;
@@ -49,11 +65,9 @@ const updateBones = ([root, base, ...keys]: mat4[], tree: Tree) => {
       quat.fromEuler(q, 0, (phy / Math.PI) * 180, (theta / Math.PI) * 180);
       vec3.transformQuat(a, a, q);
 
-      a[1] += y;
-
       mat4.fromRotationTranslation(bone, q, a);
-      // mat4.fromTranslation(bone, a);
-      mat4.multiply(bone, base, bone);
+
+      mat4.multiply(bone, parent, bone);
     }
   }
 };
@@ -80,7 +94,11 @@ updateBones(bindPose, {
   position: [0, 0],
   seed: 0,
   direction: quat.create(),
-} as Tree);
+  id: 0,
+  radius: 1,
+  height: 1,
+  trunkHeight: TRUNK_BASE_HEIGHT,
+});
 
 const bindPoseInv = bindPose.map((m) => mat4.invert(mat4.create(), m));
 
