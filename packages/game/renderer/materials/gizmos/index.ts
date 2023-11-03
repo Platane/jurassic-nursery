@@ -76,7 +76,7 @@ export const draw = () => {
 
   gl.uniformMatrix4fv(u_matrix, false, worldMatrix);
 
-  // gl.disable(gl.DEPTH_TEST);
+  gl.disable(gl.DEPTH_TEST);
 
   gl.disable(gl.CULL_FACE);
 

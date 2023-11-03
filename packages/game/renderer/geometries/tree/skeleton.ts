@@ -14,8 +14,8 @@ const m = mat4.create();
 const parent = mat4.create();
 
 const circles = [
-  [0.45, 0.85, 3],
-  [0.7, 0.96, 4],
+  [0.45, 0.85, 4],
+  [0.7, 0.96, 5],
   [0.75, 0.74, 4],
   [0.48, 0, 1],
 ];
@@ -48,7 +48,7 @@ const updateBones = ([root, base, ...keys]: mat4[], tree: Tree) => {
     for (let k = n; k--; ) {
       const bone = keys[i++];
 
-      let phy = (k / n) * Math.PI * 2 + dy * 13;
+      let phy = (k / n) * Math.PI * 2 + dy * 13.5;
       let theta = 0;
       l *= tree.radius;
 
@@ -66,6 +66,7 @@ const updateBones = ([root, base, ...keys]: mat4[], tree: Tree) => {
       vec3.transformQuat(a, a, q);
 
       mat4.fromRotationTranslation(bone, q, a);
+      mat4.fromTranslation(bone, a);
 
       mat4.multiply(bone, parent, bone);
     }
