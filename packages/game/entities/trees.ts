@@ -16,7 +16,7 @@ export const trees = new Map<number, Tree>();
 
 //
 // init a circle of trees
-for (let k = 3000; k-- && trees.size < MAX_ENTITY; ) {
+for (let k = 2500; k-- && trees.size < MAX_ENTITY; ) {
   const position = [
     (Math.random() - 0.5) * 2 * PLAYGROUND_SIZE * 2,
     (Math.random() - 0.5) * 2 * PLAYGROUND_SIZE * 2,
@@ -27,9 +27,7 @@ for (let k = 3000; k-- && trees.size < MAX_ENTITY; ) {
   if (
     l > PLAYGROUND_SIZE * 0.93 &&
     l < PLAYGROUND_SIZE * 2 &&
-    ![...trees.values()].some(
-      (t) => vec2.distance(position, t.position) < 1.8
-    ) &&
+    ![...trees.values()].some((t) => vec2.distance(position, t.position) < 2) &&
     trees.size < MAX_ENTITY
   ) {
     const tree = {

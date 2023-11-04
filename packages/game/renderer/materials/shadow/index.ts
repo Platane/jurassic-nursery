@@ -1,5 +1,5 @@
 import { gl } from "../../canvas";
-import { worldMatrix as viewMatrix } from "../../../entities/camera";
+import { worldMatrix } from "../../../entities/camera";
 import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
@@ -10,10 +10,16 @@ import { setIntoArray } from "../../../utils/vec3";
 import { MAX_PARTICLES } from "../sprites";
 import { MAX_ENTITY } from "../../geometries/model/skeleton";
 import { triceratops } from "../../../entities/triceratops";
+import { trees } from "../../../entities/trees";
 
-export const MAX_SHADOW = MAX_PARTICLES + MAX_ENTITY;
+export const MAX_SHADOW = MAX_PARTICLES + MAX_ENTITY + MAX_ENTITY;
 
 const program = createProgram(gl, codeVert, codeFrag);
+
+//
+// uniforms
+//
+const u_matrix = gl.getUniformLocation(program, "u_matrix");
 
 //
 // attributes
@@ -51,23 +57,11 @@ gl.vertexAttribPointer(a_texcoord, 2, gl.FLOAT, false, 0, 0);
 //
 gl.bindVertexArray(null);
 
-const a = vec3.create();
 const b = vec3.create();
 
-export const draw = () => {
-  gl.useProgram(program);
+let n_triangles = 0;
 
-  gl.bindVertexArray(vao);
-
-  gl.enable(gl.CULL_FACE);
-  gl.cullFace(gl.BACK);
-
-  gl.disable(gl.DEPTH_TEST);
-
-  gl.enable(gl.BLEND);
-  gl.blendEquationSeparate(gl.FUNC_ADD, gl.FUNC_ADD);
-  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
+const updatePositionBuffer = () => {
   let j = 0;
   for (const fruit of fruits.values()) {
     const { p: p, size } = fruit;
@@ -86,15 +80,38 @@ export const draw = () => {
     //  (0)             (2)
 
     vec3.set(b, p[0] - l, 0, p[2] - l);
-    vec3.transformMat4(b, b, viewMatrix);
     setIntoArray(positions, j * 3 + 0, b);
 
     vec3.set(b, p[0] - l, 0, p[2] + l * 3);
-    vec3.transformMat4(b, b, viewMatrix);
     setIntoArray(positions, j * 3 + 1, b);
 
     vec3.set(b, p[0] + l * 3, 0, p[2] - l);
-    vec3.transformMat4(b, b, viewMatrix);
+    setIntoArray(positions, j * 3 + 2, b);
+
+    j++;
+  }
+
+  for (const { position, radius } of trees.values()) {
+    const l = radius * 0.7;
+
+    //
+    //  (1)
+    //   +
+    //   |  \
+    //   |     \
+    //   +-------+
+    //   |       |  \
+    //   |       |     \
+    //   +-------+-------+
+    //  (0)             (2)
+
+    vec3.set(b, position[0] - l, 0, position[1] - l);
+    setIntoArray(positions, j * 3 + 0, b);
+
+    vec3.set(b, position[0] - l, 0, position[1] + l * 3);
+    setIntoArray(positions, j * 3 + 1, b);
+
+    vec3.set(b, position[0] + l * 3, 0, position[1] - l);
     setIntoArray(positions, j * 3 + 2, b);
 
     j++;
@@ -121,32 +138,50 @@ export const draw = () => {
     vec3.transformQuat(b, b, direction);
     b[0] += origin[0];
     b[2] += origin[2];
-    vec3.transformMat4(b, b, viewMatrix);
     setIntoArray(positions, j * 3 + 0, b);
 
     vec3.set(b, -lx + 0.12, 0, lz * 3);
     vec3.transformQuat(b, b, direction);
     b[0] += origin[0];
     b[2] += origin[2];
-    vec3.transformMat4(b, b, viewMatrix);
     setIntoArray(positions, j * 3 + 1, b);
 
     vec3.set(b, lx * 3 + 0.12, 0, -lz);
     vec3.transformQuat(b, b, direction);
     b[0] += origin[0];
     b[2] += origin[2];
-    vec3.transformMat4(b, b, viewMatrix);
     setIntoArray(positions, j * 3 + 2, b);
 
     j++;
   }
 
+  n_triangles = j;
+};
+
+export const draw = () => {
+  updatePositionBuffer();
+
+  gl.useProgram(program);
+
+  gl.bindVertexArray(vao);
+
+  gl.uniformMatrix4fv(u_matrix, false, worldMatrix);
+
+  gl.enable(gl.CULL_FACE);
+  gl.cullFace(gl.BACK);
+
+  gl.disable(gl.DEPTH_TEST);
+
+  gl.enable(gl.BLEND);
+  gl.blendEquationSeparate(gl.FUNC_ADD, gl.FUNC_ADD);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, positions, gl.DYNAMIC_DRAW);
 
-  gl.drawArrays(gl.TRIANGLES, 0, j * 3);
+  gl.drawArrays(gl.TRIANGLES, 0, n_triangles * 3);
 
-  gl.bindVertexArray(null);
+  if (n_triangles < MAX_SHADOW) gl.bindVertexArray(null);
 
   gl.enable(gl.DEPTH_TEST);
   gl.disable(gl.BLEND);
