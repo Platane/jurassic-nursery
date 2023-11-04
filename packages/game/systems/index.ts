@@ -19,7 +19,7 @@ export const update = () => {
   {
     const tree0 = [...trees.values()][0];
 
-    quat.fromEuler(tree0.direction, Math.sin(state.t * 0.06) * 10, 0, 0);
+    // quat.fromEuler(tree0.direction, Math.sin(state.t * 0.06) * 10, 0, 0);
   }
 
   for (const tri of triceratops.values()) {

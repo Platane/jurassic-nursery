@@ -48,7 +48,7 @@ const updateBones = ([root, base, ...keys]: mat4[], tree: Tree) => {
     for (let k = n; k--; ) {
       const bone = keys[i++];
 
-      let phy = (k / n) * Math.PI * 2 + dy * 13.5;
+      let phy = (k / n) * Math.PI * 2 + dy;
       let theta = 0;
       l *= tree.radius;
 
@@ -82,14 +82,14 @@ const ms = Array.from({ length: MAX_ENTITY }, (_, j) =>
 );
 
 const gi = Array.from({ length: N_BONES }, () => mat4.create());
-gizmos.push(...gi);
+// gizmos.push(...gi);
 
 for (let i = MAX_ENTITY; i--; )
   for (let j = N_BONES; j--; ) mat4.identity(ms[i][j]);
 
 export const bindPose = Array.from({ length: N_BONES }, mat4.create);
 
-gizmos.push(...bindPose);
+// gizmos.push(...bindPose);
 
 updateBones(bindPose, {
   position: [0, 0],
@@ -104,12 +104,11 @@ updateBones(bindPose, {
 const bindPoseInv = bindPose.map((m) => mat4.invert(mat4.create(), m));
 
 export const update = () => {
-  // updateGizmo();
-
   let i = 0;
   for (const t of trees.values()) {
     updateBones(ms[i], t);
 
+    // update gizmos
     if (i === 0) updateBones(gi, t);
 
     for (let j = N_BONES; j--; )
