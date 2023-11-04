@@ -43,8 +43,8 @@ npm run build
   - drop triceratops
 - [x] collision avoidance
 - [x] restrict camera movement (pan only ? two finger on mobile and pan on mouse hover edge on desktop )
+- [x] trees
+- [x] bones on trees
 
 - [ ] react to mouse movement, fruit pick up ect ..
-- [ ] trees
-- [ ] bones on trees
 - [ ] ui select triceratops
