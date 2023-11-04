@@ -14,7 +14,7 @@ export const trees = new Map<number, Tree>();
 
 const N = 20;
 const sqN = Math.floor(Math.sqrt(N));
-for (let k = 10; k--; ) {
+for (let k = 20; k--; ) {
   const tree = {
     id: k,
     position: [
@@ -34,13 +34,13 @@ for (let k = 10; k--; ) {
 {
   const tree = {
     id: 123123,
-    position: [2, 2],
-    seed: 123,
+    position: [0, 0],
+    seed: 0,
     radius: 1,
     height: 1,
-    trunkHeight: 0.5,
+    trunkHeight: 2,
     direction: quat.create(),
   } satisfies Tree;
 
-  // trees.set(tree.id, tree);
+  trees.set(tree.id, tree);
 }

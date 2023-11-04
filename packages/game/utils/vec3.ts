@@ -12,15 +12,15 @@ export const setFromArray = (out: vec3, arr: ArrayLike<number>, i: number) =>
 export const setIntoArray = (
   arr: number[] | Float32Array | Uint8Array,
   i: number,
-  out: vec3
+  v: vec3
 ) =>
   setIntoArrayValues(
     arr,
     i,
 
-    out[0],
-    out[1],
-    out[2]
+    v[0],
+    v[1],
+    v[2]
   );
 
 export const setIntoArrayValues = (
