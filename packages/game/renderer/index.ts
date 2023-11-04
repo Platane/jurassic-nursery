@@ -24,7 +24,7 @@ export const render = () => {
   drawSkinnedMeshTree();
   drawSprites();
   // drawGizmo();
-  drawGizmos();
+  // drawGizmos();
 };
 
 const onResize = (window.onresize = () => {
