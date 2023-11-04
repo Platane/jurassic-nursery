@@ -1,4 +1,6 @@
 import { quat, vec2 } from "gl-matrix";
+import { PLAYGROUND_SIZE } from "../systems/const";
+import { MAX_ENTITY } from "../renderer/geometries/model/skeleton";
 
 export type Tree = {
   id: number;
@@ -12,35 +14,34 @@ export type Tree = {
 
 export const trees = new Map<number, Tree>();
 
-const N = 20;
-const sqN = Math.floor(Math.sqrt(N));
-for (let k = 20; k--; ) {
-  const tree = {
-    id: k,
-    position: [
-      ((k % sqN) - sqN / 2) * 2.3,
-      (Math.floor(k / sqN) - sqN / 2) * 2.2,
-    ],
-    seed: Math.floor(k * 199999 + 13123),
-    radius: 1,
-    height: 1,
-    trunkHeight: 0.3,
-    direction: quat.create(),
-  } satisfies Tree;
+//
+// init a circle of trees
+for (let k = 3000; k-- && trees.size < MAX_ENTITY; ) {
+  const position = [
+    (Math.random() - 0.5) * 2 * PLAYGROUND_SIZE * 2,
+    (Math.random() - 0.5) * 2 * PLAYGROUND_SIZE * 2,
+  ] as [number, number];
 
-  trees.set(tree.id, tree);
-}
+  const l = vec2.length(position);
 
-{
-  const tree = {
-    id: 123123,
-    position: [0, 0],
-    seed: 0,
-    radius: 1,
-    height: 1,
-    trunkHeight: 2,
-    direction: quat.create(),
-  } satisfies Tree;
+  if (
+    l > PLAYGROUND_SIZE * 0.93 &&
+    l < PLAYGROUND_SIZE * 2 &&
+    ![...trees.values()].some(
+      (t) => vec2.distance(position, t.position) < 1.8
+    ) &&
+    trees.size < MAX_ENTITY
+  ) {
+    const tree = {
+      id: k,
+      position,
+      seed: Math.floor(k * 199999 + 13123),
+      radius: Math.random() * 0.12 + 0.95,
+      height: Math.random() * 0.3 + 0.8,
+      trunkHeight: Math.random() * 0.3 + 0.25,
+      direction: quat.create(),
+    } satisfies Tree;
 
-  trees.set(tree.id, tree);
+    trees.set(tree.id, tree);
+  }
 }

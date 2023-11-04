@@ -5,8 +5,6 @@ import { tesselate } from "../utils/tesselate";
 import { N_COLORS } from "./colorSchema";
 import { computeWeights } from "./computeWeights";
 import { TRUNK_BASE_HEIGHT, bindPose } from "./skeleton";
-import { setFromArray } from "../../../utils/vec3";
-import { clamp } from "../../../utils/math";
 
 export const createGeometry = () => {
   let positions = createPyramidKernel(4);
@@ -22,6 +20,12 @@ export const createGeometry = () => {
 
   const colorPattern = Array.from({ length: positions.length / 3 }, () => 0);
 
+  //
+  // create pattern of color
+  // - pick a random point on the sphere
+  // - select all faces for which the centroid is close to the point
+  // - color this face
+
   // color schema
   // 0 1 2   base
   // 3 4 5   variants
@@ -31,7 +35,7 @@ export const createGeometry = () => {
     const a = vec3.create();
 
     for (const r of [0.73, 0.42, 0.3])
-      for (let k = 16; k--; ) {
+      for (let k = 14; k--; ) {
         getRandomPointOnUnitSphere(o);
 
         const c = Math.floor(Math.random() * 6);
@@ -67,12 +71,6 @@ export const createGeometry = () => {
           }
         }
       }
-    // for (let i = 0; i < colorPattern.length; i += 3) {
-    //   const c = Math.floor(Math.random() * 3 + 3);
-    //   colorPattern[i + 0] = c;
-    //   colorPattern[i + 1] = c;
-    //   colorPattern[i + 2] = c;
-    // }
   }
 
   for (let k = 0; k < positions.length; k += 3) {

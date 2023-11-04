@@ -9,18 +9,12 @@ import { updateTriceratopsParticles } from "./triceratopsParticles";
 import { updateTriceratopsSpawn } from "./triceratopSpawn";
 import { step } from "./walker";
 import { updateFruitSpawn } from "./fruitSpawn";
-import { trees } from "../entities/trees";
-import { quat } from "gl-matrix";
+import { updateTrees } from "./trees";
 
 export const update = () => {
   state.t++;
 
   step();
-  {
-    const tree0 = [...trees.values()][0];
-
-    // quat.fromEuler(tree0.direction, Math.sin(state.t * 0.06) * 10, 0, 0);
-  }
 
   for (const tri of triceratops.values()) {
     updateTriceratopsDragged(tri);
@@ -38,4 +32,5 @@ export const update = () => {
   updateTriceratopsParticles();
   updateTriceratopsSpawn();
   updateFruitSpawn();
+  updateTrees();
 };
