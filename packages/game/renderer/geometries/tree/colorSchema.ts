@@ -26,17 +26,11 @@ const colors = [
 
 for (let i = MAX_ENTITY; i--; ) {
   // leafs
-  const hue = (Math.floor(Math.random() * 3) / 3) * 0.12 + 0.12;
+  const hue = (Math.floor(Math.random() * 3) / 3) * 0.06 + 0.15;
 
-  // for (let k = N_COLORS; k--; ) {
-  //   hslToRgb(out, hue, 0.67, (1 - k / N_COLORS) * 0.4 + 0.2);
-  //   // hslToRgb(out, Math.random(), 0.67, (1 - k / N_COLORS) * 0.4 + 0.2);
-  //   setIntoArray(colorSchema, i * N_COLORS + k, out);
-  // }
-
-  hslToRgb(color1, hue, 0.67, 0.47);
-  hslToRgb(color2, hue, 0.67, 0.5);
-  hslToRgb(color3, hue, 0.67, 0.6);
+  hslToRgb(color1, hue, 0.7, 0.45);
+  hslToRgb(color2, hue, 0.67, 0.49);
+  hslToRgb(color3, hue, 0.72, 0.53);
 
   shuffleArray(colors);
 

@@ -14,14 +14,19 @@ const m = mat4.create();
 const parent = mat4.create();
 
 const circles = [
-  [0.45, 0.85, 4],
-  [0.7, 0.96, 5],
-  [0.75, 0.74, 4],
+  [0.45, 0.85, 3],
+  [0.7, 0.96, 4],
+  [0.75, 0.74, 3],
   [0.48, 0, 1],
 ];
 
 const updateBones = ([root, base, ...keys]: mat4[], tree: Tree) => {
-  mat4.fromTranslation(root, [tree.position[0], 0, tree.position[1]]);
+  const pm = new ParkMiller(tree.seed);
+
+  a[0] = tree.position[0];
+  a[1] = 0;
+  a[2] = tree.position[1];
+  mat4.fromTranslation(root, a);
 
   a[0] = 0;
   a[1] = tree.trunkHeight;
@@ -30,8 +35,6 @@ const updateBones = ([root, base, ...keys]: mat4[], tree: Tree) => {
   mat4.fromQuat(m, tree.direction);
   mat4.multiply(parent, m, parent);
   mat4.multiply(parent, root, parent);
-
-  const pm = new ParkMiller(tree.seed);
 
   mat4.copy(base, parent);
 
@@ -88,8 +91,13 @@ for (let i = MAX_ENTITY; i--; )
   for (let j = N_BONES; j--; ) mat4.identity(ms[i][j]);
 
 export const bindPose = Array.from({ length: N_BONES }, mat4.create);
-
 // gizmos.push(...bindPose);
+
+// by default, put the bind pose bones far away, which will make them have a 0 weight on all vertices
+for (let j = N_BONES; j--; ) {
+  mat4.identity(bindPose[j]);
+  bindPose[j][13] = 9999;
+}
 
 updateBones(bindPose, {
   position: [0, 0],
