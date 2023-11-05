@@ -23,15 +23,28 @@ const assets = await build(true);
 for (const [fileName, content] of Object.entries(assets))
   fs.writeFileSync(path.join(distDir, fileName), content);
 
-execFileSync("advzip", [
-  "--add",
-  // "--shrink-insane",
-  "--shrink-normal",
-  path.join(distDir, "bundle.zip"),
-  ...listFiles(distDir).filter(
-    (fileName) => !fileName.endsWith("bundle-stats.html")
-  ),
-]);
+const ADVZIP = false;
+if (ADVZIP) {
+  execFileSync("advzip", [
+    "--add",
+    "--shrink-insane",
+    path.join(distDir, "bundle.zip"),
+    ...listFiles(distDir).filter(
+      (fileName) => !fileName.endsWith("bundle-stats.html")
+    ),
+  ]);
+} else {
+  execFileSync(
+    "zip",
+    [
+      "bundle.zip",
+      ...listFiles(distDir)
+        .filter((fileName) => !fileName.endsWith("bundle-stats.html"))
+        .map((filename) => path.relative(distDir, filename)),
+    ],
+    { cwd: distDir }
+  );
+}
 
 //
 // write size info
