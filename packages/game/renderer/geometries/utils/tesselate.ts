@@ -23,7 +23,7 @@ export const tesselate = (positions: ArrayLike<number>) => {
     vec3.lerp(m_bc, b, c, 0.5);
     vec3.lerp(m_ca, c, a, 0.5);
 
-    // prettier-ignore
+    // biome-ignore format:
     p.push(
       ...a, ...m_ab, ...m_ca,
       ...m_ab, ...b, ...m_bc,

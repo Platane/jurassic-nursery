@@ -1,9 +1,9 @@
-import { gl } from "../../canvas";
+import { mat4, vec3 } from "gl-matrix";
 import { worldMatrix } from "../../../entities/camera";
+import { gl } from "../../canvas";
 import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
-import { mat4, vec3 } from "gl-matrix";
 
 const program = createProgram(gl, codeVert, codeFrag);
 

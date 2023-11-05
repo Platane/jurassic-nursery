@@ -1,9 +1,9 @@
 import { quat, vec2, vec3 } from "gl-matrix";
-import { Triceratops } from "../entities/triceratops";
 import { Fruit, fruits } from "../entities/fruits";
+import { Triceratops } from "../entities/triceratops";
 import { stepSpring3 } from "../utils/spring";
-import { isInsidePlayground } from "./ia";
 import { PLAYGROUND_SIZE } from "./const";
+import { isInsidePlayground } from "./ia";
 
 export const updateTriceratopsDragged = (tri: Triceratops) => {
   if (tri.dragged_anchor && tri.dragged_v) {
@@ -49,7 +49,7 @@ export const updateDraggedFruit = (fruit: Fruit) => {
       fruit.p,
       fruit.dragged_v!,
       fruit.dragged_anchor,
-      springParams_fruit
+      springParams_fruit,
     );
   } else if (fruit.dragged_v) {
     vec3.scale(fruit.dragged_v, fruit.dragged_v, 0.975);

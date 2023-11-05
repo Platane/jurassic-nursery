@@ -1,6 +1,6 @@
 import { vec3 } from "gl-matrix";
-import { tesselate } from "../utils/tesselate";
 import { setFromArray, setIntoArray } from "../../../utils/vec3";
+import { tesselate } from "../utils/tesselate";
 
 /**
  * create the primitive of a recursive sphere
@@ -21,7 +21,7 @@ export const createPyramidKernel = (n = 5) => {
     b[0] = Math.cos(((i + 1) / n) * Math.PI * 2);
     b[2] = Math.sin(((i + 1) / n) * Math.PI * 2);
 
-    // prettier-ignore
+    // biome-ignore format:
     positions.push(
         ...a, 0, 1, 0, ...b, 
         

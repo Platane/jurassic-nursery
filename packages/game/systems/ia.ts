@@ -1,18 +1,18 @@
 import { vec2, vec3 } from "gl-matrix";
-import { Skeleton } from "../renderer/geometries/model/skeleton";
-import { state } from "../ui/state";
 import { addFruit, fruits, triceratopsParticles } from "../entities/fruits";
-import { WithEmote } from "./emote";
 import {
   Triceratops,
   addTriceratops,
   triceratops,
   updateTriceratops,
 } from "../entities/triceratops";
-import { MAX_FOOD_LEVEL, PLAYGROUND_SIZE, WANDERING_RADIUS } from "./const";
-import { V_MAX } from "./walker";
+import { Skeleton } from "../renderer/geometries/model/skeleton";
+import { state } from "../ui/state";
 import { lerp } from "../utils/math";
+import { MAX_FOOD_LEVEL, PLAYGROUND_SIZE, WANDERING_RADIUS } from "./const";
+import { WithEmote } from "./emote";
 import { getChildVariant } from "./gene";
+import { V_MAX } from "./walker";
 
 export type WithNeed = {
   food_level: number;
@@ -257,7 +257,7 @@ export const updateDecision = (w: Triceratops) => {
         (w.activity as any).type = "idle";
 
         const baby = addTriceratops(
-          getChildVariant(w.variant_index, w2.variant_index)
+          getChildVariant(w.variant_index, w2.variant_index),
         );
         baby.size = 0.2;
 
@@ -272,7 +272,7 @@ export const updateDecision = (w: Triceratops) => {
 
 const getWanderingPoint = (
   w: Triceratops,
-  radius: number
+  radius: number,
 ): [number, number] => {
   let x = 9999;
   let y = 9999;

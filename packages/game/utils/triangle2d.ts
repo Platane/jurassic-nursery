@@ -9,7 +9,7 @@ export const isInsideTriangle = (
   cy: number,
 
   ox: number,
-  oy: number
+  oy: number,
 ) =>
   side(ax, ay, bx, by, ox, oy) &&
   side(bx, by, cx, cy, ox, oy) &&
@@ -23,7 +23,7 @@ const side = (
   by: number,
 
   ox: number,
-  oy: number
+  oy: number,
 ) => {
   const nx = by - ay;
   const ny = -(bx - ax);
@@ -49,7 +49,7 @@ export const intersectTriangle = (
   oy: number,
 
   vx: number,
-  vy: number
+  vy: number,
 ) => {
   const hx = ox - ax;
   const hy = oy - ay;

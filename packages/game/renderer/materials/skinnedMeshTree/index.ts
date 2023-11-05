@@ -1,18 +1,18 @@
-import { gl } from "../../canvas";
 import { worldMatrix as viewMatrix } from "../../../entities/camera";
-import { createProgram } from "../../utils/program";
-import codeFrag from "../skinnedMesh/shader.frag";
-import codeVert from "../skinnedMesh/shader.vert";
+import { trees } from "../../../entities/trees";
+import { gl } from "../../canvas";
 import { N_COLORS } from "../../geometries/model/colorSchema";
-import { getAttribLocation, getUniformLocation } from "../../utils/location";
 import { MAX_ENTITY, N_BONES } from "../../geometries/model/skeleton";
-import { createGeometry as createTreeGeometry } from "../../geometries/tree/tree";
+import { colorSchema } from "../../geometries/tree/colorSchema";
 import {
   bonesMatrices,
   update as updateBoneMatrices,
 } from "../../geometries/tree/skeleton";
-import { colorSchema } from "../../geometries/tree/colorSchema";
-import { trees } from "../../../entities/trees";
+import { createGeometry as createTreeGeometry } from "../../geometries/tree/tree";
+import { getAttribLocation, getUniformLocation } from "../../utils/location";
+import { createProgram } from "../../utils/program";
+import codeFrag from "../skinnedMesh/shader.frag";
+import codeVert from "../skinnedMesh/shader.vert";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
@@ -78,7 +78,7 @@ gl.vertexAttribIPointer(a_boneIndexes, 4, gl.UNSIGNED_BYTE, 0, 0);
 //
 const entityIndexBuffer = gl.createBuffer();
 const entityIndex = new Uint8Array(
-  Array.from({ length: MAX_ENTITY }, (_, i) => i)
+  Array.from({ length: MAX_ENTITY }, (_, i) => i),
 );
 gl.bindBuffer(gl.ARRAY_BUFFER, entityIndexBuffer);
 gl.bufferData(gl.ARRAY_BUFFER, entityIndex, gl.STATIC_DRAW);
@@ -94,7 +94,7 @@ const boneMatrixTexture = gl.createTexture();
 const u_boneMatrixTexture = getUniformLocation(
   gl,
   program,
-  "u_boneMatrixTexture"
+  "u_boneMatrixTexture",
 );
 // use texture unit 2
 gl.activeTexture(gl.TEXTURE0 + 3);
@@ -111,7 +111,7 @@ const colorSchemaTexture = gl.createTexture();
 const u_colorSchemaTexture = getUniformLocation(
   gl,
   program,
-  "u_colorSchemaTexture"
+  "u_colorSchemaTexture",
 );
 // use texture unit 3
 gl.activeTexture(gl.TEXTURE0 + 4);
@@ -147,7 +147,7 @@ export const draw = () => {
     0, // border
     gl.RGBA, // format
     gl.FLOAT, // type
-    bonesMatrices
+    bonesMatrices,
   );
   gl.uniform1i(u_boneMatrixTexture, 3);
 
@@ -193,7 +193,7 @@ export const draw = () => {
     0, // border
     gl.RGB, // format
     gl.FLOAT, // type
-    colorSchema
+    colorSchema,
   );
 
   nVertices = positions.length / 3;

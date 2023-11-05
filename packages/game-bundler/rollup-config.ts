@@ -1,14 +1,14 @@
 import * as path from "path";
+import linaria from "@linaria/rollup";
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import { InputOptions, OutputOptions } from "rollup";
-import { MinifyOptions } from "terser";
-import esbuild from "rollup-plugin-esbuild";
-import linaria from "@linaria/rollup";
 import css from "rollup-plugin-css-only";
+import esbuild from "rollup-plugin-esbuild";
+import visualizer from "rollup-plugin-visualizer";
+import { MinifyOptions } from "terser";
 import { glsl } from "./rollup-plugin-glsl";
 import { shaderVariables } from "./rollup-plugin-shader-variables";
-import visualizer from "rollup-plugin-visualizer";
 
 // @ts-ignore
 import importAssets from "rollup-plugin-import-assets";

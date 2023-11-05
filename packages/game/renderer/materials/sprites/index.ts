@@ -1,15 +1,15 @@
-import { canvas, gl } from "../../canvas";
+import { vec3 } from "gl-matrix";
 import { eye, worldMatrix as viewMatrix } from "../../../entities/camera";
+import { Sprite, fruits, triceratopsParticles } from "../../../entities/fruits";
+import { triceratops } from "../../../entities/triceratops";
+import { state } from "../../../ui/state";
+import { setIntoArrayValues } from "../../../utils/vec3";
+import { canvas, gl } from "../../canvas";
+import { getAttribLocation, getUniformLocation } from "../../utils/location";
 import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
-import { getAttribLocation, getUniformLocation } from "../../utils/location";
 import { N_SPRITES, billboardCanvas } from "./textureAtlas";
-import { Sprite, fruits, triceratopsParticles } from "../../../entities/fruits";
-import { vec3 } from "gl-matrix";
-import { setIntoArrayValues } from "../../../utils/vec3";
-import { state } from "../../../ui/state";
-import { triceratops } from "../../../entities/triceratops";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
@@ -55,7 +55,7 @@ gl.texImage2D(
   gl.RGBA,
   gl.RGBA,
   gl.UNSIGNED_BYTE,
-  billboardCanvas
+  billboardCanvas,
 );
 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 gl.generateMipmap(gl.TEXTURE_2D);

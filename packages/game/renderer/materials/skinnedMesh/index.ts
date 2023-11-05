@@ -1,18 +1,18 @@
-import { gl } from "../../canvas";
 import { worldMatrix as viewMatrix } from "../../../entities/camera";
-import { createProgram } from "../../utils/program";
-import codeFrag from "./shader.frag";
-import codeVert from "./shader.vert";
+import { triceratops } from "../../../entities/triceratops";
+import { gl } from "../../canvas";
+import { N_COLORS, colorSchema } from "../../geometries/model/colorSchema";
 import { geometryPromise } from "../../geometries/model/model";
 import {
-  N_BONES,
   MAX_ENTITY,
+  N_BONES,
   bonesMatrices,
   update as updateBoneMatrices,
 } from "../../geometries/model/skeleton";
-import { N_COLORS, colorSchema } from "../../geometries/model/colorSchema";
-import { triceratops } from "../../../entities/triceratops";
 import { getAttribLocation, getUniformLocation } from "../../utils/location";
+import { createProgram } from "../../utils/program";
+import codeFrag from "./shader.frag";
+import codeVert from "./shader.vert";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
@@ -78,7 +78,7 @@ gl.vertexAttribIPointer(a_boneIndexes, 4, gl.UNSIGNED_BYTE, 0, 0);
 //
 const entityIndexBuffer = gl.createBuffer();
 const entityIndex = new Uint8Array(
-  Array.from({ length: MAX_ENTITY }, (_, i) => i)
+  Array.from({ length: MAX_ENTITY }, (_, i) => i),
 );
 gl.bindBuffer(gl.ARRAY_BUFFER, entityIndexBuffer);
 gl.bufferData(gl.ARRAY_BUFFER, entityIndex, gl.STATIC_DRAW);
@@ -94,7 +94,7 @@ const boneMatrixTexture = gl.createTexture();
 const u_boneMatrixTexture = getUniformLocation(
   gl,
   program,
-  "u_boneMatrixTexture"
+  "u_boneMatrixTexture",
 );
 // use texture unit 0
 gl.activeTexture(gl.TEXTURE0);
@@ -111,7 +111,7 @@ const colorSchemaTexture = gl.createTexture();
 const u_colorSchemaTexture = getUniformLocation(
   gl,
   program,
-  "u_colorSchemaTexture"
+  "u_colorSchemaTexture",
 );
 // use texture unit 1
 gl.activeTexture(gl.TEXTURE0 + 1);
@@ -148,7 +148,7 @@ export const draw = () => {
     0, // border
     gl.RGBA, // format
     gl.FLOAT, // type
-    bonesMatrices
+    bonesMatrices,
   );
   gl.uniform1i(u_boneMatrixTexture, 0);
 
@@ -162,7 +162,7 @@ export const draw = () => {
     0, // border
     gl.RGB, // format
     gl.FLOAT, // type
-    colorSchema
+    colorSchema,
   );
   gl.uniform1i(u_colorSchemaTexture, 1);
 
@@ -195,5 +195,5 @@ geometryPromise.then(
     gl.bufferData(gl.ARRAY_BUFFER, boneIndexes, gl.STATIC_DRAW);
 
     nVertices = positions.length / 3;
-  }
+  },
 );

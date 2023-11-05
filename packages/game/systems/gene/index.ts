@@ -88,7 +88,7 @@ export const variants = (
     //
     0.4,
     0.4,
-    0.5
+    0.5,
   );
 
   return { edible, colors, variant_index: i, variant_parents };

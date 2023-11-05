@@ -8,7 +8,7 @@ export const hslToRgb = (
   out: [number, number, number],
   h: number,
   s: number,
-  l: number
+  l: number,
 ) => {
   // if (s == 0) {
   //   out[0] = out[1] = out[2] = l; // achromatic

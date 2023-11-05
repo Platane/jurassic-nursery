@@ -54,7 +54,7 @@ export const createGeometry = () => {
             (positions[(i + 0) * 3 + 2] +
               positions[(i + 1) * 3 + 2] +
               positions[(i + 2) * 3 + 2]) /
-              3
+              3,
           );
 
           if (vec3.sqrDist(a, o) < r * r) {
@@ -99,7 +99,7 @@ export const createGeometry = () => {
       const x2 = Math.cos(a2) * r;
       const y2 = Math.sin(a2) * r;
 
-      // prettier-ignore
+      // biome-ignore format:
       positions.push(
         
         x1,0,y1,
@@ -118,7 +118,7 @@ export const createGeometry = () => {
 
         trunkColor,
         trunkColor,
-        trunkColor
+        trunkColor,
       );
     }
   }

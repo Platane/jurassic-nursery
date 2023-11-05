@@ -1,13 +1,13 @@
 import { vec2, vec3 } from "gl-matrix";
+import { setEntityColorSchema } from "../renderer/geometries/model/colorSchema";
 import {
   Skeleton,
   createSkeleton,
 } from "../renderer/geometries/model/skeleton";
-import { variants, type Genotype } from "../systems/gene";
-import { V_MAX, Walker } from "../systems/walker";
 import { WithEmote } from "../systems/emote";
+import { type Genotype, variants } from "../systems/gene";
 import { WithDecision } from "../systems/ia";
-import { setEntityColorSchema } from "../renderer/geometries/model/colorSchema";
+import { V_MAX, Walker } from "../systems/walker";
 
 export type Entity = {
   id: number;
@@ -73,6 +73,6 @@ export const updateTriceratops = () => {
 
   localStorage.setItem(
     "jurassic-nursery",
-    [...triceratops.values()].map((t) => t.variant_index).join(",")
+    [...triceratops.values()].map((t) => t.variant_index).join(","),
   );
 };

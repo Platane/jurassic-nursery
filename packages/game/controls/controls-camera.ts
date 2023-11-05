@@ -1,14 +1,14 @@
-import { canvas } from "../renderer/canvas";
+import { mat4, vec3 } from "gl-matrix";
 import {
   eye,
   lookAtMatrix,
   lookAtPoint,
   updateLookAtMatrix,
 } from "../entities/camera";
-import { Handler } from "./controls-type";
-import { clamp, invLerp, lerp } from "../utils/math";
-import { mat4, vec3 } from "gl-matrix";
+import { canvas } from "../renderer/canvas";
 import { PLAYGROUND_SIZE } from "../systems/const";
+import { clamp, invLerp, lerp } from "../utils/math";
+import { Handler } from "./controls-type";
 
 const maxZoom = 10;
 const minZoom = 6;

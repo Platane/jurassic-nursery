@@ -11,6 +11,6 @@ test("should pick max indices", () => {
 
   assert.deepEqual(
     arr.slice().sort().reverse().slice(0, 4),
-    is.map((i) => arr[i])
+    is.map((i) => arr[i]),
   );
 });

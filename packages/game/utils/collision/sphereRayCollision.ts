@@ -10,7 +10,7 @@ export const sphereRayCollision = (
   sphere_o: vec3,
   sphere_r: number,
   ray_origin: vec3,
-  ray_direction: vec3
+  ray_direction: vec3,
 ) => {
   vec3.subtract(a, sphere_o, ray_origin);
   const t = vec3.dot(a, ray_direction);

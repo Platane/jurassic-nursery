@@ -9,7 +9,7 @@ export const updateTrees = () => {
       Math.sin(state.t * (0.01 + ((tree.seed % 37) / 37) * 0.02) + tree.seed) *
         3,
       0,
-      0
+      0,
     );
   }
 };

@@ -1,6 +1,6 @@
+import { execFileSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
-import { execFileSync } from "child_process";
 import { build } from "./build";
 
 const listFiles = (filename: string): string[] => {
@@ -30,7 +30,7 @@ if (ADVZIP) {
     "--shrink-insane",
     path.join(distDir, "bundle.zip"),
     ...listFiles(distDir).filter(
-      (fileName) => !fileName.endsWith("bundle-stats.html")
+      (fileName) => !fileName.endsWith("bundle-stats.html"),
     ),
   ]);
 } else {
@@ -42,7 +42,7 @@ if (ADVZIP) {
         .filter((fileName) => !fileName.endsWith("bundle-stats.html"))
         .map((filename) => path.relative(distDir, filename)),
     ],
-    { cwd: distDir }
+    { cwd: distDir },
   );
 }
 
@@ -58,7 +58,7 @@ if (ADVZIP) {
   };
   fs.writeFileSync(
     path.join(distDir, "shieldio_size.json"),
-    JSON.stringify(content)
+    JSON.stringify(content),
   );
 
   console.log(literalSize);

@@ -1,13 +1,13 @@
-import { gl } from "../../canvas";
 import { worldMatrix } from "../../../entities/camera";
+import { isTriceratops } from "../../../entities/triceratops";
+import { PLAYGROUND_SIZE, WANDERING_RADIUS } from "../../../systems/const";
+import { isInsidePlayground } from "../../../systems/ia";
+import { state } from "../../../ui/state";
+import { gl } from "../../canvas";
+import { createPolygonLine } from "../../geometries/line/polygon";
 import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
-import { createPolygonLine } from "../../geometries/line/polygon";
-import { isInsidePlayground } from "../../../systems/ia";
-import { state } from "../../../ui/state";
-import { isTriceratops } from "../../../entities/triceratops";
-import { PLAYGROUND_SIZE, WANDERING_RADIUS } from "../../../systems/const";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
@@ -32,7 +32,7 @@ const positions = createPolygonLine(
   PLAYGROUND_SIZE * 0.707,
   0.1,
   0,
-  Math.PI / 4
+  Math.PI / 4,
 );
 
 const wanderingZone = createPolygonLine(50, WANDERING_RADIUS, 0.1, 0);
@@ -47,7 +47,7 @@ for (let k = 60; k--; ) {
       if (i % 3 === 0) return v + x;
       if (i % 3 === 2) return v + y;
       return v;
-    })
+    }),
   );
 }
 

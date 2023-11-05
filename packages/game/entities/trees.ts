@@ -1,6 +1,6 @@
 import { quat, vec2 } from "gl-matrix";
-import { PLAYGROUND_SIZE } from "../systems/const";
 import { MAX_ENTITY } from "../renderer/geometries/model/skeleton";
+import { PLAYGROUND_SIZE } from "../systems/const";
 
 export type Tree = {
   id: number;
