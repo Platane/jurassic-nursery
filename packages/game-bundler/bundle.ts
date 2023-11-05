@@ -25,7 +25,8 @@ for (const [fileName, content] of Object.entries(assets))
 
 execFileSync("advzip", [
   "--add",
-  "--shrink-insane",
+  // "--shrink-insane",
+  "--shrink-normal",
   path.join(distDir, "bundle.zip"),
   ...listFiles(distDir).filter(
     (fileName) => !fileName.endsWith("bundle-stats.html")

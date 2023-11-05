@@ -53,7 +53,9 @@ export const bundle = async (
 
     const out = await minifyJs(jsCode, terserOptions);
     jsCode = out.code!;
+  }
 
+  if (minify && false) {
     const packer = new Packer(
       [{ data: jsCode, type: "js", action: "eval" } as Input],
       { allowFreeVars: true }
