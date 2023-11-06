@@ -19,6 +19,8 @@ jobs:
 
       - run: bun test
 
+      - run: bunx biome check .
+
       - run: npm run build
 
       - name: move images
