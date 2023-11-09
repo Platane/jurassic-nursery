@@ -2,8 +2,7 @@ import { quat, vec2, vec3 } from "gl-matrix";
 import { Triceratops } from "../entities/triceratops";
 import { Fruit, fruits } from "../entities/fruits";
 import { stepSpring3 } from "../utils/spring";
-import { isInsidePlayground } from "./ia";
-import { PLAYGROUND_SIZE } from "./const";
+import { PLAYGROUND_SIZE, isInsidePlayground } from "./const";
 
 export const updateTriceratopsDragged = (tri: Triceratops) => {
   if (tri.dragged_anchor && tri.dragged_v) {

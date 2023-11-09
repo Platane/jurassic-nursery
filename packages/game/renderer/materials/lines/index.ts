@@ -4,10 +4,13 @@ import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
 import { createPolygonLine } from "../../geometries/line/polygon";
-import { isInsidePlayground } from "../../../systems/ia";
 import { state } from "../../../ui/state";
 import { isTriceratops } from "../../../entities/triceratops";
-import { PLAYGROUND_SIZE, WANDERING_RADIUS } from "../../../systems/const";
+import {
+  PLAYGROUND_SIZE,
+  WANDERING_RADIUS,
+  isInsidePlayground,
+} from "../../../systems/const";
 
 const program = createProgram(gl, codeVert, codeFrag);
 

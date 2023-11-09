@@ -3,7 +3,12 @@ import { Skeleton } from "../renderer/geometries/model/skeleton";
 import { state } from "../ui/state";
 import { fruits } from "../entities/fruits";
 import { Triceratops, triceratops } from "../entities/triceratops";
-import { MAX_FOOD_LEVEL, PLAYGROUND_SIZE, WANDERING_RADIUS } from "./const";
+import {
+  MAX_FOOD_LEVEL,
+  PLAYGROUND_SIZE,
+  WANDERING_RADIUS,
+  isInsidePlayground,
+} from "./const";
 import { V_MAX } from "./walker";
 import { lerp } from "../utils/math";
 import { getChildVariant } from "./gene";
@@ -63,12 +68,6 @@ export type WithDecision = {
 
   wandering_center: vec2;
 } & WithNeed;
-
-export const isInsidePlayground = (x: number, y: number) =>
-  -PLAYGROUND_SIZE / 2 <= x &&
-  x <= PLAYGROUND_SIZE / 2 &&
-  -PLAYGROUND_SIZE / 2 <= y &&
-  y <= PLAYGROUND_SIZE / 2;
 
 export const EATING_DURATION = 80;
 

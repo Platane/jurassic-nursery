@@ -16,19 +16,22 @@ export const updateTrees = () => {
 };
 
 export const initTrees = () => {
+  const R_MIN = PLAYGROUND_SIZE * 0.93;
+  const R_MAX = PLAYGROUND_SIZE * 2;
+
   //
   // init a circle of trees
   for (let k = 2500; k-- && trees.size < MAX_TREE; ) {
     const position = [
-      (Math.random() - 0.5) * 2 * PLAYGROUND_SIZE * 2,
-      (Math.random() - 0.5) * 2 * PLAYGROUND_SIZE * 2,
+      (Math.random() - 0.5) * 2 * R_MAX,
+      (Math.random() - 0.5) * 2 * R_MAX,
     ] as [number, number];
 
     const l = vec2.length(position);
 
     if (
-      l > PLAYGROUND_SIZE * 0.93 &&
-      l < PLAYGROUND_SIZE * 2 &&
+      l > R_MIN &&
+      l < R_MAX &&
       ![...trees.values()].some(
         (t) => vec2.distance(position, t.position) < 2
       ) &&

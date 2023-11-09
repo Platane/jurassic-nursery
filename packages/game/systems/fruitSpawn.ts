@@ -1,8 +1,7 @@
 import { FRUIT_S, FRUIT_Y, Fruit, MAX_FRUIT, fruits } from "../entities/fruits";
 import { state } from "../ui/state";
 import { lerp } from "../utils/math";
-import { PLAYGROUND_SIZE } from "./const";
-import { isInsidePlayground } from "./ia";
+import { PLAYGROUND_SIZE, isInsidePlayground } from "./const";
 
 let next_spawn_t = 300;
 
