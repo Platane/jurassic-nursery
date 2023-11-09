@@ -1,13 +1,12 @@
-import {
-  addTriceratops,
-  triceratops,
-  updateTriceratops,
-} from "../entities/triceratops";
+import { vec2 } from "gl-matrix";
+import { Triceratops, triceratops } from "../entities/triceratops";
+import { createSkeleton } from "../renderer/geometries/model/skeleton";
 import { showRecipeButton } from "../ui/recipe";
 import { state } from "../ui/state";
 import { MAX_FOOD_LEVEL, PLAYGROUND_SIZE } from "./const";
 import { variants } from "./gene";
 import { V_MAX } from "./walker";
+import { setEntityColorSchema } from "../renderer/geometries/model/colorSchema";
 
 const first_variants = [1, 2];
 
@@ -40,47 +39,81 @@ export const updateTriceratopsSpawn = () => {
   }
 };
 
+let _id = 1;
+export const addTriceratops = (variant_index: number) => {
+  const tri: Triceratops = {
+    id: _id++,
+    ...createSkeleton(),
+
+    ...variants[variant_index],
+
+    food_level: 0,
+    love_level: 0,
+    happiness_level: 0,
+    will_not_eat_again: new Set(),
+    wandering_center: [0, 0],
+    velocity: vec2.create(),
+    delta_angle_mean: 0,
+    tail_t: Math.random() * 3,
+    feet_t: Math.random() * 3,
+    v_max: V_MAX,
+    seed: Math.floor(Math.random() * 100),
+
+    activity: { type: "idle" },
+  };
+
+  triceratops.set(tri.id, tri);
+  return tri;
+};
+
+/**
+ * call that after add / delete triceratops
+ */
+export const updateTriceratops = () => {
+  let i = 0;
+  for (const tri of triceratops.values()) {
+    setEntityColorSchema(i, tri.colors);
+    i++;
+  }
+
+  localStorage.setItem(
+    "jurassic-nursery",
+    [...triceratops.values()].map((t) => t.variant_index).join(",")
+  );
+};
+
 //
 // init
 //
 
-const save = localStorage.getItem("jurassic-nursery");
+export const initTriceratops = () => {
+  const save = localStorage.getItem("jurassic-nursery");
 
-if (save) {
-  const variant_indexes = save.split(",").map((x) => {
-    const i = +x;
-    if (Number.isFinite(i) && variants[i]) return i;
-    else return 0;
-  });
-  for (const i of variant_indexes) {
-    const tri = addTriceratops(i);
-    tri.wandering_center[0] = tri.o[0] =
-      (Math.random() - 0.5) * PLAYGROUND_SIZE;
-    tri.wandering_center[2] = tri.o[2] =
-      (Math.random() - 0.5) * PLAYGROUND_SIZE;
+  if (save) {
+    const variant_indexes = save.split(",").map((x) => {
+      const i = +x;
+      if (Number.isFinite(i) && variants[i]) return i;
+      else return 0;
+    });
+    for (const i of variant_indexes) {
+      const tri = addTriceratops(i);
+      tri.wandering_center[0] = tri.o[0] =
+        (Math.random() - 0.5) * PLAYGROUND_SIZE;
+      tri.wandering_center[2] = tri.o[2] =
+        (Math.random() - 0.5) * PLAYGROUND_SIZE;
+    }
+    first_variants.length = 0;
+    tuto_done = true;
+    showRecipeButton();
+  } else {
+    const tri = addTriceratops(0);
+    tri.o[0] = -PLAYGROUND_SIZE * 0.6;
+    tri.o[2] = 3;
+    tri.go_to_target = [0, 0];
+    tri.v_max = V_MAX;
+
+    tuto_done = false;
   }
-  first_variants.length = 0;
-  tuto_done = true;
-  showRecipeButton();
-} else {
-  const tri = addTriceratops(0);
-  tri.o[0] = -PLAYGROUND_SIZE * 0.6;
-  tri.o[2] = 3;
-  tri.go_to_target = [0, 0];
-  tri.v_max = V_MAX;
 
-  tuto_done = false;
-}
-
-//
-//
-//
-
-// for (let k = 3; k--; ) {
-//   const tri = addTriceratops(k % variants.length);
-//   tri.o[2] = k * 0.5;
-//   tri.o[0] = -6;
-//   tri.size = 0.3;
-// }
-
-updateTriceratops();
+  updateTriceratops();
+};

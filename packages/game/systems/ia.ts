@@ -1,18 +1,14 @@
 import { vec2, vec3 } from "gl-matrix";
 import { Skeleton } from "../renderer/geometries/model/skeleton";
 import { state } from "../ui/state";
-import { addFruit, fruits, triceratopsParticles } from "../entities/fruits";
-import { WithEmote } from "./emote";
-import {
-  Triceratops,
-  addTriceratops,
-  triceratops,
-  updateTriceratops,
-} from "../entities/triceratops";
+import { fruits } from "../entities/fruits";
+import { Triceratops, triceratops } from "../entities/triceratops";
 import { MAX_FOOD_LEVEL, PLAYGROUND_SIZE, WANDERING_RADIUS } from "./const";
 import { V_MAX } from "./walker";
 import { lerp } from "../utils/math";
 import { getChildVariant } from "./gene";
+import { addTriceratops, updateTriceratops } from "./triceratopSpawn";
+import { addFruit } from "./fruitSpawn";
 
 export type WithNeed = {
   food_level: number;

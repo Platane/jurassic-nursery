@@ -1,13 +1,10 @@
-import { addFruit, fruits } from "../entities/fruits";
-import { MAX_PARTICLES } from "../renderer/materials/sprites";
+import { FRUIT_S, FRUIT_Y, Fruit, MAX_FRUIT, fruits } from "../entities/fruits";
 import { state } from "../ui/state";
 import { lerp } from "../utils/math";
 import { PLAYGROUND_SIZE } from "./const";
 import { isInsidePlayground } from "./ia";
 
 let next_spawn_t = 300;
-
-const MAX_FRUIT = MAX_PARTICLES * 0.8;
 
 export const updateFruitSpawn = () => {
   if (state.t > next_spawn_t && fruits.size < MAX_FRUIT) {
@@ -47,4 +44,16 @@ export const updateFruitSpawn = () => {
       f.p[0] = tmp2;
     }
   }
+};
+
+let _id = 1;
+export const addFruit = () => {
+  const fruit = {
+    size: FRUIT_S,
+    i: 0,
+    p: [0, FRUIT_Y, 0],
+    id: _id++,
+  } as Fruit;
+  fruits.set(fruit.id, fruit);
+  return fruit;
 };

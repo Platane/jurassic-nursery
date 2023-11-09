@@ -4,15 +4,13 @@ import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
 import { getAttribLocation } from "../../utils/location";
-import { fruits } from "../../../entities/fruits";
+import { MAX_FRUIT, fruits } from "../../../entities/fruits";
 import { vec3 } from "gl-matrix";
 import { setIntoArray } from "../../../utils/vec3";
-import { MAX_PARTICLES } from "../sprites";
-import { MAX_ENTITY } from "../../geometries/model/skeleton";
-import { triceratops } from "../../../entities/triceratops";
-import { trees } from "../../../entities/trees";
+import { MAX_TRICERATOPS, triceratops } from "../../../entities/triceratops";
+import { MAX_TREE, trees } from "../../../entities/trees";
 
-export const MAX_SHADOW = MAX_PARTICLES + MAX_ENTITY + MAX_ENTITY;
+export const MAX_SHADOW = MAX_FRUIT + MAX_TRICERATOPS + MAX_TREE;
 
 const program = createProgram(gl, codeVert, codeFrag);
 

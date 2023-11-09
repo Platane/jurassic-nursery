@@ -1,7 +1,5 @@
 import { mat4, quat, vec3 } from "gl-matrix";
-import { triceratops } from "../../../entities/triceratops";
-
-export const MAX_ENTITY = 128;
+import { MAX_TRICERATOPS, triceratops } from "../../../entities/triceratops";
 
 export const N_BONES = 1 + 3 + 2 + 2 * 4 + 2;
 
@@ -26,7 +24,7 @@ export type Skeleton = {
   feet: [number, number, number, number];
 };
 
-const updateBones = (
+const updateTriceratopsBones = (
   bones: mat4[],
   {
     size,
@@ -214,9 +212,9 @@ export const createSkeleton = () => {
   } as Skeleton;
 };
 
-export const bonesMatrices = new Float32Array(16 * N_BONES * MAX_ENTITY);
+export const bonesMatrices = new Float32Array(16 * N_BONES * MAX_TRICERATOPS);
 
-const ms = Array.from({ length: MAX_ENTITY }, (_, j) =>
+const ms = Array.from({ length: MAX_TRICERATOPS }, (_, j) =>
   Array.from(
     { length: N_BONES },
     (_, i) =>
@@ -226,7 +224,7 @@ const ms = Array.from({ length: MAX_ENTITY }, (_, j) =>
 
 export const bindPose = Array.from({ length: N_BONES }, mat4.create);
 
-updateBones(bindPose, createSkeleton());
+updateTriceratopsBones(bindPose, createSkeleton());
 
 const bindPoseInv = bindPose.map((m) => mat4.invert(mat4.create(), m));
 
@@ -235,7 +233,7 @@ export const update = () => {
 
   let i = 0;
   for (const t of triceratops.values()) {
-    updateBones(ms[i], t);
+    updateTriceratopsBones(ms[i], t);
 
     for (let j = N_BONES; j--; )
       mat4.multiply(ms[i][j], ms[i][j], bindPoseInv[j]);

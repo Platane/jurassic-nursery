@@ -2,8 +2,8 @@ import { quat, vec3 } from "gl-matrix";
 import { Skeleton } from "../renderer/geometries/model/skeleton";
 import { EATING_DURATION, WithDecision } from "./ia";
 import { state } from "../ui/state";
-import { triceratopsParticles } from "../entities/fruits";
 import { MAX_FOOD_LEVEL } from "./const";
+import { triceratopsParticles } from "../entities/particles";
 
 export type WithEmote = {
   emote?: null | "happy";

@@ -1,12 +1,12 @@
 import { mat4, quat, vec3 } from "gl-matrix";
-import { MAX_ENTITY, N_BONES } from "../model/skeleton";
-import { Tree, trees } from "../../../entities/trees";
+import { N_BONES } from "../model/skeleton";
+import { MAX_TREE, Tree, trees } from "../../../entities/trees";
 import { gizmos } from "../../materials/gizmos";
 import ParkMiller from "park-miller";
 
 export const TRUNK_BASE_HEIGHT = 1;
 
-export const bonesMatrices = new Float32Array(16 * N_BONES * MAX_ENTITY);
+export const bonesMatrices = new Float32Array(16 * N_BONES * MAX_TREE);
 
 const a = vec3.create();
 const q = quat.create();
@@ -20,7 +20,7 @@ const circles = [
   [0.48, 0, 1],
 ];
 
-const updateBones = ([root, base, ...keys]: mat4[], tree: Tree) => {
+const updateTreeBones = ([root, base, ...keys]: mat4[], tree: Tree) => {
   const pm = new ParkMiller(tree.seed);
 
   a[0] = tree.position[0];
@@ -76,7 +76,7 @@ const updateBones = ([root, base, ...keys]: mat4[], tree: Tree) => {
   }
 };
 
-const ms = Array.from({ length: MAX_ENTITY }, (_, j) =>
+const ms = Array.from({ length: MAX_TREE }, (_, j) =>
   Array.from(
     { length: N_BONES },
     (_, i) =>
@@ -87,7 +87,7 @@ const ms = Array.from({ length: MAX_ENTITY }, (_, j) =>
 const gi = Array.from({ length: N_BONES }, () => mat4.create());
 // gizmos.push(...gi);
 
-for (let i = MAX_ENTITY; i--; )
+for (let i = MAX_TREE; i--; )
   for (let j = N_BONES; j--; ) mat4.identity(ms[i][j]);
 
 export const bindPose = Array.from({ length: N_BONES }, mat4.create);
@@ -99,7 +99,7 @@ for (let j = N_BONES; j--; ) {
   bindPose[j][13] = 9999;
 }
 
-updateBones(bindPose, {
+updateTreeBones(bindPose, {
   position: [0, 0],
   seed: 0,
   direction: quat.create(),
@@ -114,10 +114,10 @@ const bindPoseInv = bindPose.map((m) => mat4.invert(mat4.create(), m));
 export const update = () => {
   let i = 0;
   for (const t of trees.values()) {
-    updateBones(ms[i], t);
+    updateTreeBones(ms[i], t);
 
     // update gizmos
-    if (i === 0) updateBones(gi, t);
+    if (i === 0) updateTreeBones(gi, t);
 
     for (let j = N_BONES; j--; )
       mat4.multiply(ms[i][j], ms[i][j], bindPoseInv[j]);

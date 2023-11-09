@@ -1,8 +1,8 @@
-import { MAX_ENTITY } from "./skeleton";
+import { MAX_TRICERATOPS } from "../../../entities/triceratops";
 
 export const N_COLORS = 7;
 
-export const colorSchema = new Float32Array(3 * N_COLORS * MAX_ENTITY);
+export const colorSchema = new Float32Array(3 * N_COLORS * MAX_TRICERATOPS);
 
 export const setEntityColorSchema = (
   i: number,

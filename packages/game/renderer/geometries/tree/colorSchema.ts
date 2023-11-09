@@ -1,11 +1,11 @@
+import { MAX_TREE } from "../../../entities/trees";
 import { shuffleArray } from "../../../utils/array";
 import { hslToRgb } from "../../../utils/color";
-import { setIntoArray, setIntoArrayValues } from "../../../utils/vec3";
-import { MAX_ENTITY } from "../model/skeleton";
+import { setIntoArray } from "../../../utils/vec3";
 
 export const N_COLORS = 7;
 
-export const colorSchema = new Float32Array(3 * N_COLORS * MAX_ENTITY);
+export const colorSchema = new Float32Array(3 * N_COLORS * MAX_TREE);
 
 const out = [0, 0, 0] as [number, number, number];
 const color1 = [0, 0, 0] as [number, number, number];
@@ -24,7 +24,7 @@ const colors = [
   color3,
 ];
 
-for (let i = MAX_ENTITY; i--; ) {
+for (let i = MAX_TREE; i--; ) {
   // leafs
   const hue = (Math.floor(Math.random() * 3) / 3) * 0.06 + 0.15;
 

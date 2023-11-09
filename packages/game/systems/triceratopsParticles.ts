@@ -1,8 +1,8 @@
 import { vec3 } from "gl-matrix";
-import { triceratopsParticles } from "../entities/fruits";
 import { clamp, invLerp } from "../utils/math";
 import { UP } from "../utils/vec3";
 import { triceratops } from "../entities/triceratops";
+import { triceratopsParticles } from "../entities/particles";
 
 /**
  * particles that emanate from a triceratops

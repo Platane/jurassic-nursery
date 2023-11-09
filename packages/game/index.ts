@@ -12,6 +12,8 @@ import {
 import { raycastToScene } from "./systems/raycastScene";
 import { update as update_system } from "./systems";
 import { onFrame as onFrame_controls } from "./controls";
+import { initTrees } from "./systems/trees";
+import { initTriceratops } from "./systems/triceratopSpawn";
 
 import "./ui/recipe";
 
@@ -22,6 +24,9 @@ const loop = () => {
   render();
   requestAnimationFrame(loop);
 };
+
+initTriceratops();
+initTrees();
 
 geometryPromise.then(() => requestAnimationFrame(loop));
 

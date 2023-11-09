@@ -5,11 +5,10 @@ import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
 import { getAttribLocation, getUniformLocation } from "../../utils/location";
 import { N_SPRITES, billboardCanvas } from "./textureAtlas";
-import { Sprite, fruits, triceratopsParticles } from "../../../entities/fruits";
+import { MAX_FRUIT, fruits } from "../../../entities/fruits";
 import { vec3 } from "gl-matrix";
 import { setIntoArrayValues } from "../../../utils/vec3";
-import { state } from "../../../ui/state";
-import { triceratops } from "../../../entities/triceratops";
+import { Sprite, triceratopsParticles } from "../../../entities/particles";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
@@ -63,7 +62,7 @@ gl.generateMipmap(gl.TEXTURE_2D);
 //
 gl.bindVertexArray(null);
 
-export const MAX_PARTICLES = 256;
+export const MAX_PARTICLES = MAX_FRUIT + 50;
 
 const positions = new Float32Array(MAX_PARTICLES * 2 * 3 * 3);
 const uvs = new Float32Array(MAX_PARTICLES * 2 * 3 * 2);

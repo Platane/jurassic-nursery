@@ -5,14 +5,14 @@ import codeFrag from "../skinnedMesh/shader.frag";
 import codeVert from "../skinnedMesh/shader.vert";
 import { N_COLORS } from "../../geometries/model/colorSchema";
 import { getAttribLocation, getUniformLocation } from "../../utils/location";
-import { MAX_ENTITY, N_BONES } from "../../geometries/model/skeleton";
+import { N_BONES } from "../../geometries/model/skeleton";
 import { createGeometry as createTreeGeometry } from "../../geometries/tree/tree";
 import {
   bonesMatrices,
   update as updateBoneMatrices,
 } from "../../geometries/tree/skeleton";
 import { colorSchema } from "../../geometries/tree/colorSchema";
-import { trees } from "../../../entities/trees";
+import { MAX_TREE, trees } from "../../../entities/trees";
 
 const program = createProgram(gl, codeVert, codeFrag);
 
@@ -78,7 +78,7 @@ gl.vertexAttribIPointer(a_boneIndexes, 4, gl.UNSIGNED_BYTE, 0, 0);
 //
 const entityIndexBuffer = gl.createBuffer();
 const entityIndex = new Uint8Array(
-  Array.from({ length: MAX_ENTITY }, (_, i) => i)
+  Array.from({ length: MAX_TREE }, (_, i) => i)
 );
 gl.bindBuffer(gl.ARRAY_BUFFER, entityIndexBuffer);
 gl.bufferData(gl.ARRAY_BUFFER, entityIndex, gl.STATIC_DRAW);
@@ -143,7 +143,7 @@ export const draw = () => {
     0, // level
     gl.RGBA32F, // internal format
     4 * N_BONES, // 4 pixels, each pixel has RGBA so 4 pixels is 16 values ( = one matrix ). one row contains all bones
-    MAX_ENTITY, // one row per entity
+    MAX_TREE, // one row per entity
     0, // border
     gl.RGBA, // format
     gl.FLOAT, // type
@@ -189,7 +189,7 @@ export const draw = () => {
     0, // level
     gl.RGB32F, // internal format
     N_COLORS,
-    MAX_ENTITY, // one row per entity
+    MAX_TREE, // one row per entity
     0, // border
     gl.RGB, // format
     gl.FLOAT, // type
