@@ -1,15 +1,15 @@
 import { vec3 } from "gl-matrix";
+import { fruits } from "../entities/fruits";
+import { triceratops } from "../entities/triceratops";
+import { raycastToScene } from "../systems/raycastScene";
+import { state } from "../ui/state";
+import { projectOnGround } from "../utils/collision/projectOnGround";
+import { Handler, Touche } from "./controls-type";
 import {
   getRayFromScreen,
   getScreenX,
   getScreenY,
 } from "./utils/getRayFromScreen";
-import { Handler, Touche } from "./controls-type";
-import { triceratops } from "../entities/triceratops";
-import { fruits } from "../entities/fruits";
-import { raycastToScene } from "../systems/raycastScene";
-import { projectOnGround } from "../utils/collision/projectOnGround";
-import { state } from "../ui/state";
 
 const o = vec3.create();
 const v = vec3.create();

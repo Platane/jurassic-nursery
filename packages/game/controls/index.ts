@@ -1,20 +1,20 @@
-import type { Touche } from "./controls-type";
 import { canvas } from "../renderer/canvas";
-import {
-  onTouchStart as onTouchStart_camera,
-  onTouchMove as onTouchMove_camera,
-  onTouchEnd as onTouchEnd_camera,
-  onFrame as onFrame_camera,
-} from "./controls-camera";
-import {
-  onTouchStart as onTouchStart_drag,
-  onTouchMove as onTouchMove_drag,
-  onTouchEnd as onTouchEnd_drag,
-  onFrame as onFrame_drag,
-} from "./controls-drag";
-import "./controls-camera";
 import { state } from "../ui/state";
+import {
+  onFrame as onFrame_camera,
+  onTouchEnd as onTouchEnd_camera,
+  onTouchMove as onTouchMove_camera,
+  onTouchStart as onTouchStart_camera,
+} from "./controls-camera";
+import "./controls-camera";
+import {
+  onFrame as onFrame_drag,
+  onTouchEnd as onTouchEnd_drag,
+  onTouchMove as onTouchMove_drag,
+  onTouchStart as onTouchStart_drag,
+} from "./controls-drag";
 import { onTouchMove as onTouchMove_hover } from "./controls-hover";
+import type { Touche } from "./controls-type";
 
 const onTap = (touches: Touche[], event: Event) => {};
 const onStart = (touches: Touche[], event: Event) => {

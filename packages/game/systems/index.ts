@@ -1,15 +1,15 @@
+import { fruits } from "../entities/fruits";
 import { triceratops } from "../entities/triceratops";
 import { state } from "../ui/state";
-import { updateWalkerPose } from "./walkerPose";
-import { updateEmote } from "./emote";
-import { updateDecision } from "./ia";
 import { updateDraggedFruit, updateTriceratopsDragged } from "./dragged";
-import { fruits } from "../entities/fruits";
-import { updateTriceratopsParticles } from "./triceratopsParticles";
-import { updateTriceratopsSpawn } from "./triceratopSpawn";
-import { step } from "./walker";
+import { updateEmote } from "./emote";
 import { updateFruitSpawn } from "./fruitSpawn";
+import { updateDecision } from "./ia";
 import { updateTrees } from "./trees";
+import { updateTriceratopsSpawn } from "./triceratopSpawn";
+import { updateTriceratopsParticles } from "./triceratopsParticles";
+import { step } from "./walker";
+import { updateWalkerPose } from "./walkerPose";
 
 export const update = () => {
   state.t++;

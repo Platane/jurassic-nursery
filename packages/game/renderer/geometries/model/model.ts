@@ -1,12 +1,12 @@
 import { mat4, quat, vec3 } from "gl-matrix";
 import geometry_url from "../../../assets/geometry.bin";
+import { isInsideTriangle } from "../../../utils/triangle2d";
+import { UP, setFromArray, setIntoArray } from "../../../utils/vec3";
 import { getFlatShadingNormals } from "../utils/flatShading";
 import { tesselate } from "../utils/tesselate";
 import { computeWeights } from "./computeWeights";
 import { bindPose } from "./skeleton";
-import { UP, setFromArray, setIntoArray } from "../../../utils/vec3";
 import { createPyramidKernel, tesselateSphere } from "./sphere";
-import { isInsideTriangle } from "../../../utils/triangle2d";
 
 export const SELECTED_BONE = 2;
 
@@ -40,7 +40,7 @@ const createGeometry = async () => {
 
   const colorPattern: number[] = Array.from(
     { length: positions.length / 3 },
-    () => 0
+    () => 0,
   );
 
   //
@@ -161,12 +161,12 @@ const createGeometry = async () => {
   const eyeColorPattern = Array.from(
     { length: eyesPositions.length / 3 },
     (_, i) =>
-      i === 6 || i === 7 || i === 8 || i == 96 || i == 97 || i == 98 ? 6 : 5
+      i === 6 || i === 7 || i === 8 || i == 96 || i == 97 || i == 98 ? 6 : 5,
   );
   eyeColorPattern.push(...eyeColorPattern);
 
   eyesPositions.push(
-    ...eyesPositions.map((x, i) => (i % 3 === 2 ? x - 0.26 : x))
+    ...eyesPositions.map((x, i) => (i % 3 === 2 ? x - 0.26 : x)),
   );
 
   const eyesNormals = getFlatShadingNormals(eyesPositions);

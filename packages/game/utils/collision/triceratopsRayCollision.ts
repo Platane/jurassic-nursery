@@ -14,7 +14,7 @@ const a = vec3.create();
 export const triceratopsRayCollision = (
   s: Skeleton,
   ray_origin: vec3,
-  ray_direction: vec3
+  ray_direction: vec3,
 ) => {
   vec3.set(a, 0.44, -0.1, 0);
   vec3.transformQuat(a, a, s.direction);

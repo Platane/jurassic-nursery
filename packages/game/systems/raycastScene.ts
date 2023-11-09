@@ -1,13 +1,13 @@
-import { vec3, mat4 } from "gl-matrix";
-import { triceratops } from "../entities/triceratops";
-import { triceratopsRayCollision } from "../utils/collision/triceratopsRayCollision";
+import { mat4, vec3 } from "gl-matrix";
 import { fruits } from "../entities/fruits";
+import { triceratops } from "../entities/triceratops";
 import { sphereRayCollision } from "../utils/collision/sphereRayCollision";
+import { triceratopsRayCollision } from "../utils/collision/triceratopsRayCollision";
 
 export const raycastToScene = (
   ray_origin: vec3,
   ray_direction: vec3,
-  fruit = true
+  fruit = true,
 ) => {
   let d_min = Infinity;
   let id_tri_min = -1;
@@ -28,7 +28,7 @@ export const raycastToScene = (
         fruit.p,
         fruit.size * 0.6,
         ray_origin,
-        ray_direction
+        ray_direction,
       );
 
       if (d < d_min) {

@@ -4,7 +4,7 @@
 export const createProgram = (
   gl: WebGLRenderingContext,
   vertexShaderSource: string,
-  fragmentShaderSource: string
+  fragmentShaderSource: string,
 ): WebGLProgram => {
   const vertShader = initShader(gl, vertexShaderSource, gl.VERTEX_SHADER);
   const fragShader = initShader(gl, fragmentShaderSource, gl.FRAGMENT_SHADER);
@@ -27,7 +27,7 @@ export const createProgram = (
 const initShader = (
   gl: WebGLRenderingContext,
   sourceCode: string,
-  shaderType: number
+  shaderType: number,
 ): WebGLShader => {
   const shader = gl.createShader(shaderType)!;
 

@@ -1,6 +1,6 @@
-import { mat4, vec3, mat3 } from "gl-matrix";
-import { mat4FromMat3 } from "../utils/mat4";
+import { mat3, mat4, vec3 } from "gl-matrix";
 import { canvas } from "../renderer/canvas";
+import { mat4FromMat3 } from "../utils/mat4";
 import { UP } from "../utils/vec3";
 
 export const lookAtPoint: vec3 = [0, 0, 0];

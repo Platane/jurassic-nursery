@@ -54,7 +54,7 @@ export const createGeometry = () => {
             (positions[(i + 0) * 3 + 2] +
               positions[(i + 1) * 3 + 2] +
               positions[(i + 2) * 3 + 2]) /
-              3
+              3,
           );
 
           if (vec3.sqrDist(a, o) < r * r) {
@@ -101,15 +101,25 @@ export const createGeometry = () => {
 
       // prettier-ignore
       positions.push(
-        
-        x1,0,y1,
-        x2,h,y2,
-        x2,0,y2,
+        x1,
+        0,
+        y1,
+        x2,
+        h,
+        y2,
+        x2,
+        0,
+        y2,
 
-        x1,h,y1,
-        x2,h,y2,
-        x1,0,y1,
-        
+        x1,
+        h,
+        y1,
+        x2,
+        h,
+        y2,
+        x1,
+        0,
+        y1,
       );
       colorPattern.push(
         trunkColor,
@@ -118,7 +128,7 @@ export const createGeometry = () => {
 
         trunkColor,
         trunkColor,
-        trunkColor
+        trunkColor,
       );
     }
   }

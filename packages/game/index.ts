@@ -1,20 +1,19 @@
-import "./ui/globalStyle";
-import "./controls";
-import { render } from "./renderer";
-import { mat4, quat, vec3 } from "gl-matrix";
-import { geometryPromise } from "./renderer/geometries/model/model";
-import { canvas } from "./renderer/canvas";
+import { vec3 } from "gl-matrix";
+import { onFrame as onFrame_controls } from "./controls";
 import {
   getRayFromScreen,
   getScreenX,
   getScreenY,
 } from "./controls/utils/getRayFromScreen";
-import { raycastToScene } from "./systems/raycastScene";
+import { render } from "./renderer";
+import { canvas } from "./renderer/canvas";
+import { geometryPromise } from "./renderer/geometries/model/model";
 import { update as update_system } from "./systems";
-import { onFrame as onFrame_controls } from "./controls";
+import { raycastToScene } from "./systems/raycastScene";
 import { initTrees } from "./systems/trees";
 import { initTriceratops } from "./systems/triceratopSpawn";
 
+import "./ui/globalStyle";
 import "./ui/recipe";
 
 const loop = () => {

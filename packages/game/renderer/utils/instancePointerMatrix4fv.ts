@@ -5,7 +5,7 @@
  */
 export const instancePointerMatrix4fv = (
   gl: WebGL2RenderingContext,
-  attributeLocation: number
+  attributeLocation: number,
 ) => {
   const bytesPerMatrix = 4 * 16;
   for (let i = 0; i < 4; ++i) {
@@ -19,7 +19,7 @@ export const instancePointerMatrix4fv = (
       gl.FLOAT, // type of data in buffer
       false, // normalize
       bytesPerMatrix, // stride, num bytes to advance to get to next set of values
-      offset // offset in buffer
+      offset, // offset in buffer
     );
     // this line says this attribute only changes for each 1 instance
     gl.vertexAttribDivisor(loc, 1);

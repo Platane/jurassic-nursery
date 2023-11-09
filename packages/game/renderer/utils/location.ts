@@ -1,7 +1,7 @@
 export const getAttribLocation = (
   gl: WebGL2RenderingContext,
   program: WebGLProgram,
-  name: string
+  name: string,
 ) => {
   const position = gl.getAttribLocation(program, name);
 
@@ -15,7 +15,7 @@ export const getAttribLocation = (
 export const getUniformLocation = (
   gl: WebGL2RenderingContext,
   program: WebGLProgram,
-  name: string
+  name: string,
 ) => {
   const position = gl.getUniformLocation(program, name);
 

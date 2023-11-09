@@ -35,7 +35,7 @@ const updateTriceratopsBones = (
     eye0_direction,
     eye1_direction,
     feet,
-  }: Skeleton
+  }: Skeleton,
 ) => {
   const [
     main,
@@ -218,8 +218,8 @@ const ms = Array.from({ length: MAX_TRICERATOPS }, (_, j) =>
   Array.from(
     { length: N_BONES },
     (_, i) =>
-      new Float32Array(bonesMatrices.buffer, (j * N_BONES + i) * 16 * 4, 16)
-  )
+      new Float32Array(bonesMatrices.buffer, (j * N_BONES + i) * 16 * 4, 16),
+  ),
 );
 
 export const bindPose = Array.from({ length: N_BONES }, mat4.create);

@@ -25,11 +25,19 @@ export const tesselate = (positions: ArrayLike<number>) => {
 
     // prettier-ignore
     p.push(
-      ...a, ...m_ab, ...m_ca,
-      ...m_ab, ...b, ...m_bc,
-      ...m_bc, ...c, ...m_ca,
-      ...m_ca, ...m_ab, ...m_bc
-    )
+      ...a,
+      ...m_ab,
+      ...m_ca,
+      ...m_ab,
+      ...b,
+      ...m_bc,
+      ...m_bc,
+      ...c,
+      ...m_ca,
+      ...m_ca,
+      ...m_ab,
+      ...m_bc,
+    );
   }
 
   return p;

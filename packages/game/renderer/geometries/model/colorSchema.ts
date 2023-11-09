@@ -19,7 +19,7 @@ export const setEntityColorSchema = (
    * 5  eye
    * 6  pupil
    */
-  colors: number[]
+  colors: number[],
 ) => {
   for (let k = colors.length; k--; )
     colorSchema[3 * N_COLORS * i + k] = colors[k];

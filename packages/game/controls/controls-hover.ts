@@ -1,12 +1,12 @@
 import { vec3 } from "gl-matrix";
+import { FRUIT_S, fruits } from "../entities/fruits";
+import { raycastToScene } from "../systems/raycastScene";
+import { Handler } from "./controls-type";
 import {
   getRayFromScreen,
   getScreenX,
   getScreenY,
 } from "./utils/getRayFromScreen";
-import { Handler } from "./controls-type";
-import { raycastToScene } from "../systems/raycastScene";
-import { FRUIT_S, fruits } from "../entities/fruits";
 
 const o = vec3.create();
 const v = vec3.create();

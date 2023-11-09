@@ -1,14 +1,14 @@
-import { gl } from "../../canvas";
+import { vec3 } from "gl-matrix";
 import { worldMatrix } from "../../../entities/camera";
+import { MAX_FRUIT, fruits } from "../../../entities/fruits";
+import { MAX_TREE, trees } from "../../../entities/trees";
+import { MAX_TRICERATOPS, triceratops } from "../../../entities/triceratops";
+import { setIntoArray } from "../../../utils/vec3";
+import { gl } from "../../canvas";
+import { getAttribLocation } from "../../utils/location";
 import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
-import { getAttribLocation } from "../../utils/location";
-import { MAX_FRUIT, fruits } from "../../../entities/fruits";
-import { vec3 } from "gl-matrix";
-import { setIntoArray } from "../../../utils/vec3";
-import { MAX_TRICERATOPS, triceratops } from "../../../entities/triceratops";
-import { MAX_TREE, trees } from "../../../entities/trees";
 
 export const MAX_SHADOW = MAX_FRUIT + MAX_TRICERATOPS + MAX_TREE;
 
@@ -44,9 +44,9 @@ gl.bindBuffer(gl.ARRAY_BUFFER, texcoordBuffer);
 gl.bufferData(
   gl.ARRAY_BUFFER,
   new Float32Array(
-    Array.from({ length: MAX_SHADOW }, () => [0, 0, 2, 0, 0, 2]).flat()
+    Array.from({ length: MAX_SHADOW }, () => [0, 0, 2, 0, 0, 2]).flat(),
   ),
-  gl.STATIC_DRAW
+  gl.STATIC_DRAW,
 );
 const a_texcoord = getAttribLocation(gl, program, "a_texcoord");
 gl.enableVertexAttribArray(a_texcoord);

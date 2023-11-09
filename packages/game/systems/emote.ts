@@ -1,9 +1,9 @@
 import { quat, vec3 } from "gl-matrix";
+import { triceratopsParticles } from "../entities/particles";
 import { Skeleton } from "../renderer/geometries/model/skeleton";
-import { EATING_DURATION, WithDecision } from "./ia";
 import { state } from "../ui/state";
 import { MAX_FOOD_LEVEL } from "./const";
-import { triceratopsParticles } from "../entities/particles";
+import { EATING_DURATION, WithDecision } from "./ia";
 
 export type WithEmote = {
   emote?: null | "happy";
@@ -16,7 +16,7 @@ export type WithEmote = {
 };
 
 export const updateEmote = (
-  w: Skeleton & WithEmote & WithDecision & { id: number }
+  w: Skeleton & WithEmote & WithDecision & { id: number },
 ) => {
   if (w.activity.type === "eating") {
     const k = w.activity.t / EATING_DURATION;
@@ -24,7 +24,7 @@ export const updateEmote = (
     quat.rotateZ(
       w.head_direction,
       w.head_direction,
-      ((1 - Math.sin(k * Math.PI * 7.5 + Math.PI / 2)) / 2) * -0.24
+      ((1 - Math.sin(k * Math.PI * 7.5 + Math.PI / 2)) / 2) * -0.24,
     );
   } else if (w.activity.type === "say-no") {
     if (w.activity.t === 0)
@@ -40,7 +40,7 @@ export const updateEmote = (
     quat.rotateY(
       w.head_direction,
       w.head_direction,
-      Math.sin(w.activity.t * 0.2) * 0.27
+      Math.sin(w.activity.t * 0.2) * 0.27,
     );
   } else if (w.mood?.type === "happy") {
     if (w.mood.t % 26 === 0) {
@@ -88,12 +88,12 @@ export const updateEmote = (
     w.eye0_direction,
     3 + Math.sin(state.t * 0.063 + w.seed) * 20,
     Math.sin(state.t * 0.074 + w.seed) * 30,
-    0
+    0,
   );
   quat.fromEuler(
     w.eye1_direction,
     3 + Math.sin(state.t * 0.035 + w.seed) * 50,
     Math.sin(state.t * 0.057 + w.seed) * 35,
-    0
+    0,
   );
 };

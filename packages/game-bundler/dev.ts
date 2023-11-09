@@ -1,6 +1,6 @@
 import * as path from "node:path";
-import { bundle } from "./build";
 import { watch } from "rollup";
+import { bundle } from "./build";
 import { createRollupInputOptions, rollupOutputOptions } from "./rollup-config";
 
 let assets: Awaited<ReturnType<typeof bundle>> = {};
@@ -27,7 +27,7 @@ b.on("event", async (e) => {
 
     assets = {
       "index.html": injectWatcher(
-        `<html><head></head><pre>${e.error.message}</pre></html>`
+        `<html><head></head><pre>${e.error.message}</pre></html>`,
       ),
     };
 
@@ -71,7 +71,7 @@ const injectWatcher = (html: string) => {
 
   return html.replace(
     "</head>",
-    `<script>;(${code.toString()})()</script></head>`
+    `<script>;(${code.toString()})()</script></head>`,
   );
 };
 

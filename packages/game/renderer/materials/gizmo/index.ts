@@ -1,5 +1,5 @@
-import { gl } from "../../canvas";
 import { worldMatrix } from "../../../entities/camera";
+import { gl } from "../../canvas";
 import { createProgram } from "../../utils/program";
 import codeFrag from "./shader.frag";
 import codeVert from "./shader.vert";
@@ -43,7 +43,7 @@ gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 gl.bufferData(
   gl.ARRAY_BUFFER,
   new Float32Array(positions.flat()),
-  gl.STATIC_DRAW
+  gl.STATIC_DRAW,
 );
 const a_position = gl.getAttribLocation(program, "a_position");
 gl.enableVertexAttribArray(a_position);
@@ -63,9 +63,9 @@ gl.bufferData(
       [0.3, 0, 0.5],
     ]
       .map((a) => Array.from({ length: 3 }, () => a.slice()))
-      .flat(2)
+      .flat(2),
   ),
-  gl.STATIC_DRAW
+  gl.STATIC_DRAW,
 );
 const a_color = gl.getAttribLocation(program, "a_color");
 gl.enableVertexAttribArray(a_color);

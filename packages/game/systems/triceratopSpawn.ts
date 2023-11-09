@@ -1,12 +1,12 @@
 import { vec2 } from "gl-matrix";
 import { Triceratops, triceratops } from "../entities/triceratops";
+import { setEntityColorSchema } from "../renderer/geometries/model/colorSchema";
 import { createSkeleton } from "../renderer/geometries/model/skeleton";
 import { showRecipeButton } from "../ui/recipe";
 import { state } from "../ui/state";
 import { MAX_FOOD_LEVEL, PLAYGROUND_SIZE } from "./const";
 import { variants } from "./gene";
 import { V_MAX } from "./walker";
-import { setEntityColorSchema } from "../renderer/geometries/model/colorSchema";
 
 const first_variants = [1, 2];
 
@@ -25,7 +25,7 @@ export const updateTriceratopsSpawn = () => {
 
   if (tuto_done && triceratops.size < 3 && state.t % N === 0) {
     const tri = addTriceratops(
-      first_variants.shift() ?? 0 | (Math.random() * 3)
+      first_variants.shift() ?? 0 | (Math.random() * 3),
     );
 
     const a = Math.random() * 6;
@@ -78,7 +78,7 @@ export const updateTriceratops = () => {
 
   localStorage.setItem(
     "jurassic-nursery",
-    [...triceratops.values()].map((t) => t.variant_index).join(",")
+    [...triceratops.values()].map((t) => t.variant_index).join(","),
   );
 };
 

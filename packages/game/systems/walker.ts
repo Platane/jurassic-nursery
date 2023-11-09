@@ -72,7 +72,7 @@ export const step = () => {
         ALLOWED_ANGLE_MAX,
 
         // half turn in 1000 frames
-        ALLOWED_ANGLE_MIN
+        ALLOWED_ANGLE_MIN,
       );
 
       const da =
@@ -83,7 +83,7 @@ export const step = () => {
       w.delta_angle_mean = lerp(
         0.08,
         w.delta_angle_mean,
-        da / ALLOWED_ANGLE_MAX
+        da / ALLOWED_ANGLE_MAX,
       );
 
       const new_angle = current_angle + da;
