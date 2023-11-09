@@ -3,7 +3,7 @@ export const createPolygonLine = (
   l: number,
   h: number,
   y0: number,
-  angle_offset = 0
+  angle_offset = 0,
 ) => {
   const positions: number[] = [];
 
@@ -19,15 +19,25 @@ export const createPolygonLine = (
 
     // prettier-ignore
     positions.push(
-        +ax * (l + h), y0 , +ay * (l + h),
-        +ax * (l + 0), y0 , +ay * (l + 0),
-        +bx * (l + 0), y0 , +by * (l + 0),
+      +ax * (l + h),
+      y0,
+      +ay * (l + h),
+      +ax * (l + 0),
+      y0,
+      +ay * (l + 0),
+      +bx * (l + 0),
+      y0,
+      +by * (l + 0),
 
-        +ax * (l + h), y0 , +ay * (l + h),
-        +bx * (l + 0), y0 , +by * (l + 0),
-        +bx * (l + h), y0 , +by * (l + h),
-
-      
+      +ax * (l + h),
+      y0,
+      +ay * (l + h),
+      +bx * (l + 0),
+      y0,
+      +by * (l + 0),
+      +bx * (l + h),
+      y0,
+      +by * (l + h),
     );
   }
 

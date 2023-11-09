@@ -1,4 +1,4 @@
-import { vec3, mat4 } from "gl-matrix";
+import { mat4, vec3 } from "gl-matrix";
 import { eye, worldMatrix } from "../../entities/camera";
 
 const worldMatrixInv = mat4.create();
@@ -13,7 +13,7 @@ export const getRayFromScreen = (
   outOrigin: vec3,
   outDirection: vec3,
   x: number,
-  y: number
+  y: number,
 ) => {
   // get the ray
   mat4.invert(worldMatrixInv, worldMatrix);

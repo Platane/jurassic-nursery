@@ -1,7 +1,7 @@
-import * as THREE from "three";
-import { GLTFLoader } from "three-stdlib";
 import * as fs from "node:fs";
+import * as THREE from "three";
 import { MathUtils } from "three";
+import { GLTFLoader } from "three-stdlib";
 
 // monkey patch for gltf loader
 class E {}
@@ -18,7 +18,7 @@ const loader = new GLTFLoader();
 const buffer = fs.readFileSync(__dirname + "/model.glb");
 const { animations, scene, parser } = await loader.parseAsync(
   Uint8Array.from(buffer).buffer,
-  "model.glb"
+  "model.glb",
 );
 
 const traverse = (n: THREE.Object3D, d = 0) => {
@@ -35,7 +35,11 @@ const getPositionVectors = (geo: THREE.BufferGeometry) => {
 
   return Array.from(indexes.array).map(
     (i) =>
-      new THREE.Vector3(positions.getX(i), positions.getY(i), positions.getZ(i))
+      new THREE.Vector3(
+        positions.getX(i),
+        positions.getY(i),
+        positions.getZ(i),
+      ),
   );
 };
 
@@ -56,9 +60,9 @@ const pack = new Uint8Array(
         ((v.x - center.x + size.x / 2) / size.x) * 0.999,
         ((v.y - center.y + size.y / 2) / size.y) * 0.999,
         ((v.z - center.z + size.z / 2) / size.z) * 0.999,
-      ].map((x) => x * 256)
+      ].map((x) => x * 256),
     )
-    .flat()
+    .flat(),
 );
 
 const assetDir = __dirname + "/../game/assets";

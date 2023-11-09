@@ -1,8 +1,8 @@
 import type { vec3 } from "gl-matrix";
 import type { Skeleton } from "../renderer/geometries/model/skeleton";
-import type { Walker } from "../systems/walker";
 import type { WithEmote } from "../systems/emote";
 import type { WithDecision } from "../systems/ia";
+import type { Walker } from "../systems/walker";
 
 export type Entity = {
   id: number;

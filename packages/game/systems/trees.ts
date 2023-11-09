@@ -10,7 +10,7 @@ export const updateTrees = () => {
       Math.sin(state.t * (0.01 + ((tree.seed % 37) / 37) * 0.02) + tree.seed) *
         3,
       0,
-      0
+      0,
     );
   }
 };
@@ -33,7 +33,7 @@ export const initTrees = () => {
       l > R_MIN &&
       l < R_MAX &&
       ![...trees.values()].some(
-        (t) => vec2.distance(position, t.position) < 2
+        (t) => vec2.distance(position, t.position) < 2,
       ) &&
       trees.size < MAX_TREE
     ) {

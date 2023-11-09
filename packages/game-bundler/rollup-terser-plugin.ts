@@ -1,5 +1,5 @@
 import { Plugin } from "rollup";
-import { minify, MinifyOptions } from "terser";
+import { MinifyOptions, minify } from "terser";
 
 export const terser = (options: MinifyOptions) => {
   const renderChunk: Plugin["renderChunk"] = async (code) => {

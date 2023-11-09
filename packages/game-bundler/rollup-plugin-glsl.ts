@@ -1,12 +1,12 @@
-import { createFilter } from "rollup-pluginutils";
 import { Plugin } from "rollup";
+import { createFilter } from "rollup-pluginutils";
 
 export const glsl = (
   opts: {
     include?: Parameters<typeof createFilter>[0];
     exclude?: Parameters<typeof createFilter>[1];
     compress?: boolean;
-  } = {}
+  } = {},
 ) => {
   if (!opts.include) {
     throw Error("include option should be specified");

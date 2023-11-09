@@ -1,5 +1,5 @@
-import { Draggable } from "./triceratops";
 import { Sprite } from "./particles";
+import { Draggable } from "./triceratops";
 
 export type Fruit = {
   id: number;

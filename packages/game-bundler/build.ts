@@ -1,7 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
-import { OutputAsset, OutputChunk, rollup } from "rollup";
 import { minify as minifyHtml } from "html-minifier-terser";
+import { transform as transformCss } from "lightningcss";
+import { Input, Packer } from "roadroller";
+import { OutputAsset, OutputChunk, rollup } from "rollup";
 import { minify as minifyJs } from "terser";
 import {
   createRollupInputOptions,
@@ -9,8 +11,6 @@ import {
   rollupOutputOptions,
   terserOptions,
 } from "./rollup-config";
-import { transform as transformCss } from "lightningcss";
-import { Input, Packer } from "roadroller";
 
 export const build = async (minify = false) => {
   // bundle with rollup
@@ -22,7 +22,7 @@ export const build = async (minify = false) => {
 
 export const bundle = async (
   output: (OutputChunk | OutputAsset)[],
-  minify = false
+  minify = false,
 ) => {
   let jsCode =
     (output.find((o) => o.fileName === "index.js") as OutputChunk)?.code || "";
@@ -34,11 +34,11 @@ export const bundle = async (
   const assets = Object.fromEntries(
     output
       .filter((o) => o.fileName !== "index.js" && o.fileName !== "style.css")
-      .map((o) => [o.fileName, o.type === "chunk" ? o.code : o.source])
+      .map((o) => [o.fileName, o.type === "chunk" ? o.code : o.source]),
   );
 
   const filenameAlias = new Map(
-    Object.keys(assets).map((filename, i) => [filename, i.toString()])
+    Object.keys(assets).map((filename, i) => [filename, i.toString()]),
   );
 
   filenameAlias.forEach((alias, filename) => {
@@ -58,7 +58,7 @@ export const bundle = async (
   if (minify && false) {
     const packer = new Packer(
       [{ data: jsCode, type: "js", action: "eval" } as Input],
-      { allowFreeVars: true }
+      { allowFreeVars: true },
     );
     await packer.optimize(2);
 
@@ -83,13 +83,13 @@ export const bundle = async (
   htmlContent = replace(
     htmlContent,
     "</body>",
-    `</body><script>${jsCode}</script>`
+    `</body><script>${jsCode}</script>`,
   );
 
   htmlContent = replace(
     htmlContent,
     "</head>",
-    `<style>${cssCode}</style></head>`
+    `<style>${cssCode}</style></head>`,
   );
 
   if (minify) htmlContent = await minifyHtml(htmlContent, minifyHtmlOptions);
@@ -100,7 +100,7 @@ export const bundle = async (
       Object.entries(assets).map(([filename, content]) => [
         filenameAlias.get(filename),
         content,
-      ])
+      ]),
     ),
   } as Record<string, string | Buffer>;
 };

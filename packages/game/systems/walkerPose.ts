@@ -1,9 +1,9 @@
 import { quat, vec2, vec3 } from "gl-matrix";
+import { Triceratops } from "../entities/triceratops";
 import { Skeleton } from "../renderer/geometries/model/skeleton";
+import { state } from "../ui/state";
 import { lerp } from "../utils/math";
 import { V_MAX, Walker } from "./walker";
-import { Triceratops } from "../entities/triceratops";
-import { state } from "../ui/state";
 
 export const updateWalkerPose = (w: Triceratops) => {
   if (w.dragged_anchor) {
@@ -34,9 +34,9 @@ export const updateWalkerPose = (w: Triceratops) => {
     lerp(
       Math.abs(w.delta_angle_mean),
       Math.sin(w.tail_t) * blobbing_A * 0.5,
-      w.delta_angle_mean * 30
+      w.delta_angle_mean * 30,
     ),
-    lerp(v_l, 4, 0) + Math.sin(w.feet_t * 2) * blobbing_A
+    lerp(v_l, 4, 0) + Math.sin(w.feet_t * 2) * blobbing_A,
   );
 
   quat.fromEuler(
@@ -45,9 +45,9 @@ export const updateWalkerPose = (w: Triceratops) => {
     lerp(
       Math.abs(w.delta_angle_mean),
       Math.sin(w.tail_t) * blobbing_A * 0.5,
-      -w.delta_angle_mean * 50
+      -w.delta_angle_mean * 50,
     ),
-    Math.sin(w.feet_t * 2) * blobbing_A * 0.8
+    Math.sin(w.feet_t * 2) * blobbing_A * 0.8,
   );
 
   //

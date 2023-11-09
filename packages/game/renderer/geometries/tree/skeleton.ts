@@ -1,7 +1,7 @@
 import { mat4, quat, vec3 } from "gl-matrix";
+import ParkMiller from "park-miller";
 import { MAX_TREE, Tree, trees } from "../../../entities/trees";
 import { gizmos } from "../../materials/gizmos";
-import ParkMiller from "park-miller";
 
 export const TRUNK_BASE_HEIGHT = 1;
 
@@ -81,8 +81,8 @@ const ms = Array.from({ length: MAX_TREE }, (_, j) =>
   Array.from(
     { length: N_BONES },
     (_, i) =>
-      new Float32Array(bonesMatrices.buffer, (j * N_BONES + i) * 16 * 4, 16)
-  )
+      new Float32Array(bonesMatrices.buffer, (j * N_BONES + i) * 16 * 4, 16),
+  ),
 );
 
 const gi = Array.from({ length: N_BONES }, () => mat4.create());
