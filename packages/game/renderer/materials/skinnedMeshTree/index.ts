@@ -77,14 +77,14 @@ gl.vertexAttribIPointer(a_boneIndexes, 4, gl.UNSIGNED_BYTE, 0, 0);
 // entity index
 //
 const entityIndexBuffer = gl.createBuffer();
-const entityIndex = new Uint8Array(
+const entityIndex = new Uint16Array(
   Array.from({ length: MAX_TREE }, (_, i) => i),
 );
 gl.bindBuffer(gl.ARRAY_BUFFER, entityIndexBuffer);
 gl.bufferData(gl.ARRAY_BUFFER, entityIndex, gl.STATIC_DRAW);
 const a_entityIndex = getAttribLocation(gl, program, "a_entityIndex");
 gl.enableVertexAttribArray(a_entityIndex);
-gl.vertexAttribIPointer(a_entityIndex, 1, gl.UNSIGNED_BYTE, 0, 0);
+gl.vertexAttribIPointer(a_entityIndex, 1, gl.UNSIGNED_SHORT, 0, 0);
 gl.vertexAttribDivisor(a_entityIndex, 1);
 
 //
