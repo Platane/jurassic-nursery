@@ -1,10 +1,18 @@
 import { mat4, quat, vec3 } from "gl-matrix";
-import { N_BONES } from "../model/skeleton";
 import { MAX_TREE, Tree, trees } from "../../../entities/trees";
 import { gizmos } from "../../materials/gizmos";
 import ParkMiller from "park-miller";
 
 export const TRUNK_BASE_HEIGHT = 1;
+
+const CIRCLES = [
+  [0.45, 0.85, 3],
+  [0.7, 0.96, 3],
+  [0.75, 0.74, 3],
+  [0.48, 0, 1],
+];
+
+export const N_BONES = CIRCLES.reduce((sum, [, , n]) => sum + n, 0) + 2;
 
 export const bonesMatrices = new Float32Array(16 * N_BONES * MAX_TREE);
 
@@ -12,13 +20,6 @@ const a = vec3.create();
 const q = quat.create();
 const m = mat4.create();
 const parent = mat4.create();
-
-const circles = [
-  [0.45, 0.85, 3],
-  [0.7, 0.96, 4],
-  [0.75, 0.74, 3],
-  [0.48, 0, 1],
-];
 
 const updateTreeBones = ([root, base, ...keys]: mat4[], tree: Tree) => {
   const pm = new ParkMiller(tree.seed);
@@ -39,7 +40,7 @@ const updateTreeBones = ([root, base, ...keys]: mat4[], tree: Tree) => {
   mat4.copy(base, parent);
 
   let i = 0;
-  for (let [dy, l, n] of circles) {
+  for (let [dy, l, n] of CIRCLES) {
     a[0] = 0;
     a[1] = dy * tree.height;
     a[2] = 0;
@@ -92,12 +93,6 @@ for (let i = MAX_TREE; i--; )
 
 export const bindPose = Array.from({ length: N_BONES }, mat4.create);
 // gizmos.push(...bindPose);
-
-// by default, put the bind pose bones far away, which will make them have a 0 weight on all vertices
-for (let j = N_BONES; j--; ) {
-  mat4.identity(bindPose[j]);
-  bindPose[j][13] = 9999;
-}
 
 updateTreeBones(bindPose, {
   position: [0, 0],

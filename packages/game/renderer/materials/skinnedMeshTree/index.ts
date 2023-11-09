@@ -5,9 +5,9 @@ import codeFrag from "../skinnedMesh/shader.frag";
 import codeVert from "../skinnedMesh/shader.vert";
 import { N_COLORS } from "../../geometries/model/colorSchema";
 import { getAttribLocation, getUniformLocation } from "../../utils/location";
-import { N_BONES } from "../../geometries/model/skeleton";
 import { createGeometry as createTreeGeometry } from "../../geometries/tree/tree";
 import {
+  N_BONES,
   bonesMatrices,
   update as updateBoneMatrices,
 } from "../../geometries/tree/skeleton";

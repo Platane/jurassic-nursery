@@ -1,6 +1,6 @@
 import { quat, vec2 } from "gl-matrix";
 
-export const MAX_TREE = 128;
+export const MAX_TREE = 80;
 
 export type Tree = {
   id: number;
